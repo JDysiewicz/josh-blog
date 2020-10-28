@@ -14,6 +14,10 @@ const NavbarStyled = styled.div`
 
     }
 
+
+    @media screen and (max-width: 810px){
+        flex-direction: column;
+    }
 `;
 
 const NavbarLink = styled(Link)`
@@ -30,6 +34,7 @@ const NavbarLink = styled(Link)`
     & a:first-of-type {
         margin-left: 1rem;
     }
+
 `;
 
 export default ({title}) => {
