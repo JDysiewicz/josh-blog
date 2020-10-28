@@ -1,6 +1,7 @@
 import React from "react";
 
 import styled from "@emotion/styled";
+import { Link } from "gatsby";
 
 const ArticleLinkStyled = styled.article`
     display: block;
@@ -27,11 +28,12 @@ const ArticleLinkStyled = styled.article`
 `;
 
 export default ({article}) => {
+
     return (
-        <ArticleLinkStyled>
+        <ArticleLinkStyled to={article.slug}>
             <header>
-                <h2><a href="#">{article.title}</a></h2>
-                <small>{article.date} - 📖 {article.ttr} min</small>
+                <h2><Link to={article.slug}>{article.title}</Link></h2>
+                <small>{article.date} - {article.readingTime}</small>
             </header>
             <p>{article.spoiler}</p>
         </ArticleLinkStyled>      
