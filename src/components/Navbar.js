@@ -14,9 +14,17 @@ const NavbarStyled = styled.div`
 
     }
 
+    & div {
+        justify-self: flex-end
+    }
+
 
     @media screen and (max-width: 810px){
         flex-direction: column;
+
+        & div {
+            margin-bottom: 1.05em;
+        }
     }
 `;
 
@@ -37,10 +45,44 @@ const NavbarLink = styled(Link)`
 
 `;
 
+const BackArrow = styled(Link)`
+    position: relative;
+    text-align: center;
+    padding: 12px;
+    height: 10px;
+    width: 50px;
+    transform: rotate(90deg);
+    margin-top: 1.05em;
+    margin-bottom: 1.05em;
+    font-size: 4rem;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 51%;
+      background: #A583B4;
+      transform: skew(0deg, 50deg);
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 50%;
+      background: #A583B4;
+      transform: skew(0deg, -50deg);
+    }
+`
+
 export default ({title}) => {
     return (
         <NavbarStyled>
-            <h1>{title}</h1>
+            {!title && <BackArrow to="/articles"></BackArrow>}
+            {title && <h1>{title}</h1>}
             <div>
                 <NavbarLink to="/">About</NavbarLink>
                 <NavbarLink to="/articles">Article</NavbarLink>
