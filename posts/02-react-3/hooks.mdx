@@ -1,0 +1,691 @@
+---
+title: "React: Hooks!"
+slug: "react-hooks"
+author: "Joshua Dysiewicz"
+date: "26 September 2020"
+readingTime: "📖 20 min"
+spoiler: "What are hooks, and why are functional components great."
+---
+
+# Hooks (~ 20 min)
+Right, if you made it here you want to learn about the *React Hook* system I've mentioned a few times. It also probably means that, like me, you find `class` components to be a bit *clunky*. `this`, `constructor()`, `super()`... it all seems a bit detached from actually *writing* code with React. They seem like hurdles one must overcome simply as a point of entry; not small hurdles either! The issues with `this` require understanding of *scoping* in JavaScript, and the `super()` function requires an understanding of JavaScript's system of *prototypal inheritance*. These are *fascinating* topics which will be covered in due time, however they are a bit irrelevant to what everyone wants to do: **write web apps with React**. *That* is what Hooks makes easier.
+
+## A Comparison to `class` Components
+The Hooks system is how we can use `state` and **lifecycle** methods using only **functional components**. No `constructor()`. No `this` binding. Just plain old JS functions. Let's take `state` for instance: how would we do this on a `class` component?
+
+```javascript
+import React from "react";
+class App extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {data: ""};
+    };
+    render(){
+        return (<div>Here's the data: {this.state.data}</div>)
+    };
+};
+```
+Well we'd need to first `extend` from the `React.Component` class to get access to those lifecycle methods, then we'd need to define our `constructor()` and call `super()`, passing in our props so as not to lose access to those juicy lifecycle methods. Then, finally, we'd need to define a `state` object using that pesky `this` to store some piece of state we'd want to keep track of on the component.
+
+Here's the equivalent using the hooks system:
+
+```javascript
+import React, { useState } from "react";
+const App = (props) => {
+    const [data, setData] = useState("");
+    return (<div>Here's the data: {data}</div>)
+};
+```
+Yup, **4 lines of code**. However, there is a ***lot*** to unpack in those 4 lines, so let's get stuck in!
+
+## Breaking it down
+What is a Hook? Well, `useState()` above is a *hook*. As is `useEffect()`. As is `useCallback()`. Sensing a theme? Hooks are pretty easy to spot as the all have the naming convention of a `use` prefix. These hooks allow us to *hook* into (hence the name) the `state` and `lifecycle` of a component.
+
+### `import React, { useState } from "react"`
+The first thing you may notice is these are *not* the default export of the `"react"` library, we must import them using some slightly fancier syntax called *object destructuring*. The `useState` function is defined in `"react"` somewhere, and so it is attached to the `export` object of `"react"`. For instance, the `export` object of the `"react"` library may be something like:
+
+```javascript
+const exports = {
+    default: React,
+    useState: function useState() {...},
+    useEffect: function useEffect() {...}
+};
+```
+
+To access a specific value within an object, we could say
+
+```javascript
+// from "react.js"
+const exports = { 
+    default: React,
+    useState: function useState() {...},
+    useEffect: function useEffect() {...}
+};
+/////////////////////////////
+// ourFile.js
+import exports from "react";
+
+const thingIWant = exports.useState;
+```
+However, this requires **two** lines of code. Besides, if we only want `useState` then there's no need to import absolutely *everything* and then pick what we want, we can selectively extract what we want using *object destructuring*.
+
+```javascript
+const { useState } = exports;
+```
+
+Note that this assigns a variable called `useState` to the value of `exports.useState`. This means that our variable name **must** be the same as that value we are trying to extract from the object. However, as we are importing the whole `React` library anyway, we could also just tag on `React.` before `useState` to get the same effect.
+
+```javascript
+import React from "react";
+const App = (props) => {
+    const [data, setData] = React.useState("");
+    return (<div>Here's the data: {data}</div>)
+};
+```
+
+### `const [data, setData]`
+Similar to how we used *object* destructuring above to extract a specific value from an *object*, we can use *array destructuring* to a similar effect. This time, however, it is **required**. On the plus side though, we are not limited to naming our variables whatever is defined withing the array we extract them from. Instead, we use the *index* of the array to determine which value gets assigned to which variable.
+
+```javascript
+const myArr = ["Football", "Rugby", "Badminton"];
+const [bestSport, worstSport] = myArr;
+bestSport; // "Football"
+worstSport; // "Rugby"
+```
+Above we defined an array with three values in it, `"Football"` at index `0` etc. When we use array destructuring, the value our variables take will index-match the values in `myArr`. Therefore, say for instance I wanted to select `"Rugby"` and `"Badminton` from the above array.
+
+```javascript
+const myArr = ["Football", "Rugby", "Badminton"];
+const [ , bestSport, worstSport] = myArr; // "," to skip a value
+bestSport; // "Rugby"
+worstSport; // "Football"
+```
+Here we "skip" over `"Football"` by just not assigning it a variable.
+
+This is how the line `const [data, setData]` is working - we are just taking the first thing in the array returned from `useState` and assigning it to a variable *we* decided to call `data`, and the second to a variable *we* decided to call `setData`. The beauty of using array destructuring here is that *we* can pick the names for our variables, allowing us to choose names for the pieces of state we want (yes these variables are actually `state`!). Although, by convention we normally use the naming scheme `const [thing, setThing]` when defining these variables.
+
+### `const [data, setData] = useState("")`
+The *real* magic of the whole process happens with the call to `useState()`. The under-the-hood workings of `useState` use a JS concept called **closures** which we will look at when we look at *scoping* another day, however luckily we do not need to know how it works in order to make use of it (we trade a complex JS topic like `this` for an equally complex topic called `closures`, however in latter case we do not actually need to *know* anything about the topic to make use of it).
+
+`useState` returns **two** things: the value we assign to our `data` variable, and a *function* we assign to our `setData` variable. The **initial** value for our `data` variable is given as an *argument* to `useState`. To be clear, the following are equivalent - we can set the initial value to be anything we want: a `string`, an `object-literal`, even the return value from a `function`.
+
+```javascript
+this.state = {someState: ["Initial", "Array", "Values"]} // on a class component
+const [data, setData] = useState(["Initial", "Array", "Values"]); // on a functional hook component
+```
+
+Okay, but what about that second value we get back from `useState` that we assign to `setData`? This is a replacement for the `this.setState()` method that we no longer have access to on a functional component. Where we would call `this.setState()` to update **any** piece of state, with hooks we get a *unique* function for *each* piece of state we keep track of. For example:
+
+```javascript
+import React, { useState } from "react";
+const App = (props) => {
+    const [count, setCount] = useState(0);
+    const [movieList, setMovieList] = useState([]);
+
+    console.log(count) // 0
+    setCount(5);
+    console.log(count) // 5
+
+    console.log(movieList) // []
+    setMovieList(["The Shining", "Shrek 2", "Bee Movie"]);
+    console.log(movieList) // ["The Shining", "Shrek 2", "Bee Movie"]
+
+    return(
+        <div></div>
+    );
+};
+```
+
+We make a call to `useState()` for each piece of state we want to keep track of, and in return we get a the piece of state as a variable (`count`, `movieList`), and a function specific to updating that *one* piece of state. Calling `setThing()` also has the same effect as calling `this.setState()` in a `class` component - we trigger a re-render of the component. This also means we need to follow the same rule of **never mutating state directly**: we should never say `count =` to update the value of count, only ever call `setCount()`. It's worth noting that everything regarding component lifecycle is **still** relevant - it's just we're now using different functions to convey the stages - we still *Mount* a functional hook component, we still *Update* a functional hook component, and we still *Unmount* at the end of the lifecycle.
+
+## Common Hooks
+
+### `useState()`
+This is perhaps the *most* used hook in modern day React apps. We have already explored this hook thoroughly above, however, and so we will swiftly move on to...
+
+### `useEffect()`
+I mentioned that we still *Mount*, *Update*, and *Unmount* while using hooks, however by using functional component we lose access to those all important **lifecycle methods** `componentDidMount()`, `componentDidUpdate()` and `componentWillUnmount()`. This is where `useEffect()` comes in. `useEffect` is all **three** of the aforementioned lifecycle methods rolled into **one** function.
+
+```javascript
+import React, { useState, useEffect } from "react";
+const App = (props) => {
+    const [count, setCount] = useState(0);
+    
+    useEffect( () => {
+        // arrow function as input for useEffect
+    });
+
+    return(
+        <div>
+            The count is {count}
+        </div>
+    );
+};
+
+```
+
+The two main parts to `useEffect` are the **input** and the **dependency array**. The input for `useEffect` is an arrow function that we want to run **every** time the component renders itself. This is why `useEffect` is kind of like a mix of `componentDidMount` (which runs on the first render) and `componentDidUpdate` (which runs on each subsequent render). Using a `Counter` example:
+
+```javascript
+import React, { useState, useEffect } from 'react';
+const Counter = () => {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        document.title = `Count = ${count}`;
+    });
+
+    return (
+        <div>
+            <p>The current count is {count}</p>
+            <button onClick={() => setCount(count + 1)}>
+               Increment
+            </button>
+        </div>
+  );
+}
+```
+Here, we setup `count` to be state, and then create a `button` which will increment the count upon clicking it (`onClick={() => setCount(count+1)}`). What if we also wanted to update the `title` of our page? Well we can just set the `document.title` of our web page to be the current `count`, such that the tab we have our webpage open in will display "Count = `count`". This will happen on **every** render of the component.
+
+I also mentioned the *dependency array*, so let's touch on that too. The dependency array is a **second (optional) argument** to `useEffect`.
+
+```javascript
+import React, { useState, useEffect } from 'react';
+const Counter = () => {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        document.title = `Count = ${count}`;
+    }, [count]); // Dependency array comes after the function
+
+    return (
+        <div>
+            <p>The current count is {count}</p>
+            <button onClick={() => setCount(count + 1)}>
+               Increment
+            </button>
+        </div>
+  );
+}
+```
+This array controls allows us to control *when* the `useEffect` function argument is run. Perhaps we don't want to run the `useEffect` every time the component re-renders; perhaps we have some specific `useEffect` that we only want to run when a *specific* piece of state changes. For instance, using the counter from above:
+
+```javascript
+import React, { useState, useEffect } from 'react';
+const Counter = () => {
+    const [count, setCount] = useState(0);
+    const [onlineStatus, setOnlineStatus] = useState("Offline");
+
+    useEffect(() => {
+        document.title = `Count = ${count}`;
+    });
+
+    return (
+        <div>
+            <p>The current count is {count}</p>
+            <button onClick={() => setCount(count + 1)}>
+               Increment
+            </button>
+
+            <button onClick={() => setOnlineStatus("Online!")}>
+               Go Online!
+            </button>
+        </div>
+  );
+}
+```
+
+Let's say we also wanted another piece of state to keep track of someone's online status. Well, our component re-render once the user clicks the `Go Online!` button, which will re-run our `useEffect`. However, the `count` hasn't changed, so there's no real need to update the `document.title`. To prevent this unnecessary calling on the `useEffect` we can specify that *that particular* `useEffect` should only be run when the `count` changes.
+
+```javascript
+import React, { useState, useEffect } from 'react';
+const Counter = () => {
+    const [count, setCount] = useState(0);
+    const [onlineStatus, setOnlineStatus] = useState("Offline");
+
+    useEffect(() => {
+        document.title = `Count = ${count}`;
+    }, [count]); // dependency array goes here
+
+    return (
+        <div>
+            <p>The current count is {count}</p>
+            <button onClick={() => setCount(count + 1)}>
+               Increment
+            </button>
+
+            <button onClick={() => setOnlineStatus("Online!")}>
+               Go Online!
+            </button>
+        </div>
+  );
+}
+```
+What this means is, after every render, React will look at the dependency array of our `useEffect`. It will compare the *previous* values (before the re-render) of the variables inside the array to their *current* values (after the re-render). Then, if **any** of the values have changed, React will run that effect. Therefore, we could have multiple pieces of `state` in our dependency array e.g `[a, b, c]`, and its corresponding `useEffect` would run if `a` **and/or** `b` **and/or** `c` change. Pieces of `state` isn't all we can put into our dependency array, we can also pass in `props` too (remember, our component re-renders upon new `state` and/or new `props`). One final note on the dependency array, is that we can also pass as *empty* array to it.
+
+```javascript
+import React, { useState, useEffect } from 'react';
+const Counter = () => {
+    const [count, setCount] = useState(0);
+    const [onlineStatus, setOnlineStatus] = useState("Offline");
+
+    useEffect(() => {
+        console.log("You'll only ever see this on the first render");
+    }, []);
+
+    return (
+        <div>
+            <p>The current count is {count}</p>
+            <button onClick={() => setCount(count + 1)}>
+               Increment
+            </button>
+
+            <button onClick={() => setOnlineStatus("Online!")}>
+               Go Online!
+            </button>
+        </div>
+  );
+}
+```
+This is conceptually closer the `componentDidMount()`, as passing an empty array tells React to only run this `useEffect` on the **first** render only, exactly the same way you'd use `componentDidMount()`. Literally we are saying "only run this if any of the values in the dep array change, however the dep array is empty therefore no values in it can change, therefore it will only ever run on startup".
+
+**NB** - I have made care to also say *"this particular `useState`"* or *"the corresponding dep array for this `useEffect`"*. This is because we can have *multiple* `useEffect` calls within our component. Perhaps, taking the counter from above, we want the `document.title` to reflect whatever the recently changed piece of state was. We could add a second `useEffect` that would only run upon a change of `onlineStatus`.
+
+```javascript
+import React, { useState, useEffect } from 'react';
+const Counter = () => {
+    const [count, setCount] = useState(0);
+    const [onlineStatus, setOnlineStatus] = useState("Offline");
+
+    useEffect(() => {
+        document.title = `Count was most recently changed!`;
+    }, [count]); 
+
+    useEffect(() => {
+        document.title = `onlineStatus was most recently changed!`;
+    }, [onlineStatus]); 
+
+    return (
+        <div>
+            <p>The current count is {count}</p>
+            <button onClick={() => setCount(count + 1)}>
+               Increment
+            </button>
+
+            <button onClick={() => setOnlineStatus("Online!")}>
+               Go Online!
+            </button>
+        </div>
+  );
+}
+```
+
+Here, we use two `useEffect` calls with different dep arrays, which allow us to update the `document.title` to reflect the most recent state change.
+
+So, now we have `componentDidMount` and `componentDidUpdate` sorted, how do we use `useEffect` to mimic `componentDidUnmount`? Well, notice how we haven't **returned** anything from our `useEffect` functions. They are all just functions that run when the component re-renders (and according to their dep array) and have no return statement. This is because the `return` statement acts **as** `componentDidUnmount`. That is to say, whatever we `return` a function from a `useEffect`, the function will occur when the component *unmounts*. As an example, with a class-based component if we set an interval in `componentDidMount` we would have to clean it up again with `componentDidUnmount`.
+
+```javascript
+import React from "react";
+class App extends React.Component{
+
+    componentDidMount(){ 
+        this.interval = setInterval(() => alert("Hey I'm still here!"), 5000)
+    };
+
+    componentWillUnmount(){
+        clearInterval(this.interval);
+    };
+
+    render(){
+        return (
+            <div>
+                Hello, world!
+            </div>
+            )
+    };
+};
+```
+
+However, we could achieve the same effect using the `useEffect` hook in a functional component!
+
+```javascript
+import React, { useEffect } from "react";
+const App = () => {
+
+    useEffect( () => {
+        let interval = setInterval(() => alert("Hey I'm still here!"), 5000);
+
+        return ( () => {
+            clearInterval(interval);
+        });
+
+    }, []);
+
+    return (
+        <div>
+            Hello, world!
+        </div>
+    );
+
+};
+```
+
+Again, we set an interval in `useEffect` (with an empty dep array so it only runs on the first render, much like `componentDidMount`), and then we clean it up by `return`-ing a function from `useEffect` and calling `clearInterval` within it. This is the same as calling `componentDidUnmount` to clear the interval.
+
+`useState` and `useEffect` are by far the most common hooks. Much like the lifecycle methods, others *do* exist and have their place, however these tend to be more niche and so will not be covered here. However, hooks can pretty much be used as a direct replacement for class components and their lifecycle methods. 
+- `useState` replaces `this.state`, `this.setState` and `constructor`.
+- `useEffect` replaces `componentDidMount`, `componentDidUpdate` and `componentWillUnmount`.
+
+## Rules
+Hooks are great, however they do come with **two** caveats:
+### 1) Only use them in the **top-level of a component**
+
+Top-level here refers to the main body of your functional component. This means Hooks **cannot** be called inside **conditions, other functions, or loops**. We cannot say "only use this hook if a condition is satisfied", or "call this hook within this loop".
+
+```javascript
+import React, { useState, useEffect } from "react";
+const App = () => {
+
+    if(/* some condition */){
+        const [thing, setThing] = useState(""); // NOT ALLOWED!
+    };
+
+    return (
+        <div>
+            Hello, world!
+        </div>
+    );
+
+};
+```
+```javascript
+import React, { useEffect } from "react";
+const App = () => {
+    // Top level
+    // Top level
+    if(/* some condition */){
+        // NOT top level
+    };
+    // Top level
+    for (let i = 0; i < 3; i++){
+        // NOT top level
+    }
+    // Top leve
+    const someFunc = () => {
+        // NOT top level
+    };
+    // Top level
+    return (
+        //NOT TOP LEVEL
+        <div>
+            Hello, world!
+        </div>
+    );
+};
+```
+For clarity, I have showed explicitly where it *top level* in a given functional component, and where is not. Rule of thumb, if it's got parenthesis around it that aren't the main `App` curly braces, it's probably not top level. For this reason, it's often good practice to declare *all* hooks right at the start of the component before declaring any helper functions or other variables.
+
+```javascript
+import React, { useState, useEffect } from "react";
+const App = () => {
+    // all useState calls
+
+    // all useEffect calls
+
+    // Custom variables/functions
+
+    return (
+        <div>
+            Hello, world!
+        </div>
+    );
+
+};
+```
+### 2) Only call them from React Function Components
+Hooks *only* exist inside a react functional component - calling them inside a `class` component or regular JS functions* will *not* work.
+
+\* *We'll come back to that another day - calling hooks in regular JS functions aren't permitted, but we CAN call them from **Custom Hooks**, which are JS functions that use the Hook system.*
+
+### Why?
+The reasons have to do with how the Hook system works on a fundamental level. It relies on all hooks appearing in the *same* order **every** render.
+
+```javascript
+const [one, setOne] = useState("one"); // Always first, every render
+const [second, setSecond] = useState("second"); // Always second, every render
+const [third, setThird] = useState("Third"); // Always third, ever render
+```
+If we declare the hooks on the first render in this order, React expects this order to stay the same on *every* render. If, instead, we were to conditionally call a hook:
+
+```javascript
+const [one, setOne] = useState("one"); // First
+if(/* condition */){
+    const [second, setSecond] = useState("second"); // Sometimes second.. sometimes not called
+};
+
+const [third, setThird] = useState("Third"); // Sometimes second, sometimes third
+```
+This could seriously mess up the order of our hooks. Note, this applies to `useEffect` as well; the below is also not permitted.
+
+```javascript
+const [one, setOne] = useState("one"); // First hook 
+if(/* condition */){
+    useEffect(() => conosle.log("something")) // Sometimes second hook.. sometimes not called
+};
+
+const [third, setThird] = useState("Third"); // Sometimes second hook, sometimes third hook
+```
+Therefore, if we want to include conditions or loops, we put them *inside* our hook. For example:
+
+```javascript
+if(name === "josh"){
+    useEffect(() => console.log("Hi josh")); // NOT OKAY
+};
+
+useEffect(() => {
+    if (name === "josh") {
+        console.log("josh"); // okay!
+    };
+});
+
+// So long as the useEffect is called in the top level, we can put any conditions or loops inside the the useEffect
+```
+
+## Counter
+To close this section on hooks, lets look back on our `Counter` component from the *React* section.
+
+**index.js**
+```javascript
+import React from "react";
+import ReactDOM from "react-dom";
+
+ class Counter extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {count : 0}
+    };
+
+    increment(){
+        this.setState({count: this.state.count + 1});
+    };
+
+    decrement(){
+        this.setState({count: this.state.count - 1});
+    };
+
+    render(){
+        return(
+            <div>
+                <h1>The count is: {this.state.count}</h1>
+                <button onClick={() => this.increment()}>Increment</button>
+                <button onClick={() => this.decrement()}>Decrement</button>
+            </div>
+        );
+    };
+};
+
+ReactDOM.render(
+    <Counter />,
+    document.querySelector("#root")
+);
+
+```
+
+We can *refactor* (to re-write code into a different style to make it cleaner or obey different design principles) this to use hooks instead.
+
+Firstly, we convert our `class` into a function, and import `useState`.
+
+**index.js**
+```javascript
+import React, { useState } from "react"; // import useState
+import ReactDOM from "react-dom";
+
+ const Counter = () => { // create a function instead of a class
+    constructor(props){
+        super(props);
+        this.state = {count : 0}
+    };
+
+    increment(){
+        this.setState({count: this.state.count + 1});
+    };
+
+    decrement(){
+        this.setState({count: this.state.count - 1});
+    };
+
+    render(){
+        return(
+            <div>
+                <h1>The count is: {this.state.count}</h1>
+                <button onClick={() => this.increment()}>Increment</button>
+                <button onClick={() => this.decrement()}>Decrement</button>
+            </div>
+        );
+    };
+};
+
+ReactDOM.render(
+    <Counter />,
+    document.querySelector("#root")
+);
+
+```
+Next, instead of using a `constructor` to create our state, let's use the `useState` hook.
+
+**index.js**
+```javascript
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+
+ const Counter = () => {
+    const [count, setCount] = useState(0); // useState instead of a constructor
+
+    increment(){
+        this.setState({count: this.state.count + 1});
+    };
+
+    decrement(){
+        this.setState({count: this.state.count - 1});
+    };
+
+    render(){
+        return(
+            <div>
+                <h1>The count is: {this.state.count}</h1>
+                <button onClick={() => this.increment()}>Increment</button>
+                <button onClick={() => this.decrement()}>Decrement</button>
+            </div>
+        );
+    };
+};
+
+ReactDOM.render(
+    <Counter />,
+    document.querySelector("#root")
+);
+
+```
+
+Next, we can remove the `increment` and `decrement` methods as we can update our `count` with `setCount` instead.
+
+**index.js**
+```javascript
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+
+ const Counter = () => {
+    const [count, setCount] = useState(0);
+    // removed increment/decrement methods
+    render(){
+        return(
+            <div>
+                <h1>The count is: {this.state.count}</h1>
+                <button onClick={() => this.increment()}>Increment</button>
+                <button onClick={() => this.decrement()}>Decrement</button>
+            </div>
+        );
+    };
+};
+
+ReactDOM.render(
+    <Counter />,
+    document.querySelector("#root")
+);
+
+```
+Then we can remove that render method that we don't need anymore.
+
+**index.js**
+```javascript
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+
+ const Counter = () => {
+    const [count, setCount] = useState(0);
+    // render() removed
+    return(
+        <div>
+            <h1>The count is: {this.state.count}</h1>
+            <button onClick={() => this.increment()}>Increment</button>
+            <button onClick={() => this.decrement()}>Decrement</button>
+        </div>
+    );
+};
+
+ReactDOM.render(
+    <Counter />,
+    document.querySelector("#root")
+);
+
+```
+Lastly, we can update our `count` using `setCount` whenever the corresponding `button` is clicked, and clean up that `this.state.count` to just be `count` instead.
+
+**index.js**
+```javascript
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+
+ const Counter = () => {
+    const [count, setCount] = useState(0);
+
+    return(
+        <div>
+            <h1>The count is: {count}</h1>
+            <button onClick={() => setCount(count + 1)}>Increment</button>
+            <button onClick={() => setCount(count - 1)}>Decrement</button>
+        </div>
+    );
+};
+
+ReactDOM.render(
+    <Counter />,
+    document.querySelector("#root")
+);
+
+```
+
+There we have it! Again, this is the exact same as the `Counter` component we made using `class`es back in the *React* section, and you can copy-paste this into the `index.js` of your CRA project folder and get a cool Counter app - this time with hooks instead! Now I'm not sure about you, but I think that looks way neater and way easier to understand what's going on compared to looking at a `constructor`, `this` and a `state` object.
+
+## Summary
+In summary, we have scratched the surface of the React Hook system. We saw how we can replace the lifecycle methods that we depended on `class` components for, such as `componentDidMount` and `componentDidUnmount`, with the hooks system. We saw how `useEffect` can be used to replace the three big lifecycle methods, and how we can use `useState` to introduce the idea of `state` into our components, therefore allowing us to re-render a component and keep track of a changing variable throughout renders. We also briefly covered *object* and *array destructuring* and how they are used with Hooks, and covered a brief comparison of `class` components vs functional hook components. We did **not** cover *custom hooks*, as these are less important to know compared to `useState` and `useEffect` and so can be left as a story for another day.

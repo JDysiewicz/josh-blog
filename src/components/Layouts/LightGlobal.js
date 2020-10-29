@@ -7,7 +7,7 @@ import "../../styles/global.scss";
 
 const GlobalLayout = styled.div`
     /* PT Sans vs Source Sans Pro.... Hard to decide */
-    @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
+    
     font-family: "Source Sans Pro", sans-serif;
 
     margin-left: auto;
@@ -15,7 +15,6 @@ const GlobalLayout = styled.div`
     max-width: 55rem;
     padding: 2.625rem 1.3125rem;
     font-weight: 500;
-    word-wrap: break-word;
     font-kerning: normal;
     font-size: 1.5rem;
     color: #666;

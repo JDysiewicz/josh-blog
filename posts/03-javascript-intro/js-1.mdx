@@ -1,0 +1,248 @@
+---
+title: "An Introduction to JavaScript"
+slug: "javascript-introduction"
+author: "Joshua Dysiewicz"
+date: "30 September 2020"
+readingTime: "📖 10 min"
+spoiler: "A foundational introduction to the JavaScript language."
+---
+
+
+# JavaScript - An Introduction (~ 10 min)
+
+JavaScript is the language of the web. It's complex, it's multi-paradigm, and it's a dynamic language... *well* it's more *compiled* than dynamic... but not really. It's also a very misunderstood language: it's called **Java**Script, yet "Java" is to "JavaScript" as "*pen*" is to "**Pen**toxide". It's a dynamic language, until it catches compile time errors, and so cannot be dynamic. You get the point - it's got its good parts and it's bad parts (often associated with this is a picture of two books by author *Douglas Crockford*, depicting a comparison of *JavaScript: The Good Parts* [**172 pages**] with *JavaScript: The Definitive Guide* [**1096 pages**]).
+
+Part of this complexity is because the committee which governs the editions of JavaScript (*ECMA*) insist on **backwards compatibility**. JavaScript written in 2012 will work today, and **always** will. However, this means that many of the strange design decisions are baked-in, and here to stay. For example, JS has **two** bottom-values: `null` and `undefined` (values which both signify "there's nothing here" or "this does not currently have a value, but may do at some point in the future"). The distinction between these is irrelevant here, however, as author *Douglas Crockford* says:
+
+> *There is a debate among programmers as to whether a language should have a bottom value; some say there should be one, others say there shouldn't. No-one thinks there should be two.* - **Douglas Crockford**
+
+However! I make a case for JS - it's a rich language with so many interesting inner workings. It is flexible enough to accommodate many programming styles, yet has definitive design patterns that can be followed for optimal code. It's also (*currently*) the only programming language that interacts with web browsers via the V8 Engine in *Chrome* and the SpiderMonkey Engine in *FireFox*.
+ 
+
+## The Basics
+
+### Variables
+JavaScript (indeed, most all languages) has its foundations in **variables**. Much like how, in maths, `x = 5` has the meaning of '*When x is mentioned, this is a substitute for the number 5*', variables allow us to **store** information. In JS, this can be done in multiple ways through different **declarations**: `var`, `let`, and `const`. When we first mention a new variable in our code, we must tell JS that we are defining a variable, and so we *declare* it by prefixing our variable name with one of these 3 declarators. The differences between them are as follows:
+
+ - `var` : Functionally-scoped, reassignable.
+ - `let` : Block-scoped, reassignable.
+ - `const` : Block-scoped, **non-reassignable**.
+
+Functional vs Block scoping is a story for another day, and so we shall focus on the *assignability* aspect. Assignability refers giving a variable a new value.
+
+```javascript
+let x = 5;
+...
+x = 3;
+```
+The above is valid, as we initially say "Set aside some room in the computer memory, name it `x` and place the value `5` in it", then later say "Hey computer, you know that room you set aside in memory for a thing called `5`? Throw out `5` and put `3` in there instead". To be clear with terms here, `let x` is the *declaration* of our variable, `= 5` is the *assignment*. After the initial declaration, we can *reassign* a variable if it was declared using `var` or `let`. 
+
+```javascript
+let x = 5;
+var y = 3;
+
+x = 12;
+y = 99; // All valid - both var and let allow for reassignment
+```
+
+`const` is different; once we say `const x = 5`, after this point cannot we say `x = ...`. We can say `x++` to increment `x` to make `x = 6`, we can say `x.toString()` to convert the `number` of `5` into a `string` of `"5"`, however we cannot directly *reassign* `x`.
+
+```javascript
+const x = 5; // 5
+let y = x + 1; // 6
+x.toString(); // "5"
+x++; // 6
+x = y + 2  // Invalid!
+```
+
+Therefore, `const` tends to be used for variables which we want to stay... well... **constant**. Elsewhere, we usually use `let` for reasons related to scoping. `var` is still in use in older code (`let` and `const` were introduced in the **ES6/ES2015** edition of JavaScript), however is rarely used in modern code (again, due to scoping issues).
+
+### Primitives and Objects
+
+#### Primitive Values
+Numbers are not all we can store in variables. JavaScript has **5** so-called *primitive* types:
+ - `string`
+ - `number`
+ - `boolean`
+ - `undefined`
+ - `symbol`
+
+The name *primitive* data type means it is the lowest form of representation a language uses for that type - while an array may be internally stored as something else, a `number` will always and forever remain a `number`. A notable *missing* primitive is `null`. To investigate, we can use a built-in JS function called `typeof`, which allows us to inspect the types of variables within JS.
+
+```javascript
+typeof "josh" // "string"
+typeof 5 // "number"
+typeof null // "object"...?
+```
+
+Interestingly enough, `typeof null` returns an `object` type. This is perhaps the oldest bug in JS, that is here to stay. This is because older code may rely on its functioning, and frankly it's just not a big enough problem to deal with the headache that would be involved in fixing it. `null` *should* be a primitive value, however due to the strange design decisions mentioned before, these mistakes can become baked into JS for future programmers to look at with confusion. The vetting committee for various editions of JS, *ECMA*, are pretty good about avoiding this sort of stuff now, however the sons pay for the sins of the father here.
+
+When we say `x = <primitive Value>`, we are literally assigning some computer memory to `x`, and putting in the primitive. For example, imagine we represent memory locations in computers as a series of boxes, the following could represent a place in computer memory when we say `let x = 5`.
+
+| 5  |  ... |  ... |  ... |
+|---|---|---|---|
+
+where the 4 boxes above represent the computer memory in which `x` is stored (The other 3 boxes represent more technical detail than is needed here). 
+
+#### Object/Reference Types
+
+The contrary to this are `object` types (also called *reference* types). Everything else we can think of in JS is an `object`: functions, arrays, objects-literals... all of the `object` type. This leads to the meme that *Everything in JS is an object*. When an `object` is stored, we do **not** store the actual value of the object, instead we store a **reference** to its memory location. For example, when we say `let myObj = {name: "Josh"}` and access this with `console.log(myObj)`, we are saying "myObj is a *pointer* to some memory location - go to that location and give me what is there":
+
+| 0x8da8a239e4  |  ... |  ... |  ... |
+|---|---|---|---|
+
+The practical difference between *primitives* and *objects* is that a primitive value is **immutable** whereas objects are **mutable**. We can access items in an array using the following syntax:
+```javascript
+let myArr = [12, 1, 99];
+myArr[0];  // 12
+myArr[0] = 5; // myArr is now [5, 1, 99]
+myArr[0]; // 5
+```
+
+We can access a particular value in our array through the *index* of the value, and using the syntax `myArr[index]`. We can also use this same syntax to reassign a value in an array to a different one. This is mutating the array.
+
+Strings can also be accessed using the same syntax, and at first glance can be modified in the same way.
+
+```javascript
+let myStr = "JavaScript";
+myStr[0] // "J"
+myStr[0] = "B"; // "B"
+myStr; // "JavaScript"
+```
+
+However, when we attempt to mutate the string in the same way, the original string remains unchanged.
+
+(JS can cheat here; methods such as `myStr.replace()` can *seemingly* perform mutations on strings, however this involves JS converting the *primitive* `string` to the *Object* `String` (note the capital) behind the scenes, and returning a *new* string instead of the original.)
+
+### Object-literals and Functions
+#### Object-Literals
+Seeing as JS has a `type` called `object`, when we refer to a collection of data as key:value pairs we call this an *object-literal* (literally an object). 
+
+```javascript
+let mySimpleObj = {name: "josh", age: 23};
+```
+
+Keys are always strings without quotation marks, the value can be **anything** - a number, a string, a function, or even another object entirely.
+
+```javascript
+const myComplexObj = {
+    key1: "value",
+    key2: 2,
+    key3: function (),
+    key4: {
+        key4_1 : "value2"
+    };
+};
+```
+We can access the values via their keys using *array syntax* (`myObj["name"] // "josh"`) or *dot-syntax* (`myObj.name // "josh"`).
+
+```javascript
+let mySimpleObj = {name: "josh", age: 23};
+mySimpleObj["name"] // "josh";
+mySimpleObj.age  // 23
+```
+
+Usually dot syntax is preferred as it looks neater and is faster to type; however array syntax can be useful in niche scenarios.
+
+Each *primitive*-type also has an *object*-type counterpart. The `String` object can be thought of as an object which contains a value for the string, and various methods and properties associated with it.
+
+```javascript
+let String = {
+    value: "someString",
+    length: 10,
+    toUpperCase: function (value) {.... return... },
+    toLowerCase: function (value) {.... return...}
+};
+```
+
+In fact, we can literally define a string using the `String object`.
+
+```javascript
+let myStr = new String("This is my string");
+let mySecondString = "This is another string";
+```
+
+Both are valid, however the `String` object has access to various methods and properties such as `length` or `.toUpperCase()`. However, when defining a `string` primitive, JS will *coerce* this into a `String` object for us, so that we can still access all those functions built into the `String` object.
+
+```javascript
+let myNewStr = "josh";
+// Behind the scenes, JS does
+// myNewStr = new String("josh")
+// to form a String object with a value of "josh"
+// So that when we try to access .length or .toUpperCase()
+
+myNewStr.length // 4;
+myNewStr.toUpperCase() // "JOSH"
+```
+Note - a *property* usually refers to a static value on an object, whereas a *method* usually refers to some function attached to an object.
+
+The same exists for the `number` primitive.
+
+```javascript
+let Number = {
+    value: someNumber,
+    toString: function (value) {return "value"},
+    isInt: function (value) {return boolean}
+};
+```
+We can therefore define `let x = 5` we can then access the various methods associated with the `Number` object, despite initializing `x` as a `number` primitive 
+
+```javascript
+let x = 5;
+// JS behind the scenes again will do x = new Number(5)
+x.toString(); // "5"
+x.isInt(); // true
+```
+
+We can think of this as `x` **inheriting** the methods and properties associated with the `Number` object. This is the start of **prototypal inheritance**, an important subject for another time, however it is no stretch to say that this is at the very core of JS, and what separates it from other languages like Java and C# which use **Class Inheritance**.
+
+#### Functions
+Functions are classed as `objects` with more *function*-ality. They can be defined in **two** main ways:
+- Using the `function` declaration.
+- Fat-arrow functions `=>`.
+  
+```javascript
+function myFunction(input) { // Function declaration
+    ...
+    return "I came from a function declaration!"
+};
+
+const mySecondFunction = () => { // Arrow function
+    ...
+    return "I came from an arrow function!"
+};
+
+myFunction(); // "I came from a function declaration!"
+mySecondFunction(); // "I came from an arrow function!"
+```
+
+Note, we include the `()` when **calling** a function. `let someVar = myFunction;` just assigns a **reference** to myFunction to `someVar`, such that calling `someVar(someInput)` would yield the same result as calling `myFunction(someInput)`.
+
+```javascript
+let reference = myFunction;
+reference() // "I came from a function declaration!"
+let output = mySecondFunction();
+output // "I came from an arrow function!"
+```
+
+Fat-arrow functions, introduced in ES6, have slightly cleaner (if not slightly confusing) syntax.
+
+```javascript
+function myFunc(input){
+    ...
+    return 2;
+};
+
+const myFunc = (input) => {
+    ...
+    return 2;
+};
+```
+Both of the above are equivalent; note with arrow functions we can define them with `let`, `var` or `const` as we see fit. The main benefit of arrow functions comes from how it deals with the JS value `this` - a quirk of JS which causes pain and suffering for all who deal with `class`es and OOP in JS, and so will be left aside for now. However, arrow functions are usually preferred for this reason (and, I think it looks cooler).
+
+### Summary
+We can declare variables in JS using `const`, `let` and `var`, however `const` prevents us from reassigning a variable. Variables can be a *primitive* type such as a `number` or `boolean`, which is immutable, or a `object` type such as an `array` or `function`. Each primitive has a corresponding object type which provides many methods and properties such as `.toUpperCase()` for `strings` or `.toString()` for `numbers`. Object-literals are collections of key: value pairs, where the value can be of any type. Functions can be declared using the `function` declaration, or by using the arrow function syntax and assigning this to a variable declared with `let`, `const`, or `var`.
+
+---
+
+There is much, MUCH more to be said on these topics - in fact many have written books about simply **types** in JavaScript (see [YDKJS: Types and Grammar](https://www.oreilly.com/library/view/you-dont-know/9781491905159/) - also available for free on GitHub), however we shall leave the basics behind quickly and dive deeper into more practical aspects of JavaScript, opting to take large divergences as topics need explaining.
