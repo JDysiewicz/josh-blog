@@ -5,11 +5,11 @@ import { Link } from "gatsby";
 
 const ArticleLinkStyled = styled.article`
     display: block;
-
+    margin-bottom: 4rem;
     & h2 {
         font-size: 2.25rem;
-        color: #9200D6;
-        margin-bottom: 0.5rem;
+        color: #00B39E;
+        margin-bottom: 0rem;
     };
 
     & p {
@@ -18,7 +18,7 @@ const ArticleLinkStyled = styled.article`
 
     & a {
         text-decoration: none;
-        color: #9200D6;
+        color: #00B39E;
     }
 
     & small {
