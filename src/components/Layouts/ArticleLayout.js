@@ -27,6 +27,15 @@ const ArticleLayout = styled.div`
         color: #232323;
         font-size: 1.5rem;
         line-height: 1.75;
+
+        & h2 {
+            color: #ff75a1
+            
+        }
+
+        & h3 {
+            color: #A583B4;
+        }
     }
 
     
