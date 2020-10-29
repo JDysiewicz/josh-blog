@@ -1,0 +1,6 @@
+
+// Prevent scroll bar from making page jump
+html {
+    box-sizing: border-box;
+    margin-left: calc(100vw - 100%);
+}

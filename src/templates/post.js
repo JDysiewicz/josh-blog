@@ -20,8 +20,8 @@ export const query = graphql`
 
 const PostTemplate = ({ data: { mdx: post } }) => (
     <ArticleLayout>
-        <h1>{post.frontmatter.title}</h1>
-        <small>{post.frontmatter.date} - {post.frontmatter.readingTime}</small>
+        <h1 className="post-title">{post.frontmatter.title}</h1>
+        <small className="post-small">{post.frontmatter.date} - {post.frontmatter.readingTime}</small>
         <div className="article">
             <MDXRenderer>{post.body}</MDXRenderer>
         </div>
