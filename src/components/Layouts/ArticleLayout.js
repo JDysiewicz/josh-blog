@@ -8,7 +8,6 @@ import Navbar from "../Navbar";
 // deckDeckGoHighlightElement();
 
 const ArticleLayout = styled.div`
-    @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap");
     & .post-title {
         font-family: "Merriweather", sans-serif;
         color: #000;
