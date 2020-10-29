@@ -23,7 +23,8 @@ const NavbarStyled = styled.div`
         flex-direction: column;
 
         & div {
-            margin-bottom: 1.05em;
+            margin-top: 1.05em;
+            font-weight: 600;
         }
     }
 `;
@@ -37,7 +38,7 @@ const NavbarLink = styled(Link)`
     border-radius: 10px;
     margin: 0.5rem;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 1.5rem;
 
     & a:first-of-type {
         margin-left: 1rem;
@@ -53,7 +54,7 @@ const BackArrow = styled(Link)`
     width: 50px;
     transform: rotate(90deg);
     margin-top: 1.05em;
-    margin-bottom: 1.05em;
+    margin-bottom: 1.25em;
     font-size: 4rem;
 
     &:before {
