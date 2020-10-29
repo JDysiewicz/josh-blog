@@ -12,7 +12,7 @@ const GlobalLayout = styled.div`
 
     margin-left: auto;
     margin-right: auto;
-    max-width: 60rem;
+    max-width: 55rem;
     padding: 2.625rem 1.3125rem;
     font-weight: 500;
     word-wrap: break-word;

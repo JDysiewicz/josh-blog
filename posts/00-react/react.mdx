@@ -9,14 +9,16 @@ spoiler: "An overview of how react works, culminating in a simple Counter app us
 
 **NOTE** - This is a pretty long read. Don't feel like you have to read all of this at once - take breaks, go for a walk, etc. Between this, the *Component Lifecycle* post, and the *Hooks* post, there is about an **hour** of reading about React. However, I urge you to stick with it. React is hard, and to cover everything the framework has to offer in less than an hour of content is near impossible. This should, however, provide a great spring board for you to dive into other resources, or writing your own React project. Most importantly, enjoy the learning process - if you only care about an end result you will get frustrated early and often. There's a lot to learn with React, but you don't need all of it to be able to make something cool!
 
+`js>let x = 5;`
+
 ## React Under the Hood
 React is a javascript **framework**; it is a collection of files all packaged into a *library*. We import this library by writing 
-```bash
+```shell
 npm install react react-dom
 ```
 into our terminal. What? Why are there two imports there? Good question! The React framework is mainly comprised of two parts: the various functions and properties which allow us to create *components*, and the various functions and properties which allow us to *simulate* the **D**ocument **O**bject **M**odel (DOM). As mentioned previously, the DOM is the hierarchical structure of our webpage. The `react-dom` import allows us to access functions the can construct and insert a *virtual* DOM into the actual DOM on a website.
 
-```javascript
+```jsx
 ReactDOM.render(
     <App />,
     document.querySelector("##root")
@@ -25,7 +27,7 @@ ReactDOM.render(
 Therefore, almost all React project will have the same structure: an `index.js` file in which we import `react` and `react-dom`, and an `App.js` file which defines our application.
 
 **index.js**
-```javascript
+```jsx
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -38,7 +40,7 @@ ReactDOM.render(
 ```
 
 **App.js**
-```javascript
+```jsx
 import React from "react";
 
 const App = () => {
