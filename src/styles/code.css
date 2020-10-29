@@ -6,7 +6,7 @@
 
  code[class*="language-"],
  pre[class*="language-"] {
-     color: white;
+     color: #FFF;
      background: none;
      font-family: 'Roboto Mono', monospace;
      font-size: 1rem;
@@ -26,10 +26,18 @@
      -ms-hyphens: none;
      hyphens: none;
  }
+
+ /* Will turn JSX/JS variable color red, without affecting the plaintext of any other language; add more of these as needed to make each language look nice */
+ code[class*="language-jsx"],
+ pre[class*="language-jsx"],
+ code[class*="language-javascript"],
+ pre[class*="language-javascript"] {
+     color: #f2777a;
+ }
  
  pre[class*="language-"],
  :not(pre) > code[class*="language-"] {
-     background: #353535
+     background: #353535;
  }
  
  /* Code blocks */
@@ -138,6 +146,14 @@
 
  .token.tag .token.punctuation{
     color: #b3b9c5
+ }
+
+ .token.plain-text{
+    color: #CCC
+ }
+
+ .token.punctuation{
+     color: #FFF
  }
 
 
