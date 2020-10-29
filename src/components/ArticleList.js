@@ -6,8 +6,9 @@ import usePosts from "../hooks/usePosts";
 export default () => {
     const posts = usePosts();
 
+    // Reverse to sort by most recent
     const renderArticles = () => {
-        return posts.map(article => {
+        return posts.reverse().map(article => {
             return <ArticleLink key={article.slug} article={article} />
         });
     };
