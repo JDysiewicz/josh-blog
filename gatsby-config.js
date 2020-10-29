@@ -13,6 +13,16 @@ module.exports = {
         defaultLayouts: {
           default: require.resolve("./src/components/Layouts/ArticleLayout.js")
         },
+        gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              terminal: "carbon",
+              noInlineHighlight: false,
+              inlineCodeMarker: ">"
+            }
+          }
+        ],
       },
     },
     {

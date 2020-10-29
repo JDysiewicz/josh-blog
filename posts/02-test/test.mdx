@@ -1,0 +1,135 @@
+---
+title: "View Syntax Highlighting"
+slug: "highlighting"
+author: "Joshua Dysiewicz"
+date: "30 October 2020"
+readingTime: "📖 2 min"
+spoiler: "Syntax highlighting example."
+---
+
+```jsx
+import React from "react";
+
+const Additional = () => {
+    
+    const name="Josh";
+    let age = 23;
+    let alive = true;
+
+    let interests = {
+        music: true,
+        sports: "kind of",
+        artistic: false
+    };
+
+    // Here is a comment import react from "react" etc => ()
+    /* Here is another asdasd978209131 true */
+
+    return (
+        <div>
+            <h1>Hi There!</h1>
+            <span>{name}</span>
+            <h2>I'm {age} years old!</h2>
+            <p>{JSON.stringify(interests)}</p>
+        </div>
+    );
+};
+
+class App extends React.Component {
+    render(){
+        return (
+            <div>
+                <Additional />
+            </div>
+        )
+    }
+};
+
+export default App;
+```
+
+```html
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <title>The HTML5 Herald</title>
+        <meta name="description" content="The HTML5 Herald">
+        <meta name="author" content="SitePoint">
+
+        <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+    </head>
+
+    <body>
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
+```
+
+```shell
+sudo apt-get install nano
+```
+
+```scss
+.container {
+    color: red;
+
+    & h1.title {
+        color: blue;
+        font-size: 20rem
+    }
+}
+```
+
+```jsx
+const ArticleLinkStyled = styled.article`
+    display: block;
+
+    & h2 {
+        font-size: 2.25rem;
+        color: #9200D6;
+        margin-bottom: 0.5rem;
+    };
+
+    & p {
+        margin-top: 0.5rem;
+    }
+
+    & a {
+        text-decoration: none;
+        color: #9200D6;
+    }
+
+    & small {
+        color: #000;
+        font-size: 1.25rem;
+    }
+`;
+```
+
+```scss
+    display: block;
+
+    & h2 {
+        font-size: 2.25rem;
+        color: #9200D6;
+        margin-bottom: 0.5rem;
+    };
+
+    & p {
+        margin-top: 0.5rem;
+    }
+
+    & a {
+        text-decoration: none;
+        color: #9200D6;
+    }
+
+    & small {
+        color: #000;
+        font-size: 1.25rem;
+    }
+```

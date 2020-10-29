@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled"
+// import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";
 import LightGlobal from "./LightGlobal";
 
 import Navbar from "../Navbar";
+
+// deckDeckGoHighlightElement();
 
 const ArticleLayout = styled.div`
     @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap");
@@ -23,7 +26,27 @@ const ArticleLayout = styled.div`
     & .article {
         color: #232323;
         font-size: 1.5rem;
-        line-height: 1.5;
+        line-height: 1.75;
+    }
+
+    
+
+    & .gatsby-highlight pre[class*="language-"]{
+        border: none;
+        overflow-wrap: normal;
+    }
+
+    & p code[class*="language-"]{
+        border: none;
+        overflow-wrap: break-word;
+    }
+
+    @media screen and (max-width: 900px){
+        .article {
+            margin-left: -0.8rem;
+            margin-right: -0.8rem;
+        }
+
     }
 `;
 
