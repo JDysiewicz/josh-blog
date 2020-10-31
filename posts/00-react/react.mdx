@@ -497,8 +497,10 @@ Notice a few differences:
 ### Rendering a Component
 A quick aside - I've mentioned *render* quite a few times so far. Rendering is when we convert the JSX we return from our components into HTML to be placed into the webpage. Remember that stuff about a **virtual DOM**? Well *rendering* is the process of updating nodes in the real DOM to match that of the virtual DOM. This means that our JS will be run, and the resulting JSX will be displayed to the screen by being put into that `jsx÷<div id="root">` mentioned previously. React decides when to *re-render* a component, usually when a user visits a page which we specify needs to display a certain bit of JSX, or when our **state/props** updates - more on this... Now!
 
-## Props - READ FROM HERE MOST DONE BUT DOUBLE CHECK
-Now, as vain as I am, it would be nice if people could write their *own* name and age within our component. This is simplified for us (once again) by React, as React will automatically pass an object called `jsx÷props` to our components. For instance, in our `index.js` where we call our `jsx÷ <App />` component, we can pass down a variable by using that JSX syntax again:
+## Props
+
+### Function Components
+Now, as vain as I am, it would be nice if people could write their *own* name and age within our component when they call it. This would allow the component to be a lot more **reusable**. This is simplified for us (once again) by React, as React will automatically pass an object called `jsx÷props` to our components. For instance, in our `index.js` where we call our `jsx÷ <App />` component, we can pass down a variable by using that JSX syntax again:
 
 **index.js**
 ```jsx
@@ -508,18 +510,19 @@ import ReactDOM from "react-dom";
 import App from "./components/App";
 
 ReactDOM.render(
-    <App userName={"Emily"} age={19} />,
+    <App name={"Emily"} age={19} />,
     document.querySelector("#root")
 );
 ```
 
-This will attach the `js÷userName` and `js÷age` properties to the `js÷props` object that React passes down whenever we call a component. We access this within `App` by passing the the `props` component into our function declaration.
+This will attach the `js÷name` and `js÷age` properties to the `js÷props` object that React passes down whenever we call a component. We access this within `App` by passing the the `props` component into our function declaration.
 
 **App.js**
 ```jsx
 import React from "react";
 
-const App = (props) => { // props = { userName: "Emily", age: 19 
+const App = (props) => { 
+    // props = { name: "Emily", age: 19 } 
 
     const printAge = () => {
         console.log(props.age)
@@ -533,7 +536,7 @@ const App = (props) => { // props = { userName: "Emily", age: 19
 export default App;
 ```
 
-This allows us to access all the properties placed onto props when `js÷App` is called. We could even add another object to this, for instance:
+This allows us to access all the properties placed onto props when `js÷App` is called. We could even add another `jsx÷Object` to this, for instance:
 
 **index.js**
 ```jsx
@@ -551,17 +554,16 @@ ReactDOM.render(
 ```jsx
 import React from "react";
 
-const App = (props) => { // props = { person : { name: Emily, age: 19 } }
-    const name = props.person.name;
-    const age = props.person.age
+const App = (props) => {
+    // props = { person : { name: Emily, age: 19 } }
 
     const printAge = () => {
-        console.log(age)
+        console.log(props.person.age)
     };
 
     printAge();
 
-    return(<div>Hello, {name}!</div>)
+    return(<div>Hello, {props.person.name;}!</div>)
 };
 
 export default App;
@@ -569,7 +571,9 @@ export default App;
 
 Notice the `{ {} }` syntax when passing an object into JSX (`jsx÷ person= { {name, age} }`) - one set of curly braces for declaring a JS expression, a second set to declare the object.
 
-Class components treat things differently - we do not have a function declaration to access the `props` object, but luckily React passes this to our class for us, and so we can immediately access it using the `js÷this.props` syntax, however everything else remains the same as it was in with functional components - the only difference is *how* we access the props object.
+### Class Components
+
+Class components treat things differently - we do not have a function declaration to access the `jsx÷props` object, but luckily React passes this to our class for us, and so we can immediately access it using the `jsx÷this.props` syntax, however everything else remains the same as it was in with functional components - the only difference is *how* we access the props object.
 
 **index.js**
 ```jsx
@@ -585,13 +589,14 @@ ReactDOM.render(
 ```
 
 **App.js**
-```javascript
+```jsx
 import React from "react";
 
 class App extends React.Component {
+    // this.props = {name: "Emily", age: 19}
 
     printAge = function () {
-        console.log(this.props.age) // 19
+        console.log(this.props.age)
     }
     
     render(){
@@ -603,10 +608,10 @@ class App extends React.Component {
 export default App;
 ```
 
-## State
-State is why class components were needed for so long, and why functional components were second choice for most of React's lifetime. Now we have **Hooks** which eliminates this somewhat, however let's start from the beginning.
+## State For Class Components
+State is why class components were needed for so long, and why functional components were second choice for most of React's lifetime. Now we have **Hooks** which eliminates this somewhat, however here we shall only cover adding **state** to **jsx÷class** components.
 
-We can pass some information down into a component via `props`. Wouldn't it be great if we had some way of continually feeding information to a component, *from* the component itself? What if we could keep track of some changing variable **on** the component itself? An example might be a simple counter.
+We can pass some information down into a component via `jsx÷props`. Wouldn't it be great if we had some way of continually feeding information to a component, *from* the component itself? What if we could keep track of some changing variable **on** the component itself? An example might be a simple counter.
 
 ```jsx
 import React from "react";
@@ -623,13 +628,20 @@ const Counter = () => {
 };
 
 ```
-Okay this looks good, so after we click we then need to re-run our function to display the new `js÷count`-- oh wait!
+Okay this looks good, so after we click we then need to re-run our function to display the new `jsx÷count`-- oh wait!
 
 ```javascript
-let count = 0; // This line would reset our count again upon re-rendering
+let count = 0;
+// This line would reset our count to 0
+// again upon re-rendering
 ```
 
-We are then left in a stalemate - either we re-render our component to display the new count, promptly resetting it to `0`, or we do not re-render our component. `count` would increase, however our component would **NOT** re-render and display the new `count`. To get around this tricky scenario, we need to introduce a new concept in React called **state**.
+We are then left in a stalemate:
+
+1. We re-render out component, thus resetting it to `jsx÷0`.
+2. We increment count however don't re-render the component, so internally our `jsx÷count = 1` but this information is never displayed to the user!
+
+To get around this tricky scenario, we need to introduce a new concept in React called **state**.
 
 The way we add this in to a `js÷class` component is a bit convoluted, so we'll go through it slowly.
 
@@ -648,7 +660,7 @@ class Counter extends React.Component {
 
 export default Counter;
 ```
-The first thing we do is to add a `constructor` function to our component, and feed in our `props`. This constructor is called when the `Counter` is first instantiated (when `<Counter />` is **first** called), however **not** when it is re-rendered. This means we can initialize our `count` to be `0` without having to worry about resetting it on every re-render. Next, we call a built-in function called `super` passing in our props:
+The first thing we do is to add a `jsx÷constructor` function to our component, and feed in our `jsx÷props`. This is a function built into JavaScript, which we do not need to know the details of. This constructor is called when the `jsx÷ <Counter />` is first instantiated (when `<Counter />` is **first** called), however **not** when it is re-rendered. This means we can initialize our `jsx÷count` to be `jsx÷0` when we first render it, without having to worry about resetting it on every re-render. Next, we call a built-in function called `jsx÷super` passing in our `jsx÷props`:
 
 ```jsx
 import React from "react";
@@ -666,7 +678,7 @@ class Counter extends React.Component {
 export default Counter;
 ```
 
-`super` is a built-in function to JavaScript which will allow us to access all the properties and methods on the **parent class** of `js÷Counter` (which would be `js÷React.Component`). Without this call to `js÷super(props)`, we would lose access to `js÷render()` and other methods defined therein. Now we finally get on to adding `state`:
+`super` is a built-in function to JavaScript which will allow us to access all the properties and methods on the **parent class** of `jsx÷ <Counter />` (which would be `jsx÷React.Component` as we are `jsx÷extend`-ing it). Without this call to `jsx÷super(props)`, we would lose access to `jsx÷render()` and other methods defined therein. Now we finally get on to adding `jsx÷state`:
 
 ```jsx
 import React from "react";
@@ -684,11 +696,34 @@ class Counter extends React.Component {
 
 export default Counter;
 ```
-We assign `js÷this.state` to an object, wherein we can begin to define the things we want to keep track of within our component.
+We assign `jsx÷this.state` to an object, wherein we can begin to define the things we want to keep track of within our component. We can add multiple things to `jsx÷this.state`, even other functions!
+
+```jsx
+import React from "react";
+
+class Counter extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            count : 0,
+            name: "Josh",
+            sayCount: () => console.log(this.count)
+            }
+    };
+    
+    render(){
+        return (<div></div>)
+    };
+};
+
+export default Counter;
+```
 
 ### The Unavoidable 'This'
 
-Great! Now we have access to `state` on our component, and can begin to work on the `js÷increment()/decrement()` functionality. We use the *event handler* called `jsx÷onClick={}`, which is an attribute we can attach to a JSX button; it literally means "when someone clicks on this, execute whatever is in the brackets. So, simple right?
+Great! Now we have access to `jsx÷state` on our component, and can begin to work on the `jsx÷increment()/decrement()` functionality. We use the *event handler* called `jsx÷onClick={}`, which is an attribute we can attach to a JSX button; it literally means "when someone clicks on this, execute whatever is in the brackets".
+
+So, simple right?
 
 ```jsx
 import React from "react";
@@ -719,13 +754,13 @@ class Counter extends React.Component {
 };
 App.render().increment()
 ```
-**NB** - we pass a *reference* to `increment`/`decrement` instead of calling the function, this is because we want `onClick` to be synonymous with `this.increment()`. Passing `this.increment()` would assign `onClick=` to be the **return** result of `increment`, which is **nothing**.
+ >  **Note** - we pass a *reference* to `jsx÷increment`/`jsx÷decrement` instead of calling the function (`jsx÷onClick={this.increment()}`). This is because we want `jsx÷onClick` to be synonymous with calling `jsx÷this.increment()`. Passing `jsx÷this.increment()` (with the parenthesis) would assign `jsx÷onClick={}` to be the **return** result of calling `jsx÷increment()/decrement()`. Looking at what we `jsx÷return` from calling `jsx÷increment/decrement`, we `jsx÷return` **nothing**, therefore we would be saying `jsx÷onClick={null}`. **THIS IS IMPORTANT FOR LATER!**
 
-Well here's where things get a little more finicky. Remember `this`? `this` refers to the current **execution context**. When we enter a function, we create a **new** execution context, and so our `this` refers to the execution context *in which the function was called*. [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this] A simple way to think of `this`:
+Well here's where things get a little more finicky. Remember `jsx÷this`? `jsx÷this` refers to the current **execution context**. When we enter a function, we create a **new** execution context, and so our `jsx÷this` refers to the execution context *in which the function was called*. [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this] A simple way to think of `jsx÷this`:
 
 > **`jsx÷this` refers to *some* `jsx÷Object`; which `jsx÷Object` depends on where the code is being executed from.** [https://reedbarger.com/why-we-need-this-in-javascript-and-how-to-know-its-value/]
 
-When there is no `jsx÷Object` attached to where we are when we execute our code, `jsx÷this` defaults to ne the `jsx÷global` object, which, as it's name suggets, is an object visible to **everything** in our application. This `jsx÷global` object is where functions like `js÷setTimeout` are defined, and why we can use them in the top-level of our code. [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis] Footnote - having Window, global, globalThis is annoying
+When there is no `jsx÷Object` attached to where we are when we execute our code, `jsx÷this` defaults to be the `jsx÷global` object, which, as it's name suggets, is an object visible to **everything** in our application. This `jsx÷global` object is where functions like `jsx÷setTimeout` are defined, and why we can use them in the top-level of our code. [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis] Footnote - having Window, global, globalThis is annoying
 
 ```jsx
 setTimeout(() => console.log("hi"), 1000)
@@ -748,9 +783,13 @@ const obj = {
     inside: func
 };
 
-func() // Called from the global scope, therefore `this` = `global` object
+func() // Called from the global scope,
+       // therefore 'this' = 'global' object.
 
-obj.inside() // inside() is equivalent to calling func(), therefore `this` = {inside: [Function: func]} as we are executing directly from obj
+obj.inside() // 'inside' = 'func',
+// therefore 'inside()' = 'func()',
+// therefore 'this' = 'obj' = {inside: [Function: func]}
+//  as we are executing directly from obj.
 ```
 
 To further explain why this can give different values, let's assign each calling context a variable.
@@ -767,10 +806,17 @@ const obj = {
     inside: func
 };
 
-func(); // Called from `global` therefore `this.num` = `global.num` = 5;
-obj.inside() // Called from `obj` therefore `this.num` = `obj.num` = 10;
+func(); // Called from 'global',
+// therefore 'this' = 'global'
+// therefore 'this.num' = 'global.num' = 5.
+
+obj.inside() // Called from 'obj',
+// therefore 'this' = 'obj'
+// therefore `this.num` = 'obj.num' = 10.
 ```
-Notice how `jsx÷this.num` will log out a different value depending on where we called it from? Now, when we enter a new function we enter a **new** execution context, and `jsx÷this` gets set to the `jsx÷global` object by default. To illustrate this a little further, let's say we instead call `js÷func()` from inside a `js÷function` in `js÷obj`.
+Notice how `jsx÷this.num` will log out a different value depending on where we called it from?
+
+Now, when we enter a new function (rather, when the code is being executed and *it* enters a new function **during** runtime) we enter a **new** execution context, and `jsx÷this` gets set to the `jsx÷global` object by default, *usually*. To illustrate this a little further, let's say we instead call `jsx÷func()` from inside a `jsx÷function` in `jsx÷obj`.
 
 ```javascript
 function func(){
@@ -786,14 +832,16 @@ const obj = {
     } 
 };
 
-func(); // Called from `global` therefore `this.num` = `global.num` = 5;
+func(); // Called from `global`
+// therefore `this.num` = `global.num` = 5.
+
 obj.inside() // ???
 ```
-What happens when we call `js÷obj.inside()`? Well, when we enter a function we enter a new execution context (because `js÷funcions` are also `js÷Objects` in JavaScript), therefore we get a new `this`. A good rule of thumb :
+What happens when we call `jsx÷obj.inside()`? Well, when we enter a function we enter a new execution context (because `jsx÷funcions` are also `jsx÷Objects` in JavaScript), therefore we get a new `this`. A good rule of thumb :
 
 > **Look to the left of the `.` and you'll be right most of the time**.
 
-Let's walk through the logic in that manner: `js÷obj.inner().func()`. So in `obj`, `this` = `global`. In `inside()`, `this` = `obj`. In `func()`, `this` = `inside()` which is a function, therefore `this` = `global`. Therefore, we get `5` as our answer!
+Let's walk through the logic in that manner: `js÷obj.inner().func()`. So in `jsx÷obj`, `jsx÷this` = `jsx÷global`. In `jsx÷inside()`, `jsx÷this` = `jsx÷obj`. In `jsx÷func()`, `jsx÷this` = `jsx÷inside()` which is a function, therefore `jsx÷this` = `jsx÷global`. Therefore, we get `5` as our answer!
 
 ```javascript
 function func(){
@@ -809,17 +857,64 @@ const obj = {
     } 
 };
 
-func(); // Called from `global` therefore `this.num` = `global.num` = 5;
-obj.inside() // 5 
+func(); // Called from `global`
+// therefore `this.num` = `global.num` = 5.
+
+obj.inside() // Called 'func()' from within 'inside()'
+// therefore 'this' = 'inside', 'this' of a function is 
+// 'undefined' and so JavaScript defaults to 'global'
+// therefore 'this.num' = 'global.num' = 5.
 ```
 
-Looping back to our current issue, we are trying to do `js÷Counter.render().onClick().increment()`. By following our `.` rule, we can trace what might be happening with `this`. On `Counter`, `this` = `global`. in `render()`, `this` = `Counter` (what we want). In `onClick()`, `this` = `undefined` (`onClick` is technically not a method, so `this` doesn't default to `global` here). Therefore, when we call `this.increment()` within `onClick`, we are calling `increment()` with `this` = `undefined`. Therefore it's no suprise that this doesn't work as expected!
+The last piece of this puzzle, is that in JavaScript, `jsx÷class` methods are not `jsx÷bound` by default. [https://reactjs.org/docs/handling-events.html] Remember when I said that, in a new `jsx÷function`, JavaScript **defaults** to the `jsx÷global` object if there's nothing to the left of the `.`? Well, in JavaScript, **methods** (functions we attach to classes) do **not** bind `jsx÷this` automatically. What does this mean in practice?
+
+```javascript
+class Test {
+    logThis(){
+        console.log(this);
+    }
+};
+
+const example = new Test();
+
+example.logThis() // Left of the dot is 'example'
+// which is an instance of 'Test',
+// therefore 'this' = 'Test' = { logThis: [function Function] }
+
+const justTheFunction = example.logThis;
+
+justTheFunction() // left of the dot is nothing,
+// This is a reference to a class method
+// class methods do not bind 'this' to a default value
+// therefore 'this' does NOT default to 'global'
+// therefore 'this' = 'undefined'
+```
+
+If we attemt to execute a a function which is a **reference** to a class method, our `jsx÷this` is `jsx÷undefined`! [https://www.reddit.com/r/reactjs/comments/5g507t/methods_not_bound_to_es6_classes_why/]
+
+Looping back to our current issue, we are trying to assign a `jsx÷class` method called `jsx÷this.increment/this.decrement` to `jsx÷onClick`. This is the **same thing** we are doing above which gave us an `jsx÷undefined` `jsx÷this`!
+
+```jsx
+class Counter {
+    increment(){
+        console.log(this);
+    }
+};
+
+const counter = new Counter();
+
+counter.increment() // 'this' = 'counter' = 'class Counter'
+
+const onClick = counter.increment;
+
+onClick() // 'this' = 'undefined'
+```
 
  To fix this, we need to do **one of two things**:
 
 **1) Bind `this`.**
 
- This involves telling our class `Counter` that, whenever we call `increment`, we want to retain the current execution context (which, as we execute our constructor, is `Counter`):
+ This involves telling our class `jsx÷Counter` that, whenever we call `jsx÷increment`, we want to retain the current execution context (which, as we execute our constructor, is `jsx÷Counter`):
 
 ```jsx
  class Counter extends React.Component {
@@ -850,17 +945,76 @@ Looping back to our current issue, we are trying to do `js÷Counter.render().onC
 };
 
 ```
-Now that's a lot of `this` flying about, but remember `this` refers to whatever the context is of **when we are running the code**: upon reaching `this` in the constructor, our context is the `Counter`. The line
+Now that's a lot of `jsx÷this` flying about, but remember `jsx÷this` refers to whatever the context is of **when we are running the code**: upon reaching `jsx÷this` in the constructor, our context is the `jsx÷Counter`. The line
 
 ```javascript
 this.increment = this.increment.bind(this);
 ```
 
-will tell our Counter to always use the execution context of the `Counter` whenever we call `increment`, *regardless of where we call `this.increment()`*. But binding `this` is a strange behavior and difficult to grasp, and I'm sure I've said `this` enough times for it to lose its meaning by now. The amount of **bolding** and *italics* in those last couple paragraphs should make clear just how easy it is to get confused when talking about the `this` object in JS, and how hard it can be to explain. So, we can do option 2 instead:
+will tell our Counter to always use the execution context of the `jsx÷Counter` whenever we call `jsx÷increment`, *regardless of where we call `jsx÷this.increment()`*. But binding `jsx÷this` is a strange behavior and difficult to grasp, and I'm sure I've said `jsx÷this` enough times for it to lose its meaning by now. The amount of **bolding** and *italics* in those last couple paragraphs should make clear just how easy it is to get confused when talking about the `jsx÷this` object in JS, and how hard it can be to explain. So, we can do option 2 instead:
 
 **2) Use arrow functions**
 
-Remember I mentioned that arrow functions were slightly different to normal function declarations? The reason is because arrow functions **do not have a `this`**. Entering a normal function, we enter a new execution context and therefore have a new `this`. When entering an arrow function, however, as happens with any variable in javascript (see *lexical scoping*), when we call `this` in an arrow function JS will look within our function and check "do you define a variable called `this`?", and when it doesn't find one it goes up to the next outer function/object/block and checks "do YOU have a `this` variable?". This keeps going up the scope chain until a `this` is found. Therefore, we can instead say: 
+For most cases, arrow functions (`jsx÷() => {/* Do Stuff */}` rather than `jsx÷function(){/* Do Stuff */}`) behave the same as normal function declarations. To be clear, in most cases the following are equivalent:
+
+```javascript
+function sayName(){
+    console.log("Hi I'm Josh!");
+}
+
+const sayNameArrow = () => {
+    console.log("Hi I'm Josh!");
+}
+```
+
+ One important difference, however, is that arrow functions **do not have a `this`**. [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions] Entering a normal function, we enter a new execution context and therefore have a new `jsx÷this` (which will default to `jsx÷global` or be `jsx÷undefined` if it is a class method). However, when we use `jsx÷this` in an arrow function, JS will look within our function and check "do you define a variable called `jsx÷this`?", and when it doesn't find one it goes up to the next outer function/object/block and checks "do YOU have a `jsx÷this` variable?". This keeps going up the scope chain until a `jsx÷this` is found. This means that the `jsx÷this` in an arrow function is **inherited** from the block/function surrounding it.
+ 
+ ```javascript
+const obj = {
+    variousThis: function(){
+        
+        console.log(this); // Called 'obj.variousThis()'
+        // therefore 'this' = 'obj'
+
+        const logThis = function(){
+            console.log(this)
+        };
+
+        logThis(); // Called 'logThis()' from within a 
+        // function, therefore 'this' = 'global'
+
+        const logThisArrow = () => console.log(this);
+
+        logThisArrow(); // Arrow functions do not have
+        // a 'this', therefore will inherit it from their
+        // surrounding function, which is 'obj' (see above
+        // where we logged out what 'this' was in the
+        // surrounding scope)
+    }
+}; 
+
+obj.variousThis();
+ ```
+ 
+ To put this in the same terms as we used above, we are doing the following.
+
+```jsx
+class Counter {
+    increment(){
+        console.log(this);
+    }
+};
+
+const counter = new Counter();
+
+counter.increment() // 'this' = 'counter' = 'class Counter'
+
+const onClick = () => counter.increment();
+
+onClick() // 'this' = 'counter' = 'class Counter'
+```
+
+We instead assign `jsx÷onClick` to be an arrow function which will **call** the function we want, instead of assigning it to be a *reference* to the function we want. Notice when we call `jsx÷increment()` we have out `.` back, which will tell `jsx÷increment()` to run using `jsx÷counter` as its value for `jsx÷this`.
 
 ```jsx
  class Counter extends React.Component {
@@ -890,11 +1044,10 @@ Remember I mentioned that arrow functions were slightly different to normal func
 };
 
 ```
-Using our `.` rule for `Counter.render().onClick().increment()`: in `Counter`, `this` = `global`. In `render()`, `this` = `Counter`. `onClick` is an arrow function, and so doesn't redefine `this`, therefore `this` is the same as it was in `render`. Therefore, when we call `this.increment()` within `onClick`, it's like calling `this.increment()` from within `render()`, which we just showed was `Counter`!
 
-There we go, we've overcome the `this` hurdle of this Counter!
+There we go, we've overcome the `jsx÷this` hurdle of this `jsx÷Counter`!
 
-**BUUUUUUUT** there's one more issue. If you take this code and try and run it, nothing will happen upon clicking the buttons. Nada. Zip. Ziltch. Your IDE might even throw a big red line under your code and tell you *"Don't mutate state directly"*. This goes back to the whole point of why we needed to use a class in the first place: we want to keep track of a variable called `count` *and re-render our component while keeping this updated variable and display its new value*. Directly touching `this.state` will update the `count` variable, but it will **not** re-render the component. Luckily, the smart React guys solved this for us - on that `React.Component` class we extend from, they define a method called `setState` which we use to mutate the state of our `Counter`. The reason being is that `.setState()` will cause a re-render of our Counter **after** our state is updated! We access it with `this.setState()` and pass in the updates we want to make: 
+**BUUUUUUUT** there's one more issue. If you take this code and try and run it, nothing will happen upon clicking the buttons. Nada. Zip. Ziltch. Your IDE might even throw a big red line under your code and tell you *"Don't mutate state directly"*. This goes back to the whole point of why we needed to use a class in the first place: we want to keep track of a variable called `jsx÷count` *and re-render our component while keeping this updated variable and display its new value*. Directly touching `jsx÷this.state` will update the `jsx÷count` variable, but it will **not** re-render the component. Luckily, the smart React guys solved this for us - on that `jsx÷React.Component` class we extend from, they define a method called `jsx÷setState` which we use to mutate the state of our `Counter`. The reason being is that `jsx÷.setState()` will cause a re-render of our Counter **after** our state is updated! [https://reactjs.org/docs/state-and-lifecycle.html] We access it with `jsx÷this.setState()` and pass in the updates we want to make: 
 
 ```jsx
  class Counter extends React.Component {
@@ -923,9 +1076,9 @@ There we go, we've overcome the `this` hurdle of this Counter!
 };
 
 ```
-**NB** - we only have to specify the values in state we wish to change, if we had more properties in our `state` we do not have to mention them when updating the `state` of `count`.
+> **Note** - we only have to specify the values in state we wish to change. For instance, if `jsx÷this.state = {count: 0, likes: 10}` and we only wanted to update `jsx÷count`, we could run `jsx÷this.setState({count: 1})` which would cause our `jsx÷this.state` to be `jsx÷{count: 1, likes: 10}`. We can also update more than one piece of state in the same `jsx÷this.setState` call (e.g `jsx÷this.setState({count: 10, likes: 0})` would cause `jsx÷this.state` to be `jsx÷{count: 10, likes: 0}`).
 
-Finally, the above will work (although those buttons might be a bit small, let's add some text to them):
+Finally, the above will work (although those buttons might be a bit small, let's add some text to them so people know on the webpage what the buttons do):
 
 ```jsx
  class Counter extends React.Component {
@@ -992,6 +1145,8 @@ ReactDOM.render(
 );
 
 ```
+
+![Figure 6 - The end result of the Counter app which uses state to keep track of the current "count"](./count-vid.gif)
 
 ## Summary
 We covered a lot of really heavy stuff, so I implore you to look for other resources and explanations. We covered the difference between class and functional components, how react works under the hood, the structure of a react app in CRA, props, and state.

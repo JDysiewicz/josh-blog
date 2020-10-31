@@ -60,6 +60,25 @@ const ArticleLayout = styled.div`
             border-radius: 10px;
 
         }
+
+        /* centers gifs in mdx */
+        & img:not(.gatsby-resp-image-image){
+            display: block;
+            margin: 0 auto;
+
+            /* Expand to fill screen width */
+            @media screen and (max-width: 600px){
+                width: 100vw;
+                margin-left: calc(-50vw + 50%);
+            }
+        }
+
+        & .gatsby-highlight {
+            @media screen and (max-width: 600px){
+                width: 100vw;
+                margin-left: calc(-50vw + 50%);
+            }
+        }
     }
 
     

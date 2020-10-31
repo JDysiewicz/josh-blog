@@ -32,6 +32,12 @@ module.exports = {
               quality: 90,
               showCaptions: ["title", "alt"]
             },
+          },
+          {
+            resolve: `gatsby-remark-copy-linked-files`,
+            options : {
+              ignoreFileExtensions: [`png`, `jpg`, `jpeg`]
+            }
           }
         ],
       },
