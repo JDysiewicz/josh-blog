@@ -8,7 +8,7 @@ import Navbar from "../Navbar";
 // deckDeckGoHighlightElement();
 
 const ArticleLayout = styled.div`
-    
+
     & .post-title {
         font-family: "Merriweather", sans-serif;
         color: #00B39E;
@@ -104,6 +104,8 @@ const ArticleLayout = styled.div`
             margin-bottom: 20px;
         }
     }
+
+
 
     
 
