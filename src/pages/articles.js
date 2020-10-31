@@ -10,7 +10,6 @@ export default () => {
   return (
     <LightGlobal>
       <Navbar title="Articles" />
-      <p>Here you'll find a list of the articles I've written. They're mainly focussed on JavaScript and React.</p>
       <ArticleList />
     </LightGlobal>
   );

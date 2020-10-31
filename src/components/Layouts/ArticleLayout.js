@@ -47,11 +47,19 @@ const ArticleLayout = styled.div`
         & .gatsby-resp-image-background-image {
             background-color: #EFEEEF;
             border-radius: 10px;
+
         }
 
-        & img.gatsby-resp-image-image {
+        & .gatsby-resp-image-image {
             background-color: #EFEEEF;
             border-radius: 10px;
+
+        }
+
+        & .gatsby-resp-image-link {
+            background-color: #EFEEEF;
+            border-radius: 10px;
+
         }
 
         & blockquote{
@@ -78,6 +86,11 @@ const ArticleLayout = styled.div`
             @media screen and (max-width: 600px){
                 width: 100vw;
                 margin-left: calc(-51vw + 50%);
+                border-radius: 0px;
+
+                & pre[class*="language-"] {
+                    border-radius: 0px;
+                }
             }
         }
 
@@ -86,7 +99,13 @@ const ArticleLayout = styled.div`
         color: #28B3DC;
         word-wrap: break-word;
         }
-     }
+
+        & ol li:not(:last-child) {
+            margin-bottom: 20px;
+        }
+    }
+
+
 
     
 
@@ -98,6 +117,7 @@ const ArticleLayout = styled.div`
     & p code[class*="language-"]{
         border: none;
         overflow-wrap: break-word;
+        
     }
 
 
