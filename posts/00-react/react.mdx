@@ -10,27 +10,32 @@ spoiler: "An overview of how react works internally, and how to use it to build 
 import { Link } from "gatsby";
 
 ## What is React?
-While we can build websites with vanilla JavaScript (no additional packages installed), there are certain things which make this either difficult or tedious. There are common features to websites which others have already implemented, so why would we spend time creating our own features from scratch every time? You may want an image carousel on your website, however you don't have to spent time working out how to make the internals of it work because <a href="https://www.npmjs.com/package/react-slick">someone else already has</a>. Therefore, we can build upon the work of others to create something we otherwise could not.
+While we can build websites with vanilla JavaScript (no additional packages installed), there are certain things which make this either difficult or tedious [https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445]. There are common features to websites which others have already implemented, so why would we spend time creating our own features from scratch every time? You may want an image carousel on your website, however you don't have to spent time working out how to make the internals of it work because <a href="https://www.npmjs.com/package/react-slick">someone else already has</a>. Therefore, we can build upon the work of others to create something we otherwise could not.
 
-> *Image here*
+![Figure 1 - Various application frameworks (Angular, React, Vue) [https://medium.com/@chsvk/vue-vs-angular-vs-react-in-2019-answered-4ec8dc96e602]](./frameworks.jpg)
 
-**Application frameworks** are a natural extension of this; they not only provide functionality we may need for our web app, however they also make things such as deployment, organisation, and optimisation far easier. Many of these application frameworks exist, each with their own strengths, however one of the most common is the JavaScript framework, **React**.
+**Application frameworks** are a natural extension of this; they create abstractions on top of software to make desired functionality easier to implement, and give us a certain set of criteria to build our app around so we don't have to think of a good way to structure things (this is called the *inversion of control*, for the curious...) [https://en.wikipedia.org/wiki/Software_framework]. Many of these application frameworks exist, each with their own strengths, however one of the most common is the JavaScript framework, **React**. [https://www.npmtrends.com/react-vs-vue-vs-@angular/core]
 
 ## How Does React Work?
 
 React will single-handedly deal with everything on the **frontend** of our website (the structure of the webpage, the styling, and the functionality). It is comprised of two parts: 
 
-> 1) Functionality to create modular pieces of reuseable code, called **components**.
+1. Functionality to create modular pieces of reuseable code, called **components** (*The application part*).
+2. Functionality to help us insert our code into the webpage (*The virtual DOM part*).
 
-> 2) Functionality to help us insert our code into the webpage.
-
-We install these two parts by importing two packages using `bash>npm` (node package manager).
+We install these two parts by importing two packages using `bash÷npm` (**n**ode **p**ackage **m**anager).
 
 ```bash
 npm install react react-dom
 ```
 
-The `react-dom` import deals with the creation of a **virtual** DOM which will lay over the **actual** DOM of our webpage. In essence, this allows us to actually render our code onto a webpage for people to see (number 2 above).
+### The Virtual DOM Part
+
+The `react-dom` import deals with the creation of a **virtual** DOM. This can be through of as a second layer that sits on top of the **real** DOM on our webpage, almost mirroring it. **Pretty much all the code we write in React will only interact with this virtual DOM**. When we want to actually show the code we have written to a user on our webpage, we have to copy all the changes we made to the virtual DOM into the real DOM. However, we don't have to do this ourselvesas React runs an algorithm to figure out the most efficient way to do this. Updating the virtual DOM is lightning fast, however updating the real DOM is comparitvely like moving through a tarpit; this is why it is more efficient and overall faster to let React handle this updating for us (again for the curious, this process is called <a href="https://reactjs.org/docs/faq-internals.html">*Reconciliation*</a>). [https://twitter.com/Mappletons/status/1103717355392286721/photo/1 , https://reactjs.org/docs/faq-internals.html]. 
+
+![Figure 3 - A visualisation of React's virtual DOM by Maggie Appleton [https://reactjs.org/docs/faq-internals.html]](./reactdom-maggie-appleton.png)
+
+We can begin to use this by using the `js÷ReactDOM` library.
 
 ```jsx
 import ReactDOM from "react-dom";
@@ -41,9 +46,11 @@ ReactDOM.render(
 );
 ```
 
-Above, we `js>import` the `js>ReactDOM` library, and then use its associated `js>render()` method to place the `jsx><h1></h1>` inside the body of our HTML. This allows us to effectively write all our HTML inside our JavaScript file.
+Above, we `js÷import` the `js÷ReactDOM` library, and then use its associated `js÷render()` method to place the `jsx÷<h1></h1>` tag inside the body of our HTML document (in which we would add this JavaScript as a `html÷<script>` tag for instance). This allows us to effectively write almost all our HTML inside our JavaScript file - the stuff we tell `js÷ReactDOM` to `js÷render()` is what we place into the virtual DOM, then React handles the process of updating the actual DOM for us.
 
-However, the true power of JavaScript lies in the `bash>react` import. This is the part of React which deals with point 1 above; it allows us to package up our HTML into **components**.
+### The Application Part
+
+However, the true power (for us, anyway) of React lies in the `bash÷react` import. This is the part of React which deals with point 1 above; it allows us to package up our HTML into **components** - self-contained snippets of JavaScript and HTML. [https://en.wikipedia.org/wiki/React_(web_framework)#Components]
 
 ```jsx
 import React from "react";
@@ -61,7 +68,7 @@ ReactDOM.render(
 )
 ```
 
-This is functionally equivalent to what we had before, however now we are telling our webpage to display our *custom* HTML element (our component) that we called `js>App`, which will `js>return` the original HTML we had. This is an extremely powerful technique, as it allows us to segment our code into smaller chunks and simply `js>import` in whatever components we need. As an example, the below is also functionaly equivalent to the two examples above, except we are starting to break the code down into separate files.
+This is functionally equivalent to what we had before, however now we are telling our webpage to display our *custom* HTML element, `jsx÷<App />` (our *component*), which will `js÷return` the original HTML we had. This is an extremely powerful technique, as it allows us to segment our code into smaller chunks and simply `js÷import` in whatever components we need, when we need them. This concept is known as *modularisation*; splitting up something large into smaller, reusable chunks. [https://learn.co/lessons/react-modular-code] We can take this one step further, and actually begin to separate our code entirely into different files, `App.js` and `index.js`, and just `js÷import` our `jsx÷<App />` from `App.js`.
 
 
 ```jsx
@@ -76,6 +83,7 @@ const App = () => {
 
 export default App;
 
+
 // in index.js
 import React from "react"
 import ReactDOM from "react-dom";
@@ -88,15 +96,34 @@ ReactDOM.render(
 )
 ```
 
-Therefore, almost all React projects will have a similar structure: an `index.js` file in which we import `react` and `react-dom`, and an `App.js` file which defines the HTML/functionality we want in our webpage.
+Therefore, we could begin to think of structuring our project by having **each component in a separate .js file**, importing the components we need in each file, and rendering them all in `index.js`.
+
+![Figure 4 - A possible file structure for React projects](./file-structure.png)
+
+> **NOTE** - These are merely guidelines! Dan Abramov, a prominent React contributor often seen as an authority on the subject, wrote up a "guide" on how to structure react projects: it only contains the words: <a href="https://react-file-structure.surge.sh/">*"move files around until it feels right"*</a>. If your structure makes sense to you and your peers, then it's correct. [https://mobile.twitter.com/dan_abramov/status/1027248875072114689]
 
 ## What's Going On Internally?
 
-Now there's a lot to unpack in this small example, but this is in essence how React works - remember, you're still writing **JavaScript** at the end of the day. Our browsers don't know what `js>ReactDOM.render()` does, and so when we write this it is actually converted into plain old vanilla javascript that our browsers *can* understand.
+Now there's a lot to unpack in this small example, but this is in essence how React works - remember, you're still writing **JavaScript** at the end of the day. Our browsers don't know what `js÷ReactDOM.render()` does, and so when we write this it is actually converted into plain old JavaScript that our browsers *can* understand.
 
-Take for instance our `App.js` file above - this must actually be converted into an alternative form before our browsers understand what we're trying to do. The following is *actually* what our browsers would see.
+Take for instance our `App.js` file we've mentioned a couple times:
 
-```js
+```jsx
+// in App.js
+import React from "react";
+
+const App = () => {
+    return (
+        <h1>You can see me on the webpage!</h1>
+    )
+};
+
+export default App;
+```
+
+Before being execute by our browsers, this must actually be converted into an alternative form before they understand what we're trying to do. The converted form that our browser will execute will look something like the following:
+
+```jsx
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -124,7 +151,7 @@ exports.default = _default;
 
 Removing some of the fluff that we aren't interested in, we are left with: 
 
-```js
+```jsx
 const App = () => {
   return (
       /*#__PURE__*/_react.default.createElement(
@@ -137,7 +164,7 @@ var _default = App;
 exports.default = _default;
 ```
 
-While looking different from what we wrote in `App.js`, we can still understand what this might be doing! It seems that our component, `js>App`, has been converted into a call to `js>_react.default.createElement()` with the parameters `js>"h1", null, "You can see me on the webpage!"`. From this, we can probably guess that this function will create a `h1` element, and add the text "" The `createElement()` function is defined in that `js>"You can see me on the webpage!"` into it.
+While looking different from what we wrote in `App.js`, we can still understand what this might be doing! It seems that our component, `jsx÷<App />`, has been converted into a call to `jsx÷_react.default.createElement()` with the parameters `js÷"h1", null, "You can see me on the webpage!"`. From this, we can probably guess that this function will create a `html÷<h1>` element, and add the text `jsx÷"You can see me on the webpage!"`.
 
 While this example may seem simple, you can imagine this gets out of hand fast:
 
@@ -166,9 +193,9 @@ const App = () => {
 
 export default App;
 ```
-Adding in another component and adding in the variable `js>name` leads to the following *monstrosity*:
+Adding in another component, `jsx÷<AnotherComponent />` and adding in the variable `js÷name` leads to the following *monstrosity*:
 
-```javascript
+```jsx
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -195,7 +222,7 @@ exports.default = _default;
 
 or, more "simply":
 
-```javascript
+```jsx
 const AnotherComponent = () => {
   const name = "Josh";
   return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("span", null, "Hello, ", name));
@@ -209,10 +236,10 @@ var _default = App;
 exports.default = _default;
 ```
 
-Notice how we end up with multiple nested calls to `js>_react.createElement()`? This would be horrible to write and debug, and is not very clear in what the end result will actually *look* like. 
+Notice how we end up with multiple nested calls to `jsx÷_react.createElement()`? This would be horrible to write and debug, and is not very clear in what the end result will actually *look* like. 
 
 ## JSX
-It's no suprise, therefore, that when we write JavaScript code in the React framework, we *don't* use the `js>_react.default.createElement()` function. Instead, we use that **alternate syntax** we used before.
+It's no suprise, therefore, that when we write code in our React project, we *don't* use the `jsx÷_react.default.createElement()` function. Instead, we use that **alternate syntax** we used before - syntax I have hitherto **incorrectly** been calling "HTML".
 
 ```jsx
 const App = () => {
@@ -224,7 +251,7 @@ const App = () => {
 };
 ```
 
-This syntax looks almost *exactly* like HTML - however, it is actually **JSX** (meaning, **J**ava**S**cript **X**ML). Functionally it behaves the same as HTML in most cases, however, as eluded to before, we can write JavaScript code *inside* JSX using the `{ }` syntax.
+This syntax looks almost *exactly* like HTML - however, it is actually **JSX** (meaning, **J**ava**S**cript **X**ML). Functionally it behaves the same as HTML in most cases, however, as eluded to before, we can write JavaScript code *inside* JSX using the `{ }` syntax. [https://reactjs.org/docs/introducing-jsx.html]
 
 ```jsx
 const App = () => {
@@ -237,12 +264,14 @@ const App = () => {
 };
 ```
 
-We don't worry about converting JSX into a language that browsers understand (remeber those `js>_react.default.createElement()` calls?), as we use a library called <a href="https://babeljs.io/repl">*Babel*</a> to do this for us.
+We don't worry about converting JSX into a language that browsers understand (remeber those `js÷_react.default.createElement()` calls?), as we use a library called <a href="https://babeljs.io/repl">*Babel*</a> to do this for us (once again for the curious, this process of converting code is called *transpiling*). This is what I used to create those ugly functions above - give it a shot! Take some of the JSX examples shown here or online, and convert them into non-JSX form to see how much easier Babel and React are making it for us![https://babeljs.io/repl]
 
-## Create React App
+![Figure 5 - Babel's online code editor with JSX (left) and transpiled code (right).](./babel.png)
+
+## Making a React Application with Create React App
 > So we need `react`, `react-dom`, and `babel`. Then we probably need `webpack` too. And a server to run it on so `webpack-dev-server`... This is starting to get out of hand...
 
-**Cue `create-react-app`!** **C**reate-**R**eact-**A**pp (CRA) does all the heavy lifting for us when it comes to creating react projects. It installs all the dependencies we'll need for us, it starts up a server to host our react app (usually on port 3000), creates a bunch of starter files, and populates our `package.json` with various **scripts**, such as `start` which will open up our react project so we can actually see what we've done!
+**Cue `create-react-app`!** **C**reate-**R**eact-**A**pp (CRA) does all the heavy lifting for us when it comes to creating React projects. It installs all the dependencies we'll need for us, it starts up a server to host our React app, creates a bunch of starter files, and populates our `package.json` with various **scripts**, such as `start` which will open up our react project so we can actually see what we've done! [https://create-react-app.dev/docs/getting-started/]
 
 To get started with this, we have to install and run `create-react-app` - to do this in one step we can run 
 
@@ -250,15 +279,11 @@ To get started with this, we have to install and run `create-react-app` - to do 
 npx create-react-app name-of-project
 ```
 
-where `npx` means "install with **np**m and then e**x**ecute". Now, this will take 3/4 minutes to finish running because there is just so many dependancies and things to set up. Luckily, we don't have to do any of this! A simple `Hello, world!` like that above is about **185Mb** in size. The majority of that is taken up by the `node_modules` folder, which is where all the dependencies such as `babel` are stored.
+where `npx` means "install with **np**m and then e**x**ecute". Now, this will take 3/4 minutes to finish running because there is just so many dependancies and things to set up. Luckily, we don't have to do any of this! A simple `Hello, world!` -type application is about **185Mb** in size. The majority of that is taken up by the `node_modules` folder, which is where all the dependencies such as `babel` and `react-dom` are stored.
 
+![Figure 6 - Folder formed after running create-react-app](./cra.png)
 
-## Actually Making a React App!
-After running create-react-app, you'll probably have a folder like that below.
-
- > cra.jpg
-
-We don't have to worry about most of this, however it should be noted that we will place the majority of our files (those defining components, for instance) inside the `src` folder. There is also a `public` folder, in which is kept our `index.html`. Inspecting this `index.html` will reveal an extremely short file, consisting mainly of overhead with a single interesting line:
+We don't have to worry about most of this, however it should be noted that we will place the majority of our files inside the `src` folder. There is also a `public` folder, in which is kept our `index.html`. Inspecting this `index.html` will reveal an extremely short file, consisting mainly of overhead with a single interesting line:
 
 ```html
 <div id="root"></div>
@@ -280,14 +305,15 @@ ReactDOM.render(
 );
 ```
 
-What this `ReactDOM.render` function is doing is taking everything defined in `App`, and shoving it into that `<div>` called `js>"root"`. We could think of this as simply:
+What this `jsx÷ReactDOM.render()` function is doing is taking everything defined in `App`, and shoving it into that `<div>` with an id of `jsx÷"root"`. [https://reactjs.org/docs/rendering-elements.html] We could think of this as simply:
 
 ```html
 <div id="root">
     <!-- Everything in App gets put in here -->
 </div>
 ```
-Therefore, lets take the example `App.js` from above, which returns a single line of JSX:
+
+Therefore, let's create an `App.js` file which will return a `jsx÷<div>` containing the text `jsx÷"Hello, world!`.
 
 **App.js**
 ```jsx
@@ -301,6 +327,7 @@ const App = () => {
 
 export default App;
 ```
+
 React will render this inside our `index.html`, such that the end result will be:
 
 ```html
@@ -313,16 +340,16 @@ React will render this inside our `index.html`, such that the end result will be
 
 That is all React is doing. It looks like magic, and the inner workings of it certainly are, but in reality the concept is relatively simple:
 
-> Write all your HTML (note: **JSX**) inside javascript files, and render them all within a single div in index.html.
+> **Write all your HTML (note: *JSX* ) inside JavaScript files, and render them all within a single `jsx÷<div>` in `index.html`.**
 
-Now, when we have many components all nested within each other, `props` flying around, `state` to worry about, and various other libraries inserting and deleting things (`react-router, redux, axios...`) this can get extremely complicated, but at the end of the day this is all React does.
+Now, when we have many components all nested within each other, `props` flying around, `state` to worry about, and various other libraries inserting and deleting things (`react-router`, `redux`, `axios`...) this can get extremely complicated, but at the end of the day this is at the core of how React works.
 
-## Components
-Components form the building blocks with which we make React applications. Think of them as individual contained entities which house some HTML to be displayed and JS code to be executed. For instance, `js>App` above is a component; it is a `js>class` or `js>function` which returns some JSX to be rendered. As just hinted at, components come in **two** flavours: *Functional Components* and *Class Components*.
+## Components Revisited
+Components form the building blocks with which we make React applications. Think of them as the bricks you use to make a house. For instance, `jsx÷<App />` above is a component. Components come in **two** flavours: *Class Components* and *Function Components*.
 
 ### Class Components
 
-We shall start with **Class components**, however note there has been a shift towards **functional** components in recent years for reasons that we will discuss later. A class component, as you'd think, is defined as a `js>class` in javascript (we shall leave discussions of why classes don't really exist in JS for another day).
+We shall start with **Class components**, however note there has been a shift towards **function** components in recent years for reasons that we will discuss later. A class component, as you'd think, is defined as a `js÷class` in JavaScript (we shall leave discussions of why these technically *aren't* classes for another day!). [https://www.twilio.com/blog/react-choose-functional-components]
 
 ```jsx
 import React from "react";
@@ -336,11 +363,11 @@ class App extends React.Component {
 export default App;
 ```
 
-We state that `js>App` shall be a class with the `js>class App` line, and then say that it will `js>extend` another class defined in the `React` library called `js>Component`. This means that our class, `App`, will have access to all the methods and properties the smart guys at Facebook placed into the `js>React.Component` class. It has a `js>render()` method (the inner workings of which is defined in `js>React.Component`), from which we `js>return` the JSX we want to display to the user. This `js>render()` method will be called whenever a component is told to **render** to the webpage - a topic we shall cover another day.
+We state that `js÷App` shall be a class with the `jsx÷class App` line, and then say that it will `jsx÷extend` another class defined in the `jsx÷React` library called `jsx÷Component`. This means that our class, `jsx÷App`, will have access to all the methods and properties the smart guys at Facebook placed into the `jsx÷React.Component` class. It has a `js÷render()` method (the inner workings of which is defined in `jsx÷React.Component`), from which we `js÷return` the JSX we want to display to the user. This `js÷render()` method will be called whenever a component is told to **render** to the webpage - a topic we shall cover shortly.
 
 We can assign other methods or properties to our class too - though we don't need to use a **declaration** to do so (no need to say `let`, `const` or `var` when defining a new method or property).
 
-```jsx
+```jsx{}
 import React from "react";
 
 class App extends React.Component {
@@ -364,12 +391,17 @@ export default App;
 </div>
 ```
 
-However, if you try to run this you might be faced with an error. This is one of the quirks of class components which has caused a shift towards functional components. When we create an instance of our class component, as we do when we call it in our `ReactDOM.render()` call, we are creating an `Object`. As such, when we attach properties/methods to it, such as `name` above, we never *declare* them to JS. For example, when we say 
+**However**, if you try to run this you might be faced with an error. When we create an instance of our class component, we are creating an `Object`. As such, when we attach properties/methods to it, such as `name` above, we never *declare* them to JS. For example, when we say :
 
 ```javascript
 const name = "Josh"
 ```
-in our JS code, we are saying "Hey JS, please set aside some space in memory, label it 'name' and store inside it the value 'Josh'". If we tried to do the same thing on an `js>Object`:
+in our JS code, we are saying "Hey JS, please set aside some space in memory, label it 'name' and store inside it the value `js÷"Josh"`".
+
+![Figure 6 - A crude representation of the global memory in JavaScript, and a sectioned off area which stores the string, "Josh".](./global.png)
+
+
+If we tried to do the same thing on an `js÷Object`:
 
 ```javascript
 const obj = {
@@ -381,7 +413,9 @@ const obj = {
 
 obj.sayName();
 ```
-we are saying "Hey JS, set aside some space in memory, call it 'obj' and place into it a section called 'name' which stores 'Josh'. Also place into it a function which will log out a variable called 'name'. Oh, what's name? Just go into memory and.... oh". We never store `js>name` in memory, we just assign it to be attached to `js>obj`. Without delving too deep into how classes and the `js>class` keyword function in JavaScript, let's just say this: when we want to access properties associated with a `js>class` we prefix the property with a value called `this`.
+we are saying "Hey JS, set aside some space in memory, call it `obj` and place into it a section called 'name' which stores `js÷"Josh"`. Also place into it a function which will log out a variable called 'name'. Oh, what's name? Just go into memory and.... oh". We never store `js÷name` in global memory, only within `jsx÷obj`. We haven't yet finished setting aside that memory yet, so we can't access it! Without delving too deep into how classes and the `js÷class` keyword function in JavaScript, let's just say this: 
+
+> **When we want to access properties associated with a `js÷class` we prefix the property with a value called `js÷this`**. [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this]
 
 ```jsx
 import React from "react";
@@ -396,7 +430,7 @@ class App extends React.Component {
 
 export default App;
 ```
-*This* (Pun intended) is the correct code that will output
+*This* (Pun intended) is the correct code that will output:
 
 ```html
 <div>
@@ -404,7 +438,7 @@ export default App;
 </div>
 ```
 
-Similarly, we would need to reference `this` when calling a method defined in our class component:
+Similarly, we would need to reference `js÷this` when calling a method defined in our class component, because classes in JavaScript are actually `js÷Objects` under the hood. [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes]
 
 ```jsx
 import React from "react";
@@ -427,11 +461,11 @@ class App extends React.Component {
 export default App;
 ```
 
-Here, we define a `js>printAge()` method on the class `js>App` which will print `js>this.age`, and we call it within our `js>render()` method. 
+Here, we define a `js÷printAge()` method on the class `js÷App` which will print `js÷this.age`, and we call it within our `js÷render()` method. 
 
 ### Function Components
 
-**Function** components avoid the usage of `this`, and are instead treated as, well, functions: we can define functions within them, define variables within them, and call them all without having to worry about `this` as we are actually declaring variables. Here is a functional component version of the above `App` which will behave in the exact same way.
+**Function** components avoid the usage of `js÷this`, and are instead treated as... well, **functions**: we can define functions within them, define variables within them, and call them all without having to worry about `this` as we are actually declaring variables. Here is a function component version of the above `js÷App` which will behave in the same way.
 
 ```jsx
 import React from "react";
@@ -452,13 +486,19 @@ const App = () => {
 export default App;
 ```
 
-Notice a few differences: firstly, we do not extend `js>React.Component` as we have no need to access the `js>render()` method - we simply return from the function what we want to render. Secondly, we define it as an arrow function instead of a class (hence the name *function component*). Thirdly, we define properties and methods as we would in normal JavaScript - with a declarative statement `js>let`, `js>const` or `js>var`. Fourthly, we call `printAge()` within the function body itself - this is because the entire function is run again when the component is called to re-render itself (more on this later), as compared to the `js>class` component where only code written in the `js>render()` method would be run after initialization. Lastly, and perhaps most importantly, no faffing about with `this` (can you tell im biased?).
+Notice a few differences:
+
+1. We do not extend `js÷React.Component` as we have no need to access the `js÷render()` method - we simply return from the function what we want to render. 
+2. We define it as a function instead of a class (hence the name *function component*).
+3. We define properties and methods as we would in normal JavaScript - with a declarative statement `js÷let`, `js÷const` or `js÷var`.
+4. We call `printAge()` within the function body itself - this is because the entire function is run again when the component is called to re-render itself (more on this later), as compared to the `js÷class` component where only code written in the `js÷render()` method would be run after initialization.
+5. Lastly, and perhaps most importantly, **no faffing about with `js÷this`** *(can you tell im biased?)*.
 
 ### Rendering a Component
-A quick aside - I've mentioned *render* quite a few times so far. Rendering is when we convert the JSX we return from our components into HTML to be placed into the webpage. This means that our JS will be run, and the resulting JSX will be displayed to the screen by being put into that `<div id="root">` mentioned previously. React decides when to *re-render* a component, usually when a user visits a page which we specify needs to display a certain bit of JSX, or when our **state/props** updates - more on this... Now!
+A quick aside - I've mentioned *render* quite a few times so far. Rendering is when we convert the JSX we return from our components into HTML to be placed into the webpage. Remember that stuff about a **virtual DOM**? Well *rendering* is the process of updating nodes in the real DOM to match that of the virtual DOM. This means that our JS will be run, and the resulting JSX will be displayed to the screen by being put into that `jsx÷<div id="root">` mentioned previously. React decides when to *re-render* a component, usually when a user visits a page which we specify needs to display a certain bit of JSX, or when our **state/props** updates - more on this... Now!
 
-## Props
-Now, as vain as I am, it would be nice if people could write their *own* name and age within our component. This is simplified for us (once again) by React, as React will automatically pass an object called `props` to our components. For instance, in our `index.js` where we call our `js>App` component, we can pass down a variable by using that JSX syntax again:
+## Props - READ FROM HERE MOST DONE BUT DOUBLE CHECK
+Now, as vain as I am, it would be nice if people could write their *own* name and age within our component. This is simplified for us (once again) by React, as React will automatically pass an object called `jsx÷props` to our components. For instance, in our `index.js` where we call our `jsx÷ <App />` component, we can pass down a variable by using that JSX syntax again:
 
 **index.js**
 ```jsx
@@ -473,7 +513,7 @@ ReactDOM.render(
 );
 ```
 
-This will attach the `js>userName` and `js>age` properties to the `js>props` object that React passes down whenever we call a component. We access this within `App` by passing the the `props` component into our function declaration.
+This will attach the `js÷userName` and `js÷age` properties to the `js÷props` object that React passes down whenever we call a component. We access this within `App` by passing the the `props` component into our function declaration.
 
 **App.js**
 ```jsx
@@ -493,7 +533,7 @@ const App = (props) => { // props = { userName: "Emily", age: 19
 export default App;
 ```
 
-This allows us to access all the properties placed onto props when `js>App` is called. We could even add another object to this, for instance:
+This allows us to access all the properties placed onto props when `js÷App` is called. We could even add another object to this, for instance:
 
 **index.js**
 ```jsx
@@ -527,9 +567,9 @@ const App = (props) => { // props = { person : { name: Emily, age: 19 } }
 export default App;
 ```
 
-Notice the `{ {} }` syntax when passing an object into JSX (`jsx> person= { {name, age} }`) - one set of curly braces for declaring a JS expression, a second set to declare the object.
+Notice the `{ {} }` syntax when passing an object into JSX (`jsx÷ person= { {name, age} }`) - one set of curly braces for declaring a JS expression, a second set to declare the object.
 
-Class components treat things differently - we do not have a function declaration to access the `props` object, but luckily React passes this to our class for us, and so we can immediately access it using the `js>this.props` syntax, however everything else remains the same as it was in with functional components - the only difference is *how* we access the props object.
+Class components treat things differently - we do not have a function declaration to access the `props` object, but luckily React passes this to our class for us, and so we can immediately access it using the `js÷this.props` syntax, however everything else remains the same as it was in with functional components - the only difference is *how* we access the props object.
 
 **index.js**
 ```jsx
@@ -563,7 +603,7 @@ class App extends React.Component {
 export default App;
 ```
 
-## State and a Counter App
+## State
 State is why class components were needed for so long, and why functional components were second choice for most of React's lifetime. Now we have **Hooks** which eliminates this somewhat, however let's start from the beginning.
 
 We can pass some information down into a component via `props`. Wouldn't it be great if we had some way of continually feeding information to a component, *from* the component itself? What if we could keep track of some changing variable **on** the component itself? An example might be a simple counter.
@@ -583,7 +623,7 @@ const Counter = () => {
 };
 
 ```
-Okay this looks good, so after we click we then need to re-run our function to display the new `js>count`-- oh wait!
+Okay this looks good, so after we click we then need to re-run our function to display the new `js÷count`-- oh wait!
 
 ```javascript
 let count = 0; // This line would reset our count again upon re-rendering
@@ -591,7 +631,7 @@ let count = 0; // This line would reset our count again upon re-rendering
 
 We are then left in a stalemate - either we re-render our component to display the new count, promptly resetting it to `0`, or we do not re-render our component. `count` would increase, however our component would **NOT** re-render and display the new `count`. To get around this tricky scenario, we need to introduce a new concept in React called **state**.
 
-The way we add this in to a `js>class` component is a bit convoluted, so we'll go through it slowly.
+The way we add this in to a `js÷class` component is a bit convoluted, so we'll go through it slowly.
 
 ```jsx
 import React from "react";
@@ -626,7 +666,7 @@ class Counter extends React.Component {
 export default Counter;
 ```
 
-`super` is a built-in function to JavaScript which will allow us to access all the properties and methods on the **parent class** of `js>Counter` (which would be `js>React.Component`). Without this call to `js>super(props)`, we would lose access to `js>render()` and other methods defined therein. Now we finally get on to adding `state`:
+`super` is a built-in function to JavaScript which will allow us to access all the properties and methods on the **parent class** of `js÷Counter` (which would be `js÷React.Component`). Without this call to `js÷super(props)`, we would lose access to `js÷render()` and other methods defined therein. Now we finally get on to adding `state`:
 
 ```jsx
 import React from "react";
@@ -644,9 +684,11 @@ class Counter extends React.Component {
 
 export default Counter;
 ```
-We assign `js>this.state` to an object, wherein we can begin to define the things we want to keep track of within our component.
+We assign `js÷this.state` to an object, wherein we can begin to define the things we want to keep track of within our component.
 
-Great! Now we have access to `state` on our component, and can begin to work on the `js>increment()/decrement()` functionality. We use the *event handler* called `jsx>onClick={}`, which is an attribute we can attach to a JSX button; it literally means "when someone clicks on this, execute whatever is in the brackets. So, simple right?
+### The Unavoidable 'This'
+
+Great! Now we have access to `state` on our component, and can begin to work on the `js÷increment()/decrement()` functionality. We use the *event handler* called `jsx÷onClick={}`, which is an attribute we can attach to a JSX button; it literally means "when someone clicks on this, execute whatever is in the brackets. So, simple right?
 
 ```jsx
 import React from "react";
@@ -679,7 +721,23 @@ App.render().increment()
 ```
 **NB** - we pass a *reference* to `increment`/`decrement` instead of calling the function, this is because we want `onClick` to be synonymous with `this.increment()`. Passing `this.increment()` would assign `onClick=` to be the **return** result of `increment`, which is **nothing**.
 
-Well here's where things get a little more finicky. Remember `this`? `this` refers to the current **execution context**. When we enter a function, we create a **new** execution context, and so our `this` refers to the execution context *in which the function was called*. When `this` is undefined, such as when we enter a function, `this` defaults to the `global` object. For instance:
+Well here's where things get a little more finicky. Remember `this`? `this` refers to the current **execution context**. When we enter a function, we create a **new** execution context, and so our `this` refers to the execution context *in which the function was called*. [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this] A simple way to think of `this`:
+
+> **`jsx÷this` refers to *some* `jsx÷Object`; which `jsx÷Object` depends on where the code is being executed from.** [https://reedbarger.com/why-we-need-this-in-javascript-and-how-to-know-its-value/]
+
+When there is no `jsx÷Object` attached to where we are when we execute our code, `jsx÷this` defaults to ne the `jsx÷global` object, which, as it's name suggets, is an object visible to **everything** in our application. This `jsx÷global` object is where functions like `js÷setTimeout` are defined, and why we can use them in the top-level of our code. [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis] Footnote - having Window, global, globalThis is annoying
+
+```jsx
+setTimeout(() => console.log("hi"), 1000)
+```
+
+is just **shorthand** for:
+
+```jsx
+global.setTimeout(() => console.log("hi"), 1000);
+```
+
+Things get more complicated when we start introducing **other** `jsx÷Objects` into our code (such as the `jsx÷class Counter` above).
 
 ```javascript
 function func (){
@@ -690,9 +748,9 @@ const obj = {
     inside: func
 };
 
-func() // Called from global object, therefore `this` = `global` object
+func() // Called from the global scope, therefore `this` = `global` object
 
-obj.inside() // Called inside `obj` object, therefore `this` = {inside: [Function: func]}
+obj.inside() // inside() is equivalent to calling func(), therefore `this` = {inside: [Function: func]} as we are executing directly from obj
 ```
 
 To further explain why this can give different values, let's assign each calling context a variable.
@@ -712,7 +770,7 @@ const obj = {
 func(); // Called from `global` therefore `this.num` = `global.num` = 5;
 obj.inside() // Called from `obj` therefore `this.num` = `obj.num` = 10;
 ```
-Notice how `js>this.num` will log out a different value depending on where we called it from? Now, when we enter a new function we enter a **new** execution context, and `js>this` gets set to the `js>global` object by default. To illustrate this a little further, let's say we instead call `js>func()` from inside a `js>function` in `js>obj`.
+Notice how `jsx÷this.num` will log out a different value depending on where we called it from? Now, when we enter a new function we enter a **new** execution context, and `jsx÷this` gets set to the `jsx÷global` object by default. To illustrate this a little further, let's say we instead call `js÷func()` from inside a `js÷function` in `js÷obj`.
 
 ```javascript
 function func(){
@@ -731,11 +789,11 @@ const obj = {
 func(); // Called from `global` therefore `this.num` = `global.num` = 5;
 obj.inside() // ???
 ```
-What happens when we call `js>obj.inside()`? Well, when we enter a function we enter a new execution context, therefore we get a new `this`. When we call `inside()` from `obj`, our `this` within `inside()` is `obj`.
+What happens when we call `js÷obj.inside()`? Well, when we enter a function we enter a new execution context (because `js÷funcions` are also `js÷Objects` in JavaScript), therefore we get a new `this`. A good rule of thumb :
 
 > **Look to the left of the `.` and you'll be right most of the time**.
 
-Let's walk through the logic in that manner: `js>obj.inner().func()`. So in `obj`, `this` = `global`. In `inside()`, `this` = `obj`. In `func()`, `this` = `inside()` which is a function, therefore `this` = `global`. Therefore, we get `5` as our answer!
+Let's walk through the logic in that manner: `js÷obj.inner().func()`. So in `obj`, `this` = `global`. In `inside()`, `this` = `obj`. In `func()`, `this` = `inside()` which is a function, therefore `this` = `global`. Therefore, we get `5` as our answer!
 
 ```javascript
 function func(){
@@ -755,7 +813,7 @@ func(); // Called from `global` therefore `this.num` = `global.num` = 5;
 obj.inside() // 5 
 ```
 
-Looping back to our current issue, we are trying to do `js>Counter.render().onClick().increment()`. By following our `.` rule, we can trace what might be happening with `this`. On `Counter`, `this` = `global`. in `render()`, `this` = `Counter` (what we want). In `onClick()`, `this` = `undefined` (`onClick` is technically not a method, so `this` doesn't default to `global` here). Therefore, when we call `this.increment()` within `onClick`, we are calling `increment()` with `this` = `undefined`. Therefore it's no suprise that this doesn't work as expected!
+Looping back to our current issue, we are trying to do `js÷Counter.render().onClick().increment()`. By following our `.` rule, we can trace what might be happening with `this`. On `Counter`, `this` = `global`. in `render()`, `this` = `Counter` (what we want). In `onClick()`, `this` = `undefined` (`onClick` is technically not a method, so `this` doesn't default to `global` here). Therefore, when we call `this.increment()` within `onClick`, we are calling `increment()` with `this` = `undefined`. Therefore it's no suprise that this doesn't work as expected!
 
  To fix this, we need to do **one of two things**:
 

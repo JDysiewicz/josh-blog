@@ -36,6 +36,30 @@ const ArticleLayout = styled.div`
         & h3 {
             color: #A583B4;
         }
+
+        & .gatsby-resp-image-figcaption {
+            text-align: center;
+            font-size: 1.25rem;
+            font-style: italic;
+        }
+
+        & .gatsby-resp-image-background-image {
+            background-color: #EFEEEF;
+            border-radius: 10px;
+        }
+
+        & img.gatsby-resp-image-image {
+            background-color: #EFEEEF;
+            border-radius: 10px;
+        }
+
+        & blockquote{
+            background-color: #9bdeac;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            border-radius: 10px;
+
+        }
     }
 
     
@@ -51,12 +75,9 @@ const ArticleLayout = styled.div`
     }
 
     @media screen and (max-width: 900px){
-        .article {
-            margin-left: -0.8rem;
-            margin-right: -0.8rem;
-        }
 
     }
+
 `;
 
 export default ({children}) => (
