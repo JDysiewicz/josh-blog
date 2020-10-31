@@ -7,11 +7,14 @@ export default () => {
   return (
     <LightGlobal>
       <Navbar title="About" />
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-    
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        <p>Hi, I'm <strong style={{color: "#ff75a1", fontSize: "2rem"}}>Joshua Dysiewicz</strong></p>
+        
+        <p>This is a blog about <strong style={{color: "#28B3DC", fontSize: "2rem"}}>JavaScript and React</strong></p>
 
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        <p>I like to do <strong style={{color: "#ff75a1", fontSize: "2rem"}}>deep dives</strong> into how things are working under the hood</p>
+
+        <p>I also reference everything I write, so you'll find a <strong style={{color: "#28B3DC", fontSize: "2rem"}}>References</strong> section at the end of my articles</p>
+  
     </LightGlobal>
   )
 };
