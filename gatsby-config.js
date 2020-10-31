@@ -7,6 +7,8 @@ module.exports = {
     `gatsby-plugin-sass`,
     `gatsby-plugin-emotion`,
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
@@ -19,7 +21,22 @@ module.exports = {
             options: {
               terminal: "carbon",
               noInlineHighlight: false,
-              inlineCodeMarker: ">"
+              inlineCodeMarker: "÷"
+            }
+          },
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 880,
+              minWidth: 400,
+              quality: 90,
+              showCaptions: ["title", "alt"]
+            },
+          },
+          {
+            resolve: `gatsby-remark-copy-linked-files`,
+            options : {
+              ignoreFileExtensions: [`png`, `jpg`, `jpeg`]
             }
           }
         ],
