@@ -21,9 +21,12 @@ const NavbarStyled = styled.div`
 
     @media screen and (max-width: 810px){
         flex-direction: column;
+        & h1 {
+            margin-top: 0.2em;
+        }
 
         & div {
-            margin-top: 1.05em;
+            margin-top: 0.4em;
             font-weight: 600;
         }
     }
@@ -56,6 +59,10 @@ const BackArrow = styled(Link)`
     margin-top: 1.05em;
     margin-bottom: 1.25em;
     font-size: 4rem;
+
+    @media screen and (max-width: 810px){
+        margin-top: 0.59em;
+    }
 
     &:before {
       content: '';
