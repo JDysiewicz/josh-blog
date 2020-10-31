@@ -27,6 +27,7 @@ const ArticleLayout = styled.div`
         color: #232323;
         font-size: 1.5rem;
         line-height: 1.75;
+        
 
         & h2 {
             color: #ff75a1
@@ -69,16 +70,22 @@ const ArticleLayout = styled.div`
             /* Expand to fill screen width */
             @media screen and (max-width: 600px){
                 width: 100vw;
-                margin-left: calc(-50vw + 50%);
+                margin-left: calc(-51vw + 50%);
             }
         }
 
         & .gatsby-highlight {
             @media screen and (max-width: 600px){
                 width: 100vw;
-                margin-left: calc(-50vw + 50%);
+                margin-left: calc(-51vw + 50%);
             }
         }
+
+        & a {
+        text-decoration: none;
+        color: #28B3DC;
+        word-wrap: break-word;
+    }
     }
 
     
@@ -93,9 +100,7 @@ const ArticleLayout = styled.div`
         overflow-wrap: break-word;
     }
 
-    @media screen and (max-width: 900px){
 
-    }
 
 `;
 
