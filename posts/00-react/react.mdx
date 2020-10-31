@@ -33,7 +33,7 @@ npm install react react-dom
 
 The `react-dom` import deals with the creation of a **virtual** DOM. This can be through of as a second layer that sits on top of the **real** DOM on our webpage, almost mirroring it. **Pretty much all the code we write in React will only interact with this virtual DOM**. When we want to actually show the code we have written to a user on our webpage, we have to copy all the changes we made to the virtual DOM into the real DOM. However, we don't have to do this ourselvesas React runs an algorithm to figure out the most efficient way to do this. Updating the virtual DOM is lightning fast, however updating the real DOM is comparitvely like moving through a tarpit; this is why it is more efficient and overall faster to let React handle this updating for us (again for the curious, this process is called <a href="https://reactjs.org/docs/faq-internals.html">*Reconciliation*</a>). [[5]](https://twitter.com/Mappletons/status/1103717355392286721/photo/1) [[6]](https://reactjs.org/docs/faq-internals.html)
 
-![Figure 3 - A visualisation of React's virtual DOM by Maggie Appleton [5]](./reactdom-maggie-appleton.png)
+![Figure 2 - A visualisation of React's virtual DOM by Maggie Appleton [5]](./reactdom-maggie-appleton.png)
 
 We can begin to use this by using the `js÷ReactDOM` library.
 
@@ -98,7 +98,7 @@ ReactDOM.render(
 
 Therefore, we could begin to think of structuring our project by having **each component in a separate .js file**, importing the components we need in each file, and rendering them all in `index.js`.
 
-![Figure 4 - A possible file structure for React projects](./file-structure.png)
+![Figure 3 - A possible file structure for React projects](./file-structure.png)
 
 > **NOTE** - These are merely guidelines! Dan Abramov, a prominent React contributor often seen as an authority on the subject, wrote up a "guide" on how to structure react projects: it only contains the words: <a href="https://react-file-structure.surge.sh/">*"move files around until it feels right"*</a>. If your structure makes sense to you and your peers, then it's correct. [[9]](https://mobile.twitter.com/dan_abramov/status/1027248875072114689)
 
@@ -266,7 +266,7 @@ const App = () => {
 
 We don't worry about converting JSX into a language that browsers understand (remeber those `js÷_react.default.createElement()` calls?), as we use a library called <a href="https://babeljs.io/repl">*Babel*</a> to do this for us (once again for the curious, this process of converting code is called *transpiling*). This is what I used to create those ugly functions above - give it a shot! Take some of the JSX examples shown here or online, and convert them into non-JSX form to see how much easier Babel and React are making it for us! [[11]](https://babeljs.io/repl)
 
-![Figure 5 - Babel's online code editor with JSX (left) and transpiled code (right).](./babel.png)
+![Figure 4 - Babel's online code editor with JSX (left) and transpiled code (right).](./babel.png)
 
 ## Making a React Application with Create React App
 > So we need `react`, `react-dom`, and `babel`. Then we probably need `webpack` too. And a server to run it on so `webpack-dev-server`... This is starting to get out of hand...
@@ -281,7 +281,7 @@ npx create-react-app name-of-project
 
 where `npx` means "install with **np**m and then e**x**ecute". Now, this will take 3/4 minutes to finish running because there is just so many dependancies and things to set up. Luckily, we don't have to do any of this! A simple `Hello, world!` -type application is about **185Mb** in size. The majority of that is taken up by the `node_modules` folder, which is where all the dependencies such as `babel` and `react-dom` are stored.
 
-![Figure 6 - Folder formed after running create-react-app](./cra.png)
+![Figure 5 - Folder formed after running create-react-app](./cra.png)
 
 We don't have to worry about most of this, however it should be noted that we will place the majority of our files inside the `src` folder. There is also a `public` folder, in which is kept our `index.html`. Inspecting this `index.html` will reveal an extremely short file, consisting mainly of overhead with a single interesting line:
 
@@ -1146,7 +1146,7 @@ ReactDOM.render(
 
 ```
 
-![Figure 6 - The end result of the Counter app which uses state to keep track of the current "count"](./count-vid.gif)
+![Figure 7 - The end result of the Counter app which uses state to keep track of the current "count"](./count-vid.gif)
 
 ## Summary
 We covered a lot of really heavy stuff, so I implore you to look for other resources and explanations. We covered the difference between class and functional components, how react works under the hood, the structure of a react app in CRA, props, and state.
