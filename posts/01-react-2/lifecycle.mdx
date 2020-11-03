@@ -4,51 +4,40 @@ slug: "react-lifecycle-methods"
 author: "Joshua Dysiewicz"
 date: "21 September 2020"
 readingTime: "📖 10 min"
-spoiler: "The lifecycle of a react component, and the methods associated with each."
+spoiler: "Mounting, updating, and unmounting."
 ---
 
-# Component Lifecycle and Lifecycle Methods (~ 10 min)
-
-## Component Lifecycle
-Every component we make in React, functional or class-based, has a certain series of stages it goes through. In human life, we tend to say the progression is:
-`baby -> toddler -> child -> teen -> adult`
-If we add to this that `adult` then goes on to have a baby, we loop right back to the start again:
-```javascript
-baby -> toddler -> child -> teen -> adult -> baby -> toddler...
-```
-
-This is similar to the lifecycle of a **component** in React which is roughly:
-
-```javascript
-Initialized -> Props passed -> component mounts -> component rendered -> new state/props causing a re-render -> component re-renders ... -> component unmounts
-```
-Therefore, the *lifecycle* of a component just refers to the stages involved in displaying the component to a user. Let's look at each of these stages in detail - however to do so we'll need to define what **lifecycle methods** are as they play a key role in understanding the **stages** of component lifecycle.
+Every component we make in React, functional or class-based, has a certain series of stages it goes through; this series of stages is called the  **lifecycle** of a component. Each stage in a components lifecycle has particular functions which are run during them; these are called **lifecycle methods**.
 
 ## Lifecycle Methods
-Remember when we define a `class` component, we `extend` a `React.Component`?
+Remember when we define a `jsx÷class` component, we `jsx÷extend` a `jsx÷React.Component`?
 
-```javascript
+```jsx
 import React from "react";
 class App extends React.Component{
     ...
 };
 ```
-Well one of the reasons is because it gives us access to specific *methods* defined on `React.Component`. These specific methods are the titular **lifecycle methods**. `render()` is an example of one of these methods, as is `constructor()` to a certain extent!
+Well one of the reasons is because it gives us access to specific *methods* defined on `jsx÷React.Component`. These specific methods are the titular **lifecycle methods**. `jsx÷render()` is an example of one of these methods, as is `jsx÷constructor()` to a certain extent!
 
-```javascript
+```jsx
 import React from "react";
 class App extends React.Component{
     render(){
-        return (<div>Render is a lifecycle method!</div>)
+        return (
+            <div>
+                Render is a lifecycle method!
+            </div>
+        )
     };
 };
 ```
 
-```javascript
+```jsx
 import React from "react";
 class App extends React.Component{
     constructor(props){
-        this.state = {name: "josh"};
+        this.state = { name: "josh" };
     };
     render(){
         return (<div>So is constructor!</div>)
@@ -56,18 +45,18 @@ class App extends React.Component{
 };
 ```
 
-These lifecycle methods will run at different stages during a component's lifecycle, hence the name. The `render()` method obvious runs during the `render component` stage of the component lifecycle, but what about the others? Let's dive into the **three** main stages of component lifecycle in react: *Mounting, Updating, and Unmounting*!
+These lifecycle methods will run at different stages during a component's lifecycle, hence the name. Let's dive into the **three** main stages of component lifecycle in react: *Mounting, Updating, and Unmounting*!
 
-## Component Lifecycle Stages and Methods
+## Lifecycle Stages and Methods
 
 ### Mounting
-*Mounting* is the process of adding a *node* (an HTML element) to the (real) DOM and showing the component to the user. Think of this as a stage magician about to perform: he first enters the stage behind a curtain sets everything in place for his performance (`constructor()`), then the curtain is lifted and the stage is revealed to the audience (`render()`), after which the magician will perform his first magic trick (`componentDidMount()`). These are the steps involved in the mounting process: we define a `React element` using our `constructor()` function, we then `render()` this `React element` into a `DOM node` which is inserted into the DOM. After which we run another lifecycle method called `componentDidMount()`.
+*Mounting* is the process of adding a *node* (an HTML element) to the (real) DOM and showing the component to the user. Think of this as a stage magician about to perform: he first enters the stage behind a curtain sets everything in place for his performance (`jsx÷constructor()`), then the curtain is lifted and the stage is revealed to the audience (`jsx÷render()`), after which the magician will perform his first magic trick (`jsx÷componentDidMount()`). These are the steps involved in the mounting process: we define a `React element` using our `jsx÷constructor()` function, we then `jsx÷render()` this `React element` into a `DOM node` which is inserted into the DOM. After which we run another lifecycle method called `jsx÷componentDidMount()`. Let's run through each of the methods associated with the *mounting* stage.
 
-#### `constructor()`
-The constructor function will run when a component is *first* declared. This is the first step in *mounting*, whereby we define a component as a class or function and insert it into the *virtual* DOM.
+#### 1. constructor()
+The constructor method will run when a component is first instantiated. This is the first step in *mounting*, whereby we define a component and insert it into the *virtual* DOM.
 
 **index.js**
-```javascript
+```jsx
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -80,7 +69,8 @@ ReactDOM.render(
 
 ```
 
-```javascript
+**App.js**
+```jsx
 import React from "react";
 class App extends React.Component{
     constructor(props){ // Before component is rendered, this function runs to setup the state
@@ -88,16 +78,25 @@ class App extends React.Component{
         this.state = {name: "josh"};
     };
     render(){
-        return (<div>So is constructor!</div>)
+        return (
+            <div>
+                So is constructor!
+            </div>
+        )
     };
 };
+
+export default App;
 ```
-The virtual DOM is a React-specific representation of the DOM which uses `React elements` in place of `DOM nodes`. Remember those `React.createElement` calls before? Those are the "virtual DOM nodes" which React uses to create its virtual DOM. However, users cannot see the virtual DOM, we must actually input these into the *real* DOM. This is what the `render()` lifecycle method does, and is the second step in our mounting phase.
 
-#### componentDidMount()
-This lifecycle method runs *straight away* after the component is (*successfully*) mounted (after `render()` successfully places the `React elements` into the web page's DOM). This makes it a great place to setup initial data, such as creating a network request to retrieve some data to populate `state`.
+**2. render()**
 
-```javascript
+The `jsx÷render()` method will insert our JSX into the *virtual DOM* (technically it is firstly transpiled into calls to `jsx÷React.createElement()`). To rephrase - all the code (JSX) we `jsx÷return` from our `jsx÷render()` method will be inserted into the virtual DOM (insertion into the *real* DOM is performed by the `jsx÷ReactDOM.render()` method). This is needed during *mounting* as, once we have instantiated our components with any `jsx÷state` needed, we need to tell React that we want them to be shown to the user. 
+
+**3. componentDidMount() UP TO HERE** 
+This final method during the *mounting* stage runs right after the component is **successfully** mounted to the virtual DOM. This makes the `jsx÷componentDidMount()` method a great place to setup initial data, such as creating a network request to retrieve some data to populate `jsx÷state`.
+
+```jsx
 import React from "react";
 class App extends React.Component{
     constructor(props){
