@@ -7,7 +7,7 @@ readingTime: "📖 10 min"
 spoiler: "Mounting, updating, and unmounting."
 ---
 
-Every component we make in React, functional or class-based, has a certain series of stages it goes through; this series of stages is called the  **lifecycle** of a component. Each stage in a components lifecycle has particular functions which are run during them; these are called **lifecycle methods**.
+Every component we make in React, functional or class-based, has a certain series of stages it goes through; this series of stages is called the  **lifecycle** of a component. [https://medium.com/react-ecosystem/react-components-lifecycle-ce09239010df] Each stage in a components lifecycle has particular functions which are run during them; these are called **lifecycle methods**.
 
 ## Lifecycle Methods
 Remember when we define a `jsx÷class` component, we `jsx÷extend` a `jsx÷React.Component`?
@@ -45,15 +45,22 @@ class App extends React.Component{
 };
 ```
 
-These lifecycle methods will run at different stages during a component's lifecycle, hence the name. Let's dive into the **three** main stages of component lifecycle in react: *Mounting, Updating, and Unmounting*!
+These lifecycle methods will run at different stages during a component's lifecycle, hence the name. Let's dive into the **three** main stages of component lifecycle in react: *Mounting, Updating, and Unmounting*![https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/]
 
 ## Lifecycle Stages and Methods
 
-### Mounting
-*Mounting* is the process of adding a *node* (an HTML element) to the (real) DOM and showing the component to the user. Think of this as a stage magician about to perform: he first enters the stage behind a curtain sets everything in place for his performance (`jsx÷constructor()`), then the curtain is lifted and the stage is revealed to the audience (`jsx÷render()`), after which the magician will perform his first magic trick (`jsx÷componentDidMount()`). These are the steps involved in the mounting process: we define a `React element` using our `jsx÷constructor()` function, we then `jsx÷render()` this `React element` into a `DOM node` which is inserted into the DOM. After which we run another lifecycle method called `jsx÷componentDidMount()`. Let's run through each of the methods associated with the *mounting* stage.
+![Figure 1 - The three lifecycle stages of a React component, and their associated lifecycle methods. [https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/]](/lifecycle-diagram.JPG)
 
-#### 1. constructor()
-The constructor method will run when a component is first instantiated. This is the first step in *mounting*, whereby we define a component and insert it into the *virtual* DOM.
+### Mounting
+During the *Mounting* phase, we do some initial setup for our component before our component is rendered to the screen for the first time. Mounting is the process of adding a *node* (an HTML element) to the (real) DOM and showing the component to the user. Think of this as a stage magician about to perform: he first enters the stage behind a curtain sets everything in place for his performance (`jsx÷constructor()`), then the curtain is lifted and the stage is revealed to the audience (`jsx÷render()`), after which the magician will perform his first magic trick (`jsx÷componentDidMount()`). These are the steps involved in the mounting process: we do initial setup with our `jsx÷constructor()`, we then `jsx÷render()` a `React element` into a `DOM node` which is inserted into the DOM. After which we run another lifecycle method called `jsx÷componentDidMount()`. Let's run through each of the methods associated with the *mounting* stage.[https://reactjs.org/docs/react-component.html]
+
+**1. constructor()**
+
+The first step in our component lifecycle is to first do the initial setup for it (e.g - set up `jsx÷state`). This is done in the `jsx÷constructor()` function, which is the first of our *lifecycle methods*. The constructor method will run when a component is first initialized.[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor] Note - there are only **two** reasons to use a `jsx÷constructor()` in your component:
+
+1. You initialize **state**.
+2. You **bind** methods. 
+If you don't do either of these, your component does not need a constructor and you can skip this lifecycle method.[https://reactjs.org/docs/react-component.html#constructor]
 
 **index.js**
 ```jsx
@@ -73,7 +80,7 @@ ReactDOM.render(
 ```jsx
 import React from "react";
 class App extends React.Component{
-    constructor(props){ // Before component is rendered, this function runs to setup the state
+    constructor(props){ // Before component is rendered, this function runs to setup state
         super(props);
         this.state = {name: "josh"};
     };
@@ -89,12 +96,28 @@ class App extends React.Component{
 export default App;
 ```
 
+
 **2. render()**
 
-The `jsx÷render()` method will insert our JSX into the *virtual DOM* (technically it is firstly transpiled into calls to `jsx÷React.createElement()`). To rephrase - all the code (JSX) we `jsx÷return` from our `jsx÷render()` method will be inserted into the virtual DOM (insertion into the *real* DOM is performed by the `jsx÷ReactDOM.render()` method). This is needed during *mounting* as, once we have instantiated our components with any `jsx÷state` needed, we need to tell React that we want them to be shown to the user. 
+The `jsx÷render()` method will insert our JSX into the *virtual DOM* (technically it is firstly transpiled into calls to `jsx÷React.createElement()`). To rephrase - all the code (JSX) we `jsx÷return` from our `jsx÷render()` method will be inserted into the virtual DOM (insertion into the *real* DOM is performed by the `jsx÷ReactDOM.render()` method). This is needed during *mounting* as, once we have instantiated our components with any `jsx÷state` needed, we need to tell React that we want them to be shown to the user. [https://reactjs.org/docs/react-component.html#render]
 
-**3. componentDidMount() UP TO HERE** 
-This final method during the *mounting* stage runs right after the component is **successfully** mounted to the virtual DOM. This makes the `jsx÷componentDidMount()` method a great place to setup initial data, such as creating a network request to retrieve some data to populate `jsx÷state`.
+```jsx
+import React from "react";
+class App extends React.Component{
+    render(){
+        return (
+            <div>
+                This JSX div is returned from render, so it will be converted to a DOM node and placed into the DOM.
+            </div>
+        )
+    };
+};
+
+export default App;
+```
+
+**3. componentDidMount()** 
+This final method during the *mounting* stage runs right after the component is **successfully** mounted to the virtual DOM. This makes the `jsx÷componentDidMount()` method a great place to setup initial data, such as creating a network request to retrieve some data to populate `jsx÷state`.[https://reactjs.org/docs/react-component.html#componentdidmount]
 
 ```jsx
 import React from "react";
@@ -115,7 +138,7 @@ class App extends React.Component{
 };
 ```
 
-Rightly you may be thinking "couldn't we just load initial data like that into the constructor instead?" Well, you can!
+Rightly you may be thinking *"couldn't we just load initial data like that into the constructor instead?"* Well, you can!
 
 ```javascript
 import React from "react";
@@ -134,10 +157,13 @@ class App extends React.Component{
 };
 ```
 
-Here we assign the initial value of `this.state.data` to be the `return` value from a function which makes a network request. This is perfectly valid, however is often avoided for three reasons:
-1) It's a little **messy** to start putting functions into your initial state.
-2) We like to keep things **modular** - the constructor should be a place we *initialize* the values we want, it's often useful to keep the logic of initializing values separate to that of populating their them.
-3) Our component may **fail to mount**. In that case, we wouldn't want to make our network request - for a slightly contrived example for this, let's say we need to make 1000 network requests for each component, and we render 100 of these components to the user. Something went wrong, and now each of the components fail to mount, however the network request was made in the `constructor()` function which occurs **at initialization**. The constructor doesn't care that the component failed to mount, it will go ahead and make that request. Therefore we make 100,000 network requests which are useless as the user will never see their result, which could end up costing **money** if the network we use is a *per-request* basis, or could crash the network entirely.
+Here we assign the initial value of `jsx÷this.state.data` to be the `jsx÷return` value from a function which makes a network request. This is perfectly valid, however is often avoided for **three** reasons:
+
+1. It's a little **messy** to start putting functions into your initial state.
+
+2. We like to keep things **modular** - the constructor should be a place we *initialize* the values we want, it's often useful to keep the logic of initializing values separate to that of populating their them.
+
+3. Remeber we specified that `jsx÷componentDidMount()` only runs after a component is *successfully* mounted? Our component may **fail to mount**. In that case, we wouldn't want to make our network request - for a slightly contrived example for this, let's say we need to make 10 network requests for each component, and we render 10 of these components to the user. Something went wrong, and now each of the components fail to mount, however the network request was made in the `jsx÷constructor()` function which occurs at initialization of a component, before it is mounted. The constructor doesn't care that the component failed to mount, it will go ahead and make that request. Therefore we make 100 network requests which are useless as the user will never see their result, which could end up costing money or could crash the network entirely.
 
 
 
