@@ -160,13 +160,11 @@ const App = (props) => {
     const [count, setCount] = useState(0);
     const [name, setName] = useState("Josh");
 
-    console.log(count); // 0
-    setCount(5);
-    console.log(count); // 5
+    console.log(count); // 0 on the first render
+    setCount(5); // console.log above now outputs 5 as this causes a re-render
 
     console.log(name); // "Josh"
-    setName("Emily");
-    console.log(name); // "Emily"
+    setName("Emily"); // "Emily" logged out above after re-render
 
     return(
         <div></div>
