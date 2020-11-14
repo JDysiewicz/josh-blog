@@ -11,7 +11,7 @@ const ArticleLayout = styled.div`
 
     & .post-title {
         font-family: "Merriweather", sans-serif;
-        color: #28B3DC;
+        color: #1E90B3;
         font-size: 2.5rem;
         font-weight: 900;
         margin-bottom: 1rem;
@@ -32,12 +32,12 @@ const ArticleLayout = styled.div`
         
 
         & h2 {
-            color: #ff75a1
+            color: #D60044
             
         }
 
         & h3 {
-            color: #A583B4;
+            color: #7B568F;
         }
 
         & .gatsby-resp-image-figcaption {
@@ -99,7 +99,7 @@ const ArticleLayout = styled.div`
 
         & a {
         text-decoration: none;
-        color: #28B3DC;
+        color: #1E90B3;
         word-wrap: break-word;
         }
 

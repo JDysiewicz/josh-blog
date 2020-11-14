@@ -36,7 +36,7 @@ const NavbarLink = styled(Link)`
     height: 30%;
     align-self: center;
     padding: 1rem;
-    background-color: #ff75a1;
+    background-color: #D60044;
     color: #FFF;
     border-radius: 10px;
     margin: 0.5rem;
