@@ -232,11 +232,11 @@ const Counter = () => {
 ```
 Here, we setup `jsx÷count` to be state, and then create a `jsx÷button` which will increment the count upon clicking it (`jsx÷onClick={() => setCount(count+1)}`). On the initial render, the function in our `jsx÷useEffect` hook runs and updates the *title* of our document to be the current count (`jsx÷0`).
 
-![Figure 2 - The document title can be seen in the tab to be the initial value of "count"](./useeffect-initial.JPG)
+![Figure 2 - The document title can be seen in the tab to be the initial value of "count".](./useeffect-initial.JPG)
 
 After clicking the button to increment our count, our component will re-render and our `jsx÷useEffect` will run again, updating our title to the new value of `jsx÷count`.
 
-![Figure 3 - The document title updates after the component re-renders to reflect the new "count" value](./useeffect-click.JPG)
+![Figure 3 - The document title updates after the component re-renders to reflect the new "count" value.](./useeffect-click.JPG)
 
 I also mentioned the *dependency array*, so let's touch on that too. The dependency array is a **second (optional) argument** to `jsx÷useEffect`.
 
