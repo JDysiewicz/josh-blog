@@ -25,8 +25,10 @@ const ArticleLayout = styled.div`
 
     & .article {
         color: #232323;
-        font-size: 1.5rem;
-        line-height: 1.75;
+        font-size: 20px;
+        font-stretch: normal;
+        font-family: "Source Sans Pro", Roboto, sans-serif;
+        line-height: 1.5;
         
 
         & h2 {
@@ -67,6 +69,7 @@ const ArticleLayout = styled.div`
             padding-left: 0.5rem;
             padding-right: 0.5rem;
             border-radius: 10px;
+            margin: 0;
 
         }
 
@@ -127,7 +130,7 @@ const ArticleLayout = styled.div`
 export default ({children}) => (
     <LightGlobal>
         <ArticleLayout>
-            <Navbar />
+            <Navbar articleTitle={children[0]} articleSmall={children[1]} />
             {children}
         </ArticleLayout>
     </LightGlobal>

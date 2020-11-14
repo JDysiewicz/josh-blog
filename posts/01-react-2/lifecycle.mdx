@@ -10,7 +10,7 @@ spoiler: "Mounting, updating, and unmounting."
 ## TL;DR
 ![Figure 1 - The three lifecycle stages of a React component, and their associated lifecycle methods. [1]](/lifecycle-diagram.JPG)
 
-> Each component will go through a series of stages from its inital render to the page, to when it is eventually unmounted from the DOM entirely. These stages make up a component's **lifecycle**. There are **three** main lifecycle stages, each with their own functions that run at each stage (lifecycle methods):
+Each component will go through a series of stages from its inital render to the page, to when it is eventually unmounted from the DOM entirely. These stages make up a component's **lifecycle**. There are **three** main lifecycle stages, each with their own functions that run at each stage (lifecycle methods):
 1. **Mounting**: The process of inserting our JSX into the DOM. The lifecycle method order is  `jsx÷constructor()` -> `jsx÷render()` -> `jsx÷componentDidMount()`.
 2. **Updating**: Re-rendering our component with new information based on new `jsx÷props` or `jsx÷state`. The lifecycle method order is `new props/state` -> `jsx÷render()` -> `jsx÷componentDidUpdate()`.
 3. **Unmounting**: Where we clean up any network listeners or recurring events. The only lifecycle method associated with it is `jsx÷componentWillUnmount()`.
@@ -60,8 +60,6 @@ Let's dive into the **three** main stages of component lifecycle in react: *Moun
 
 ### Mounting
 During the *Mounting* phase, we do some initial setup for our component before our component is rendered to the screen for the first time. Mounting is the process of adding a *node* (a HTML element) to the (real) DOM, and showing the component to the user. Think of this as a stage magician about to perform: he first enters the stage behind a curtain sets everything in place for his performance (`jsx÷constructor()`), then the curtain is lifted and the stage is revealed to the audience (`jsx÷render()`), after which the magician will perform his first magic trick (`jsx÷componentDidMount()`).
-
-## PICTURE OF MOUNTING STAGE HERE DEPICTING THE ABOVE
 
 These are the steps involved in the mounting process: we do initial setup with our `jsx÷constructor()`, we then `jsx÷render()` a `React element` into a `DOM node` which is inserted into the DOM. After which we run another lifecycle method called `jsx÷componentDidMount()`. Let's run through each of the methods associated with the *mounting* stage. [[3]](https://reactjs.org/docs/react-component.html)
 
