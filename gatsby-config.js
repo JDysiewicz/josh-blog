@@ -38,7 +38,7 @@ module.exports = {
             options : {
               ignoreFileExtensions: [`png`, `jpg`, `jpeg`]
             }
-          }
+          },
         ],
       },
     },
