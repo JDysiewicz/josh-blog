@@ -6,12 +6,12 @@ import LightGlobal from "./LightGlobal";
 import Navbar from "../Navbar";
 
 // deckDeckGoHighlightElement();
-
+// color: #00B39E; Vue-like Green
 const ArticleLayout = styled.div`
 
     & .post-title {
         font-family: "Merriweather", sans-serif;
-        color: #00B39E;
+        color: #28B3DC;
         font-size: 2.5rem;
         font-weight: 900;
         margin-bottom: 1rem;
