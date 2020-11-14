@@ -5,6 +5,14 @@ import Helmet from "react-helmet";
 import useSiteMetadata from "../../hooks/useSiteMetadata";
 import "../../styles/global.scss";
 
+// background = #EFEEEF;
+// old_blue = #28B3DC;
+// old_pink = #ff75a1;
+// new_pink = #D60044;
+// new_purple = #7B568F;
+// new_blue: #1E90B3;
+
+
 const GlobalLayout = styled.div`
     /* PT Sans vs Source Sans Pro.... Hard to decide */
     background-color: #EFEEEF;
@@ -17,7 +25,7 @@ const GlobalLayout = styled.div`
     font-weight: 500;
     font-kerning: normal;
     font-size: 1.5rem;
-    color: #666;
+    color: #4A4A4A;
     line-height: 1.5;
     /* For that containerised view */
     /* box-shadow: 0px 0px 3px #AAA; */
