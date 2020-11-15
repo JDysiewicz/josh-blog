@@ -58,7 +58,7 @@ export default ({title}) => {
             {!title && <h1>Article</h1>}
             <div>
                 <NavbarLink to="/">About</NavbarLink>
-                <NavbarLink to="/articles">Article</NavbarLink>
+                <NavbarLink to="/articles">Articles</NavbarLink>
             </div>
         </NavbarStyled>
     )
