@@ -1,0 +1,523 @@
+---
+title: "Scope and Closure"
+slug: "scope-closure"
+author: "Joshua Dysiewicz"
+date: "2 November 2020"
+readingTime: "📖 15 min"
+spoiler: "What is scope, and how can we use closures?"
+---
+## Scope
+Back in the first post I wrote, *JavaScript Fundamentals*, one of the very first things I mentioned was the difference between the three variable *declarators* in JS:
+- `var`: function scope, reassignable
+- `let`: block scope, reassignable
+- `const`: block scope, non-reassignable
+
+There we focused on the *assignability* aspect, and so here we will begin to turn our attention the *scoping* aspect.
+
+The **scope** of a variable is a way of describing **where** it can be accessed within code. You're probably already aware of this even if you've never heard of *scope* before:
+
+```javascript
+function funcOne (){
+    let a = 5;
+    console.log(a);
+};
+
+funcOne(); // 5
+
+console.log(a) // ReferenceError: a is undefined
+
+```
+Here we define a variable, `a`, within `funcOne`. When we attempt to log `a` **within** `funcOne` we can see the value of `a`. When we attempt to access `a` *outside* of `funcOne`, however, we get a `ReferenceError`. That is to say, it seems that `a` *only* exists within `funcOne`, and `a` ceases to exist once `funcOne` has finished executing.
+
+To make things a bit more interesting, we could define another variable, `b`, in the top level of our code.
+
+```javascript
+let b = "I can be accessed from anywhere!"
+
+function funcOne(){
+    let a = 5;
+    console.log(b);
+};
+
+funcOne(); // "I can be accessed from anywhere"
+console.log(a) // ReferenceError: a is not defined
+```
+
+Even though `b` is not defined inside `funcOne`, we can successfully log out the value of `b` within `funcOne`. Because we can *access* variable `b` within `funcOne`, we say that `b` is within the **scope** of `funcOne`. But how do we actually define where certain scopes begin and end? Why can we access `b` within `funcOne`, yet we cannot access `a` from *outside* `funcOne`?
+
+### Blocks and `global` scope
+We can split our code into specific **blocks**. These are denoted by a set of curly braces `{ }` surrounding some code.
+
+```javascript
+{
+    // This is one block
+};
+
+{
+    // This is another block
+};
+```
+We see these blocks appear all the time when using *loops, conditions, and functions*.
+
+```javascript
+for (let i = 0; i < 5; i++){
+    // A block
+};
+
+if(/* condition */){
+    // Another new block
+};
+
+const func = () => {
+    // Oh look, another new block!
+};
+```
+Variables - depending on *how* they are declared (see **`var` vs `let`/`const`** below) - are *tied* to the blocks they are defined in: if we attempt to access a variable in one block that is defined in another, JS will be unable to find it and throw a `ReferenceError`. However, we can **nest** blocks inside each other.
+
+```javascript
+if (/* condition */){
+    // In block 1
+    if (/* second condition */){
+        // In block 1 AND block 2
+        // etc...
+    };
+};
+```
+As long as we stay within that blocks corresponding curly braces, we stay within that **scope**. This means, if we define a variable in **block 1**, we can access it in **block 2**.
+
+```javascript
+if (/* condition */){
+    let a = 5;
+    console.log(a); // 5
+    if (/* second condition */){
+        console.log(a); // 5
+    };
+};
+```
+This is what happened in our above example where `funcOne` had access to `b`. We defined `b` in the *top-level* of our code, and as a result **every** function will have access to `b` as every block can be thought of being nested inside the main body of our code. We call this top-level the `global` scope.
+
+The `global` scope can be visualized by wrapping our entire code in a set of curly braces.
+
+```javascript
+{ 
+    // global block
+    let b = "another variable";
+
+    function funcOne (){ 
+        // block 1
+        // in global block AND block 1
+        let a = 5;
+        console.log(a); // 5
+        console.log(b) // "another variable"
+    };
+
+    function funcTwo(){ 
+        // block 2
+        // in global block AND block 2
+        console.log(b); // "another variable"
+    };
+};
+```
+From here, we can easily see that both our functions are actually in the same **scope** as `b`, *the global block*. Variables defined within this *global block* are said to be in **global scope**; called so as these variables can be accessed from **anywhere** within our code.
+
+### `var` vs `let`/`const`
+So, all this talk about *blocks* is mainly relevant to `let` and `const`, as these *are* block scoped. Variables declared with `let` or `const` will follow the rules above, where they will attach themselves to the curly braces wrapped around them. `var` is a little different, as variables declared with `var` are said to be *function scoped* rather than *block scoped*. This means that we define the scope of the variable via the **functions** it is defined within, rather than simply the **blocks**. When using `var`, ordinary curly braces do *not* mean a new scope. Instead the variable will travel up the blocks attaching to the nearest parent function. 
+
+```javascript
+function doStuff() {
+    // block 1
+
+    if(/* condition */){
+        // block 2 (also includes block 1)
+        var b = 5;
+    }
+
+    console.log(b); // 5
+};
+```
+Here, we can access `b` even though it is defined in a different block to where it is accessed from. If we did the same thing with `let` or `const` we would get a `ReferenceError`, as `b` is attached to the scope of the `if` statement.
+
+```javascript
+function doStuff() {
+    // block 1
+
+    if(/* condition */){
+        // block 2
+        const b = 5; // b only exists within block 2
+    }
+
+    console.log(b); // ReferenceError: b is not defined
+};
+```
+
+If there is no parent function, the variable will instead attach to the `global` scope.
+
+```javascript
+// global scope
+
+if (/* some condition */){
+    var a = "I am attached to the global scope";
+    let b = "I am attached to the scope of the if statement";
+    const c = "I am ALSO attached to the scope of the if statement";
+
+    if(/* some condition */){
+        var d = "Even though I am nested in two if blocks, I still attach to the global scope as I have no parent function";
+    };
+};
+
+console.log(a); // "I am attached to the global scope"
+console.log(b); // ReferenceError: b is not defined
+console.log(c); // ReferenceError: c is not defined
+console.log(d); // "Even though I am nested in two if blocks, I still attach to the global scope as I have no parent function"
+
+```
+
+While this may seem like an academic difference between `var` and `let`/`const`, usually `let` and `const` if preferred. This is because we like to declare variables according to the ***Principle of Least Exposure (POLE)***. This means we want a variable to be *exposed* to the **minimum** number of scopes possible. There are multiple reasons for doing this, however one is because it helps to avoid **name collisions**. This is where we attempt to use the same variable name **twice in the same scope**. If a variable gets defined in the `global` scope, then *no* function would be able to use that variable name. Therefore, we usually try to avoid putting variables in the `global` scope as much as possible, as this heavily violates the *POLE*.
+
+As `var` is much more likely to *overexpose* a variable compared to `let` or `const` (due to its nature of attaching to functions rather than blocks), **we usually always use `let` or `const`** these days. Older code may still use `var`, however, as `let`/`const` were released in the ES6 edition of JavaScript (2015).
+
+### Unidirectional Upwards Flow
+Notice, however, that this is a **one-way system**. Blocks have access to variables defined in a **higher scope**, however **higher scopes** don't have access to variables defined in **lower scopes**. In other words, just because we define a function in a **nested** block doesn't mean we get access to it **outside** of that block. 
+
+```javascript
+if (/* condition */){
+    let a = "I can be accessed in BOTH if blocks";
+
+    if (/* second condition */){
+        console.log(a) // "I can be accessed in BOTH if blocks"
+        let b = "I am tied to the nested if";
+    };
+    
+    console.log(b)  // ReferenceError: a is undefined
+};
+```
+As soon as we leave the nested `if` statement, variable `b` can no longer be accessed and so ceases to exist (*I mean this literally, JS has a so-called Garbage Collector which will free up memory by automatically discarding any variables when they are no longer needed*). Therefore, we can say **children inherit their parent's scope, but parents do not inherit their children's scope**.
+
+To put it in a less abstract way, when we try an access a variable called `a` within a block, JS will ask the current block "do you define a variable called `a` in this block?". If yes it will use that, if not it will go to the **next** block out and ask that block "hey, I couldn't find `a` but a block below you is asking for it, do YOU define `a`?". This will continue until either `a` is found, or we hit `global` scope. If we reach the `global` scope and `a` is *still* not found, we get a `ReferenceError`. This is why we get a `ReferenceError` when we try and access a variable in the `global` scope which isn't defined in the `global` scope. We are *already* in the `global` scope, and if we can't find the variable's declaration then we have no where else to go to find it.
+
+### Hoisting and TDZ
+
+**Note - this section digs a little into the technicalities of JS under-the-hood: TL;DR is try to declare all your variables at the top of the scope in which they are used, and don't try to access them before this**.
+
+Now there's a cute little edge case here. 
+
+```javascript
+// global scope
+
+if (/* condition */){
+    // block 1
+
+    if (/* second condition */){
+        // block 2
+            console.log(whatAmI) // ???
+        };
+    
+    // back in block 1
+    let whatAmI = "Hello";
+};
+
+// global scope
+```
+I just said that **children inherit their parent's scope**. Despite being declared *after* block 2, `whatAmI` is *still* defined in *block 1*, which is *block 2*'s **parent**, so technically we could argue that we should still have access to `whatAmI` in *block 2*.
+
+This is a more specific example of a more general concept in JS.
+
+```javascript
+//
+//
+//
+console.log(whatAmI); // ???
+
+let whatAmI = "Hello";
+```
+Here's the same issue, just without many different scopes to worry about. Depending on your JS settings and how you declared `whatAmI`, you might see either see `undefined` from the `console.log`, or an error relating to "accessing `whatAmI` before initialization". What you ***won't*** see, however, is a `ReferenceError: whatAmI is not defined`, which is the error that normally occurs when we try and call a variable that doesn't exist within the scope it is accessed from. It seems that, even though we declare the variable `whatAmI` **underneath** this `console.log(whatAmI)`, the `console.log` is still *aware* that `whatAmI` exists within the current scope (else, we would see the ReferenceError above).
+
+This is because of a concept in JS called **hoisting**. Before execution, JS does a quick scan through your code in a stage called *lexing/tokenizing*. The details are unimportant, but it just converts your code into a format that the JS engine can understand better **before** it actually executes the code. During this stage, when the JS engine enters a new *scope*, it will ***move*** all your variable declarations to the top of that scope. **However**, it will only move their *declaration*, not the **values assigned to them**.
+
+```javascript
+//
+//
+//
+console.log(whatAmI); // ???
+
+let whatAmI = "Hello";
+```
+becomes 
+
+```javascript
+let whatAmI;
+//
+//
+//
+console.log(whatAmI); // ???
+
+whatAmI = "Hello";
+```
+The `let whatAmI;` line is perfectly valid syntax in JS - we don't *have* to include as assignment with a declaration (except when using `const`). This means that, by the time the `console.log(whatAmI)` occurs, JS is aware that there *will be* a variable called `whatAmI`, but for now it is just *undefined*. Although it is very important to note, and very **confusing**, that JS is not *actually* saying at the top of the file `let whatAmI = undefined`. Else, we wouldn't see that error about using a variable before its initialization. Nor is it actually saying `let whatAmI;`, which would lead to the same thing. All **hoisting** does is tell the JS engine not to freak out when it sees a variable name that will be defined in the future, and allows JS to catch compile time errors.
+
+**BUT**, we are still left in a situation where the following code may still leave us with an error about calling a variable before its initialization. It's important to note here, however, that in this case **`whatAmI` is *"not defined"* during the log, not `undefined`** (remember I said before about how there's some weird design quirks built into JS from years long past, and sometimes they're a little wacky? Yeah this is one of them).
+
+
+```javascript
+//
+//
+//
+console.log(whatAmI); // ReferenceError: cannot access 'a' before initialization
+let whatAmI = "Hello";
+```
+To throw another wrench into the works, **what if we instead declare `whatAmI` using `var` instead of `let`?**
+
+```javascript
+//
+//
+//
+console.log(whatAmI); // undefined
+
+var whatAmI = "Hello";
+```
+
+This time, we get **no error**, and `whatAmI` actually *is* `undefined`! In this case, **JS is *literally* moving the declaration to the top.** The following is *actually* what is happening during *hoisting*.
+
+```javascript
+var whatAmI;
+//
+//
+//
+console.log(whatAmI); // undefined
+
+whatAmI = "Hello";
+```
+Because with `let` and `const` we are *not* actually moving the declaration to the top, there exists an (albeit extremely short) period of time between *entering the scope* and when the variable is actually `declared`. This does not happen with `var` as the declaration is *literally* moved to the top of the scope in which it is declared. `let` and `const` *are* still hoisted, however they are also in a state of limbo during the time between entering the scope and when they are actually *declared*. This period of time is known as the **temporal dead zone**, which, in my opinion, sounds *waaaay* to cool for what it is. It's literally the (very) short space of time between *entering* a scope, and the *declaration* of a variable with `let`/`const`.
+
+```javascript
+// entered scope
+
+// this
+// is
+// all
+// the
+// TDZ
+// for
+// "a"
+
+let a = 5;
+
+```
+That was perhaps a little deeper diving than we needed to go, however that's a taste of some of the inner workings of JS.
+
+### Dynamic vs Lexical Scoping
+There are **two** main ways we can talk about scope. We can talk about the *dynamic scope* of a variable, or its *lexical scope*. Dynamic scoping means that our variables become bound to a **function execution** - *any* variable defined between when the function is *called* and when it *returns* is within the same scope. To avoid confusion: **JavaScript does not use dynamic scoping**. However, below is an example which could help the conceptualize it.
+
+```javascript
+function callMe() {
+    let a = 5;
+};
+
+function dynamicScope(){
+    callMe();
+    console.log(a); // 5
+    return;
+};
+
+dynamicScope();
+```
+In a dynamic scoping approach, we call `dynamicScope` and start a new *scope*. We then call `callMe()` which defines a variable called `a`. Now, `dynamicScope()` hasn't returned yet, so `a` is actually *in-scope*, meaning we can `console.log(a)` and not get `undefined`.
+
+However, this is **not** how JS behaves. We have spent all our time thus far talking about this *unidirectional flow* of data, and how it is scoped between *blocks* of code. This is what **lexical** scoping is: scopes depend only on how the code is written, not how it runs. Whether we run another function or not, if we do not define a variable within our set of curly braces, it does not exist in scope. *Lexical* literally means *as written*, and so our mental model we were building up of having separate `blocks` to divide up our scopes *visually* is **correct**.
+
+```javascript
+if (/* condition */){
+    // block 1
+    if (/* second condition */){
+        //  block 1 AND block 2
+        // etc...
+    };
+    // block 1
+};
+// global
+```
+Just by looking at the code structure, regardless of variables or functions called, we can divide it up into blocks and begin to understand the different *scopes* within a file. **NOTE** - dynamic/lexical scoping is *not* mutually exclusive with function/block scoping. The former indicates *when* scope is determined (during run time or as written), the latter indicates what the *boundaries* of this scope are (any blocks of code, or only functions). When using `let` or `const` exclusively, we could say JS is *lexically block scoped*. If we use `var` exclusively, it would be *lexically function scoped*.
+
+## Closures
+
+### What is a closure?
+Wrapping you head around *scopes* is **critical** to understanding *closures* in JS. **A closure is when a *function* is returned from another function, which *remembers* its lexical scope.** That's little wordy, so let's look at an example. The first part is simple - we must return a function *from* a function.
+
+```javascript
+function outer(){
+    function inner (){
+        // something
+    };
+
+    // something
+
+    return inner;
+};
+```
+When we assign `outer()` to a variable, we are effectively assigning this variable to `inner` (note - **not** the call to `inner()`).
+
+```javascript
+function outer(){
+    function inner (){
+        // something
+    };
+
+    // something
+
+    return inner;
+};
+
+const myFunc = outer();
+```
+To make it clear as it's easy to get confused about assigning a *function* to a variable vs a *function call*. The above can be though of as equivalent to:
+
+```javascript
+function outer(){
+    function inner (){
+        // something
+    };
+
+    // something
+
+    return inner;
+};
+
+const myFunc = function inner(){ // assigning myFunc to outer() is like saying this
+    // something
+};
+```
+Now, obviously we are redefining `function inner` here, and so this is not valid JS code, but it gives us a useful mental model to understand what is happening here. Following on from this, if we were to perform some operation within `inner` such as a `console.log`, after we assign `myFunc` to the *return value* of `outer()`, calling `myFunc()` will execute the code within `inner`.
+
+```javascript
+function outer(){
+    function inner (){
+        console.log("I am logged when inner is called");
+    };
+
+    // something
+
+    return inner;
+};
+
+const myFunc = outer();
+// myFunc is now equivalent to inner
+
+myFunc(); // "I am logged when inner is called"
+```
+
+Now, **this is the first part to a closure**. However, the second part to a closure is what gives it the *name* of a *closure*.
+
+The second part to a closure is that the returned function *remembers* its lexical scope. What does this mean, in practice? It means that the returned function (`inner` in the above example) must make some reference to a variable in it's lexical scope.
+
+```javascript
+function outer(){
+    let x = 5;
+
+    function inner (){
+        // uses variable x which is defined in it's lexical scope
+        console.log(x);
+    };
+
+    return inner;
+};
+
+const myFunc = outer();
+
+myFunc(); // 5
+```
+
+The thing that makes this interesting, is that `outer()` has finished executing. Remember in the *scoping* section, we said that, **once a function has finished executing, the variables defined within it are thrown away**? Well, this doesn't seem to be happening! We **still have access to `x`** via the `inner` function. The `inner` function seems to be ***preventing*** `x` from being thrown away. We could say that `inner` is **closing** over `x`. We could even *mutate* our `x` variable and these changes would be tracked.
+
+```javascript
+function outer(){
+    let x = 5;
+
+    function printAndIncrementX (){
+        console.log(x);
+        x++; // increment X every time every time this function is called
+    };
+
+    return printAndIncrementX;
+};
+
+const myFunc = outer();
+
+myFunc(); // 5
+myFunc(); // 6
+myFunc(); // 7
+```
+Here, we access `x` in `printAndIncrementX` an assign our `printAndIncrementX` function to `myFunc`. Then, every time we call `myFunc()` we will execute the code in `printAndIncrementX`. On the first call, we log `x` (which gives `5`), and then increment `x`. The next time we call it, we log the current value of `x` (now `6`) and increment `x` again, and so on.
+
+**This process of a returned function closing over some variable in its lexical scope (within the function above it) is called a closure**.
+
+### What are Closures used for?
+We could throw out very specific examples of closures, and that's all well and good. But how are they *actually* used? One good example are **React Hooks**. The `useState` hook makes use of closures in order to function correctly. We could create a primitive example of React's `useState` hook. We know that `useState` returns an array containing the `state` variable we wish to declare, and a function used to set it.
+
+```javascript
+function primitiveUseState(initialValue){
+
+    let useStateVariable = initialValue;
+
+    function pieceOfState(){
+        // stuff
+
+        return useStateVariable
+    };
+
+    function setPieceOfState(newValue){
+        //stuff
+
+        useStateVariable = newValue;
+
+    };
+
+    return [pieceOfState, setPieceOfState];
+};
+
+const [someState, setSomeState] = primitiveUseState("");
+```
+Let's walk through this. First we make a call to `primitiveUseState` passing in our `initialValue` of and empty string `""`. Next, we assign a variable called `useStateVariable` to our `initialValue` - this variable is used for the `primitiveUseState` to keep track of the `state` value we wish to use. We then have a function which takes a `newValue` and returns the `useStateVariable` which is being kept track of within `primitiveUseState`. We also define a function which returns nothing, but updates the `useStateVariable` to the `newValue`. Finally, we return and array containing our two functions from `primitiveUseState`. **Note** - the `// stuff` refers to other things React is doing in their actual `useState` such as error checking.
+
+Now we have `someState` assigned to our `pieceOfState` function, and `setSomeState` assigned to our `setPieceOfState` function. Now, when we log what is returned from calling these how we would `useState`, we get something a little strange.
+
+```javascript
+const [someState, setSomeState] = primitiveUseState("initial");
+
+console.log(someState); // [Function: pieceOfState]
+
+seSomeState("new value");
+
+console.log(someState); // [Function: pieceOfState]
+```
+
+This may be strange considering this is not what `useState` returns, however it does make sense. We are assigning `someState` to our **function**, not the **returned value** from our function - we are essentially doing this:
+
+```javascript
+const someState = function pieceOfState(){
+    return // value
+};
+const setSomeState = function setPieceOfState(){
+    // something
+};
+```
+
+However, we can circumvent this by simply *calling* our `someState` to see its value instead.
+
+```javascript
+const [someState, setSomeState] = primitiveUseState("initial");
+
+console.log(someState()); // "initial"
+
+seSomeState("new value");
+
+console.log(someState()); // "new value"
+```
+
+**Aha!** Here we have a very primitive implementation of `useState`. As we can see, **closures** are important to this functioning correctly. We first *define* that `useStateVariable` upon calling `primitiveUseState`. Then we have **two** closures as both `pieceOfState` and `setPieceOfState` both interact with `useStateVariable`. This means `useStateVariable` will **persist**, and we can keep track of it's current value as all times simply by calling `someState()`.
+
+## Summary
+Here we covered a brief introduction to *Scope* and *Closures* in JavaScript. We defined *scope* as ***where variables can be accessed from***, and covered the difference between ***block* scoping** (variables attach to code blocks; `{ }`) and ***function* scoping** (variables attach to the nearest parent function). We also covered how `let` and `const` allow use to use *block* scoping, but `var` uses *function* scoping, and how we tend to **avoid `var`** due to its increased tendency to **overexpose** a variable. We also briefly covered **hoisting** and the strange-yet-cool-sounding **temporal dead zone** error which occurs when we attempt to use variables declared with `let` or `const` *before* their declaration, and how the easiest way to avoid this is simply to **define our variables** at the **top** of the **function/block which needs them**.
+
+We explained how JS uses ***lexical scoping***, which is when we can define the different scopes **purely by how the code is written** by looking for what variables belong to which *blocks* of code (or *functions* is we use `var`). We also mentioned that **child blocks will inherit the scope of their parent blocks** (or functions, if we use `var`), and so on until we react the `global` scope, however parent's do not inherit their child's scope. This is what we mean when we say JS is *lexically scoped* - this *scope chain* would be vastly different if we relied on *dynamic scoping* instead.
+
+We explained how *closures* are when we **return some `inner` function** from some `outer` function, where the `inner` function makes use of variables **defined in out `outer` function**, thus closing over them and preventing them from being thrown away after `outer` finishes executing. Finally, we applied these principles to make a crude implementation of React's `useState` hook.
