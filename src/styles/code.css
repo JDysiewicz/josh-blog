@@ -32,12 +32,12 @@
  pre[class*="language-jsx"],
  code[class*="language-javascript"],
  pre[class*="language-javascript"] {
-     color: #f2777a;
+     color: #F89B9D;
  }
  
  pre[class*="language-"],
  :not(pre) > code[class*="language-"] {
-     background: #353535;
+     background: #1F1F1F;
  }
  
  /* Code blocks */
@@ -82,7 +82,7 @@
  .token.prolog,
  .token.doctype,
  .token.cdata {
-     color: #777c85;
+     color: #A9ACB2;
  }
  
  .token.punctuation {

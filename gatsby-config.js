@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: "Joshua Dysiewicz Blog",
+    siteUrl: "https://www.dysiewicz-blog.netlify.app",
     description: "A blog created by Joshua Dysiewicz, focussing on web development using javascript and react"
   },
   plugins: [
@@ -8,6 +9,7 @@ module.exports = {
     `gatsby-plugin-emotion`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-sitemap`,
     `gatsby-transformer-sharp`,
     {
       resolve: `gatsby-plugin-mdx`,

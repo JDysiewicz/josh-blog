@@ -98,8 +98,9 @@ const ArticleLayout = styled.div`
         }
 
         & a {
-        text-decoration: none;
-        color: #1E90B3;
+        text-decoration: underline;
+        text-decoration-thickness: 0.1em;
+        color: #0F4E61;
         word-wrap: break-word;
         }
 
