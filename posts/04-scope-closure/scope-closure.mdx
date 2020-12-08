@@ -8,7 +8,7 @@ spoiler: "What is scope, and how can we use closures?"
 ---
 ## What is Scope?
 
-The scope of a variable is a way of describing **where** it can be accessed within code. You're probably already aware of this even if you've never heard of scope before:
+The scope of a variable is a way of describing **where** it can be accessed within code. [[1]](https://users.cs.cf.ac.uk/Dave.Marshall/PERL/node52.html) You're probably already aware of this even if you've never heard of scope before.
 
 ```jsx
 function funcOne (){
@@ -39,13 +39,13 @@ console.log(a); // ReferenceError: a is not defined
 
 Even though `jsx÷b` is not defined inside `jsx÷funcOne()`, we can successfully log out the value of `jsx÷b` within it. Because we can *access* variable `jsx÷b` within `jsx÷funcOne()`, we say that `jsx÷b` is within the **scope** of `jsx÷funcOne()`. Contrarily, as we cannot access `jsx÷a` within `jsx÷funcOne()`, we say that `jsx÷a` is **not** within the scope of `jsx÷funcOne()`.
 
-> The scope of a variable describes where the variable can be accessed within code. Therefore, the scope of a function describes which variables it has access to.
+> The scope of a variable describes where the variable can be accessed within code. Therefore, the scope of a function describes which variables it has access to. [[2]](https://en.wikipedia.org/wiki/Scope_(computer_science))
 
 But how do we actually define where certain scopes begin and end? Why can we access `jsx÷b` within `jsx÷funcOne()`, yet we cannot access `jsx÷a` from outside `jsx÷funcOne()`? Well this depends entirely on *how* we declare the variable!
 
 ## Variable Declarations
 
-As you may know, in JavaScript we have three options to declare a new variable: using the `jsx÷let`, `jsx÷const`, or `jsx÷var` keywords.
+As you may know, in JavaScript we have three options to declare a new variable: using the `jsx÷let`, `jsx÷const`, or `jsx÷var` keywords. [[3]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements)
 
 ```jsx
 let x = 5;
@@ -53,7 +53,7 @@ const name = "Josh";
 var isCool = true;
 ```
 
-`jsx÷const`, as its name suggests, defines *constants*. This means that variables defined with `jsx÷const` cannot later be reassigned to a different value (they can still be manipulated e.g pushing a value onto an array declared using `jsx÷const`, however we'll leave that for another day!).
+`jsx÷const`, as its name suggests, defines *constants*. This means that variables defined with `jsx÷const` cannot later be reassigned to a different value (they can still be manipulated e.g pushing a value onto an array declared using `jsx÷const`, however we'll leave that for another day!). [[4]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const)
 
 ```jsx
 const favouriteDrink = "Water";
@@ -67,12 +67,12 @@ isCool = false; // Is allowed!
 ```
 However, what about `jsx÷let` vs `jsx÷var`? The biggest difference between these is how the variables they declare get scoped.
 
-> Variables declared using `jsx÷let` (and `jsx÷const`) are **block**-scoped, those declared with `jsx÷var` are **function**-scoped.
+> Variables declared using `jsx÷let` (and `jsx÷const`) are **block**-scoped, those declared with `jsx÷var` are **function**-scoped. [[4]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const), [[5]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let),[[6]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var)
 
 Okay, so we seem to have answered the question of "How do we define the scope of a variable?" by replacing this with "What does it mean to be block-scoped or function-scoped?".
 
 ### Block Scoping
-We can split our code into specific **blocks**. In JavaScript, these are usually always denoted by a set of curly braces `{ }` surrounding some code.
+We can split our code into specific **blocks**. In JavaScript, these are usually always denoted by a set of curly braces `{ }` surrounding some code. [[7]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block)
 
 ```jsx
 {
@@ -98,7 +98,7 @@ const func = () => {
     // Oh look, another new block!
 };
 ```
-When we declare a **block-scoped** variable, it becomes tied to its surrounding block. That is to say, it can only be accessed from within the set of curly braces you declare it in. If we attempt to access a variable in one block that is defined in another, JS will be unable to find it and throw a `ReferenceError` (this is what was happening with `jsx÷a` and `jsx÷b` above!). However, we can *nest* blocks inside each other.
+When we declare a **block-scoped** variable, it becomes tied to its surrounding block. That is to say, it can only be accessed from within the set of curly braces you declare it in. If we attempt to access a variable in one block that is defined in another, JS will be unable to find it and throw a `ReferenceError` (this is what was happening with `jsx÷a` and `jsx÷b` above!). However, we can *nest* blocks inside each other. [[7]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block)
 
 ```jsx
 if (/* condition */){
@@ -122,7 +122,7 @@ if (/* condition */){
 ```
 To put this in a more relational way, we can imagine this interaction as a conversation between the *block* and the *scope-manager* for that block. When we call a variable within a block, the block asks the scope manager for that block "Heya, they're trying to access a variable called `a`, do we define that anywhere in this block?". The scope-manager then responds "No, we don't - but I'll ask the guy above me", and so they then ask the scope-manager for the next outer block "Heya, we need to know who `a` is referring to, do you define `a` here?". This chain continues until we get to the *global* scope (see below) - at which point if `a` is still not defined then JavaScript throws a `ReferenceError`.
 
-Note, however, that this is a **one-way** interaction. If we declare a variable in block 2, it is inaccessible by block 1 as we have to leave the curly braces that define block 2 to re-enter block 1.
+Note, however, that this is a **one-way** interaction. If we declare a variable in block 2, it is inaccessible by block 1 as we have to leave the curly braces that define block 2 to re-enter block 1. [[8]](https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/scope-closures/ch2.md)
 
 ```jsx
 if (/* condition */){
@@ -142,7 +142,7 @@ if (/* condition */){
 That about covers block-scoped variables (remember, these are variables declared using `jsx÷const` or `jsx÷let`), however what about function-scoped variables?
 
 ### Function Scoping
-The scope of a function-scoped variable is similar to block-scoped, however it is more broad. Instead of a variable being tied to the block that it is declared in, it is instead tied to the *function* it is defined in. Therefore, a variable declared using `jsx÷var` becomes available to the entire function it is declared within.
+The scope of a function-scoped variable is similar to block-scoped, however it is more broad. Instead of a variable being tied to the block that it is declared in, it is instead tied to the *function* it is defined in. Therefore, a variable declared using `jsx÷var` becomes available to the entire function it is declared within. [[6]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var)
 
 ```jsx
 function thisIsAFunction(){
@@ -158,7 +158,7 @@ function thisIsAFunction(){
 ```
 Above, we declare `jsx÷x` using the `jsx÷var` keyword within the conditional block, and so it becomes available for the entire function to use. However, when we declare `jsx÷y` using `jsx÷let` this is only accessible within the conditional block (throws a `jsx÷ReferenceError` when accessed in the main function body).
 
-If there is no function encapsulating our variable declared with `jsx÷var` (or not block surrounding a variable declared with `jsx÷let` or `jsx÷const`), it is said to be in the **Global** scope. The global scope is visible the *every* function and block we declare in our file.
+If there is no function encapsulating our variable declared with `jsx÷var` (or not block surrounding a variable declared with `jsx÷let` or `jsx÷const`), it is said to be in the **Global** scope. The global scope is visible the *every* function and block we declare in our file. [[9]](https://scotch.io/tutorials/understanding-scope-in-javascript#toc-global-scope)
 
 ```jsx
 let globalOne = "Hello";
@@ -201,7 +201,9 @@ Here, `jsx÷x` is tied to the block that defines our function, and so is availab
 
 ### Which to Use?
 
-While this may seem like an academic difference between `jsx÷var` and `jsx÷let`/`jsx÷const`, usually `jsx÷let` and `jsx÷const` are preferred. This is because we like to declare variables according to the **Principle of Least Exposure (POLE)**. This means we want a variable to be exposed to the **minimum** number of scopes possible. There are multiple reasons for doing this, however one is because it helps to avoid *name collisions*. This is where we attempt to use the same variable name twice in the same scope (which would lead to it being redefined). If a variable gets defined in the `jsx÷global` scope, then *no* function would be able to use that variable name. Therefore, we usually try to avoid putting variables in the `jsx÷global` scope as much as possible, as this heavily violates the *POLE*. 
+While this may seem like an academic difference between `jsx÷var` and `jsx÷let`/`jsx÷const`, usually `jsx÷let` and `jsx÷const` are preferred. [[10]](https://youtu.be/DxnYQRuLX7Q?t=1255) This is a somewhat debateable assertion, however many mainstream figures in the JavaScript ecosystem advocate for dropping `jsx÷var`, as many other established languages are block scoped (particularly C-derived languages like Java and C++ [[11]](https://en.wikipedia.org/wiki/List_of_C-family_programming_languages), [[12]](https://en.wikipedia.org/wiki/Scope_(computer_science)#Block_scope)) and consistency across languages is helpful for better communication between developers. Furthermore, other prominent figures, such as Kyle Simpson, advocate for following the **Principle of Least Exposure (POLE)** when declaring our variables. [[13]](https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/scope-closures/ch6.md) This means we want a variable to be exposed to the **minimum** number of scopes possible. There are multiple reasons for doing this, however one is because it helps to avoid *name collisions*. This is where we attempt to use the same variable name twice in the same scope (which would lead to it being redefined). If a variable gets defined in the `jsx÷global` scope, then *no* function would be able to use that variable name. Therefore, we usually try to avoid putting variables in the `jsx÷global` scope as much as possible, as this heavily violates the *POLE*. 
+
+> In general, keep globally accessible variables to a minimum; Only give a variable the smallest scope it needs to do its job.
 
 Another big reason we like to stick to the POLE principle, is because it minimises the number of things that can go wrong. If one function has a bug in it, it is easier to fix if the bug remains isolated to that function; the more contact it has with the world outside of it, the more potential there is for that one bug to affect other areas of the code base.
 
@@ -246,7 +248,7 @@ let whatAmI = "Hello";
 ```
 Here's the same issue, just without many different scopes to worry about. Depending on your JS settings and how you declared `jsx÷whatAmI`, you might see either see `jsx÷undefined` from the `jsx÷console.log`, or an error relating to "accessing `jsx÷whatAmI` before initialization". What you ***won't*** see, however, is a `ReferenceError: whatAmI is not defined`, which is the error that normally occurs when we try and call a variable that doesn't exist within the scope it is accessed from. It seems that, even though we declare the variable `jsx÷whatAmI` **underneath** this `jsx÷console.log(whatAmI)`, the `jsx÷console.log` is still *aware* that `jsx÷whatAmI` exists within the current scope (else, we would see the ReferenceError above).
 
-This is because of a concept in JS called **hoisting**. Before execution, JS does a quick scan through your code in a stage called *lexing/tokenizing*. The details are unimportant (for the current discussion, mind you, we'll definitely look into this another day!), but it just converts your code into a format that the JS engine can understand better **before** it actually executes the code. During this stage, when the JS engine enters a new scope (remember, blocks define new scopes and so this occurs when we enter a new block of code), it will ***move*** all your variable declarations to the top of that scope. **However**, it will only move their *declaration*, not the **values assigned to them**.
+This is because of a concept in JS called **hoisting**. Before execution, JS does a quick scan through your code in a stage called *lexing/tokenizing*. [[14]](https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/scope-closures/ch1.md#compiling-code) The details are unimportant (for the current discussion, mind you, we'll definitely look into this another day!), but it just converts your code into a format that the JS engine can understand better **before** it actually executes the code. [[15]](https://en.wikipedia.org/wiki/Lexical_analysis) During this stage, when the JS engine enters a new scope (remember, blocks define new scopes and so this occurs when we enter a new block of code), it will ***move*** all your variable declarations to the top of that scope. **However**, it will only move their *declarations*, not the **values assigned to them**. [[16]](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting)
 
 ```jsx
 //
@@ -269,7 +271,7 @@ whatAmI = "Hello";
 ```
 The `jsx÷let whatAmI;` line is perfectly valid syntax in JS - we don't *have* to include as assignment with a declaration (except when using `jsx÷const`). This means that, by the time the `jsx÷console.log(whatAmI)` occurs, JS is aware that there *will be* a variable called `jsx÷whatAmI`, but for now it is just *undefined*.
 
-**Although it is very important to note, and very **confusing**, that JS is not *actually* saying at the top of the file `jsx÷let whatAmI = undefined`**. Else, we wouldn't see that error about using a variable before its initialization. Nor is it actually saying `jsx÷let whatAmI;`, which would lead to the same thing. All **hoisting** does is tell the JS engine not to freak out when it sees a variable name that will be defined in the future, and allows JS to catch compile time errors.
+**Although, it is very important to note, and very confusing, that JS is not *actually* saying at the top of the file `jsx÷let whatAmI = undefined`**. Else, we wouldn't see that error about using a variable before its initialization. Nor is it actually saying `jsx÷let whatAmI;`, which would lead to the same thing. All **hoisting** does is tell the JS engine not to freak out when it sees a variable name that will be defined in the future, and allows JS to catch compile time errors.
 
 **BUT**, we are still left in a situation where the following code may still leave us with an error about calling a variable before its initialization. It's important to note here, however, that in this case **`jsx÷whatAmI` is *"not defined"* during the log, not `jsx÷undefined`** (remember I said before about how there's some weird design quirks built into JS from years long past, and sometimes they're a little wacky? Yeah this is one of them).
 
@@ -303,7 +305,7 @@ console.log(whatAmI); // undefined
 
 whatAmI = "Hello";
 ```
-Because with `jsx÷let` and `jsx÷const` we are *not* actually moving the declaration to the top, there exists an (albeit extremely short) period of time between *entering the scope* and when the variable is actually declared. This does not happen with `jsx÷var` as the declaration is *literally* moved to the top of the scope in which it is declared. `jsx÷let` and `jsx÷const` *are* still hoisted, however they are also in a state of limbo during the time between entering the scope and when they are actually declared. This period of time is known as the **temporal dead zone**, which, in my opinion, sounds *waaaay* to cool for what it is. It's literally the (very) short space of time between *entering* a scope, and the *declaration* of a variable with `jsx÷let`/`jsx÷const`.
+Because with `jsx÷let` and `jsx÷const` we are *not* actually moving the declaration to the top, there exists an (albeit extremely short) period of time between *entering the scope* and when the variable is actually declared. This does not happen with `jsx÷var` as the declaration is *literally* moved to the top of the scope in which it is declared. `jsx÷let` and `jsx÷const` *are* still hoisted, however they are also in a state of limbo during the time between entering the scope and when they are actually declared. This period of time is known as the **temporal dead zone**, which, in my opinion, sounds *waaaay* to cool for what it is. It's literally the (very) short space of time between *entering* a scope, and the *declaration* of a variable with `jsx÷let`/`jsx÷const`. [[17]](https://www.freecodecamp.org/news/what-is-the-temporal-dead-zone/)
 
 ```javascript
 // entered scope
@@ -322,7 +324,7 @@ let a = 5;
 That was perhaps a little deeper diving than we needed to go, however that's a taste of some of the inner workings of JS.
 
 ## Dynamic vs Lexical Scoping
-While we can talk about whether variables are block scoped or function scoped, we didn't really answer the question of "what defines a scope?". Well, we just said "its between a set of curly braces", however that's not *entirely* true. In a broader sense, we can talk about a scope being formed **dynamically** or **lexically**. Dynamic scoping means that our variables become bound to a **function execution** - *any* variable defined between when the function is *called* and when it *returns* is within the same scope. To avoid confusion: **JavaScript does not use dynamic scoping**. However, below is an example which could help the conceptualize it.
+While we can talk about whether variables are block scoped or function scoped, we didn't really answer the question of "what defines a scope?". Well, we just said "its between a set of curly braces", however that's not *entirely* true. In a broader sense, we can talk about a scope being formed **dynamically** or **lexically**. [[18]](https://web.archive.org/web/20150207225438/http://courses.cs.washington.edu/courses/cse341/08au/general-concepts/scoping.html) Dynamic scoping means that our variables become bound to a **function execution** - *any* variable defined between when the function is *called* and when it *returns* is within the same scope. To avoid confusion: **JavaScript does not use dynamic scoping**. However, below is an example which could help the conceptualize it.
 
 ```javascript
 function callMe() {
@@ -341,7 +343,7 @@ In a dynamic scoping approach, we call `jsx÷dynamicScope()` and start a new sco
 
 **However, this is not how JS behaves**.
 
-We have spent all our time thus far talking about this *unidirectional flow* of variables, and how variables are scoped between *blocks* of code. This is what **lexical** scoping is: scopes depend only on how the code is written, not how it runs. Whether we run another function or not, if we do not define a variable within our set of curly braces, it does not exist in scope. *Lexical* literally means *as written*, and so our mental model we were building up of having separate blocks to divide up our scopes *visually* is **correct**.
+We have spent all our time thus far talking about this *unidirectional flow* of variables, and how variables are scoped between *blocks* of code. This is what **lexical** scoping is: scopes depend only on how the code is written, not how it runs. Whether we run another function or not, if we do not define a variable within our set of curly braces, it does not exist in scope. *Lexical* literally means *"of words"*, and so our mental model we were building up of having separate blocks to divide up our scopes *visually* is **correct** (the way in which code is written determines the scope).
 
 ```javascript
 // global
@@ -364,7 +366,7 @@ Just by looking at the code structure, regardless of variables or functions call
 So, now you're an expert in scopes and the variables that get tied to them. Now that you are an expert, it means we can talk about some really cool stuff JavaScript has to offer. One of these is the concept of **closures**.
 
 ### What is a closure?
-A closure is when a function is returned from another function, and **remembers its scope**. That's little wordy, so let's look at an example. The first part is simple - we must return a function *from* a function.
+A closure is when a function is returned from another function, and **remembers its scope**. [[19]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures) That's little wordy, so let's look at an example. The first part is simple - we must return a function *from* a function.
 
 ```javascript
 function outer(){
@@ -474,10 +476,10 @@ Here, we access `jsx÷x` in `jsx÷printAndIncrementX` an assign our `jsx÷printA
 
 > **This process of a returned function closing over some variable in its lexical scope is called a closure**.
 
-*Note: we will dive into the underlying mechanics of closures another time, and so if you're interested as to how this works under the hood then stay tuned!*
+*Note: again, somewhat confusingly, the lexical environment we have access to through this returned function can also be refered to as a "closure". However, we will cover this when we delve deeper into the mechanics behind closures another day.*
 
-### What are Closures used for?
-We could throw out very esoteric examples of closures, and that's all well and good. But how are they *actually* used in every day code? One good example are **React Hooks**. The `jsx÷useState()` hook makes use of closures in order to function correctly. Given our new understanding of closures, we could actually recreate a primative version of the `jsx÷useState()` hook!
+### How are Closures Used?
+We could throw out very esoteric examples of closures, and that's all well and good. But how are they *actually* used in every day code? One good example are **React Hooks**. [[20]](https://www.netlify.com/blog/2019/03/11/deep-dive-how-do-react-hooks-really-work/) The `jsx÷useState()` hook makes use of closures in order to function correctly. Given our new understanding of closures, we could actually recreate a primative version of the `jsx÷useState()` hook!
 
 We know that `jsx÷useState` returns a stateful variable with some initial value, and a function to update this value (we shall ignore the re-rendering aspect entirely here!).
 
@@ -516,7 +518,7 @@ const [someState, setSomeState] = primitiveUseState("initial");
 Remember, both `jsx÷someState` and `jsx÷setSomeState` are *function definitions* in this primative example of `jsx÷useState`, and so we access the current value of `jsx÷someState` by **calling** `jsx÷someState()`. This is different to React, where `jsx÷someState` would literally be a variable we can use rather than a function we call to get our state, however the underlying mechanics are the same in both instances.
 
 ```jsx
-// Primative useState
+// Our primative useState example
 const [count, setCount] = primativeUseState(0);
 console.log(count()); // 0
 setCount(2);
@@ -531,3 +533,25 @@ console.log(count); // 1
 
 ## Summary
 Here we covered a brief introduction to scope and closures in JavaScript. We defined scope as "where variables can be accessed from", and covered the difference between ***block* scoping** (variables attach to code blocks; `{ }`) and ***function* scoping** (variables attach to the nearest parent function). We also briefly covered **hoisting** and the strange-yet-cool-sounding **temporal dead zone** error which occurs when we attempt to use variables declared with `jsx÷let` or `jsx÷const` before their declaration within the same scope, and how the easiest way to avoid this is simply to define our variables at the top of the function/block which needs them. We explained how JavaScript uses **lexical scoping**, which is when we can define the different scopes purely by how the code is written. We also mentioned that child blocks will inherit the scope of their parent blocks (or functions, if we use `jsx÷var`), and so on until we react the *global* scope. We also briefly looked at **closures** in JavaScript: where we return some inner function from some outer function, where the inner function makes reference to some variable declared in the outer function. Finally, we applied these principles to make a crude implementation of React's `jsx÷useState` hook.
+
+## References
+1. https://users.cs.cf.ac.uk/Dave.Marshall/PERL/node52.html
+2. https://en.wikipedia.org/wiki/Scope_(computer_science)
+3. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements
+4. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
+5. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let
+6. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var
+7. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block
+8. https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/scope-closures/ch2.md
+9. https://scotch.io/tutorials/understanding-scope-in-javascript#toc-global-scope
+10. https://youtu.be/DxnYQRuLX7Q?t=1255
+11. https://en.wikipedia.org/wiki/List_of_C-family_programming_languages
+12. https://en.wikipedia.org/wiki/Scope_(computer_science)#Block_scope
+13. https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/scope-closures/ch6.md
+14. https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/scope-closures/ch1.md#compiling-code
+15. https://en.wikipedia.org/wiki/Lexical_analysis
+16. https://developer.mozilla.org/en-US/docs/Glossary/Hoisting
+17. https://www.freecodecamp.org/news/what-is-the-temporal-dead-zone/
+18. https://web.archive.org/web/20150207225438/http://courses.cs.washington.edu/courses/cse341/08au/general-concepts/scoping.html
+19. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+20. https://www.netlify.com/blog/2019/03/11/deep-dive-how-do-react-hooks-really-work/
