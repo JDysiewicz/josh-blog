@@ -129,14 +129,16 @@ const ArticleLayout = styled.div`
 
 `;
 
-export default ({children}) => (
-    <LightGlobal>
-        <Helmet>
-            <title>{children[0]}</title>
-        </Helmet>
-        <ArticleLayout>
-            <Navbar articleTitle={children[0]} articleSmall={children[1]} />
-            {children}
-        </ArticleLayout>
-    </LightGlobal>
-);
+export default ({children}) => {
+        return (
+        <LightGlobal>
+            <Helmet>
+                <title>{children[0].props.children}</title>
+            </Helmet>
+            <ArticleLayout>
+                <Navbar articleTitle={`${children[0]}`} articleSmall={children[1]} />
+                {children}
+            </ArticleLayout>
+        </LightGlobal>
+    )
+};
