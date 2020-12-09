@@ -52,6 +52,7 @@ export default ({children}) => {
             <html lang="en" />
             <title>{title}</title>
             <meta name="description" content={description} />
+            <meta name="google-site-verification" content="D7V2AeAkgWMhHW0VkhM1h6sm8TNYk58ecSbmN4I7W9k" />
         </Helmet>
         {children}
     </GlobalLayout>
