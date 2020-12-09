@@ -4,6 +4,7 @@ import styled from "@emotion/styled"
 import LightGlobal from "./LightGlobal";
 
 import Navbar from "../Navbar";
+import { Helmet } from "react-helmet";
 
 // deckDeckGoHighlightElement();
 // color: #00B39E; Vue-like Green
@@ -130,6 +131,9 @@ const ArticleLayout = styled.div`
 
 export default ({children}) => (
     <LightGlobal>
+        <Helmet>
+            <title>{children[0]}</title>
+        </Helmet>
         <ArticleLayout>
             <Navbar articleTitle={children[0]} articleSmall={children[1]} />
             {children}

@@ -1,7 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: "Joshua Dysiewicz Blog",
-    siteUrl: "https://www.dysiewicz-blog.netlify.app",
+    title: "JS & React Blog",
+    siteUrl: "https://www.everydayreact.com",
+    author: "Joshua Dysiewicz",
     description: "A blog focusing on web development using JavaScript and React"
   },
   plugins: [
