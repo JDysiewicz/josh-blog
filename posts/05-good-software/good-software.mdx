@@ -1,0 +1,546 @@
+---
+title: "What is 'Good' Software?"
+slug: "what-is-good-software"
+author: "Joshua Dysiewicz"
+date: "13 November 2020"
+readingTime: "📖 x min"
+spoiler: "Software design principles"
+---
+
+## Why.
+The most important question a person can ask when trying to learn something new is "**why?**".
+
+- **Why** should I use a functional component over a class component?
+- **Why** should I use promises over callback functions?
+- **Why** should I have each React component in its own file?
+
+Along that line of thinking, you might rightly ask *"**Why** have you started an article on software design principles with an esoteric discussion about language?"*. Well, it's because the **why** becomes incredibly important when we discuss what makes something **"good"**. In response to the above questions, we could easily say *"Because it makes for better code"*, but this begs the question: **Why do these things make code better?**
+
+## What Makes Code 'Good'
+'Good' code is somewhat subjective, and somewhat objective. To elaborate, let me ask you: what makes someone attractive? We can make some general statements, for example facial symmetry is generally regarded as an attractive trait [https://www.sciencedirect.com/science/article/abs/pii/S1090513801000836] (objective), however it is also depends on the person (subjective). Dividing 'good' into subjective and objective terms allows us to focus on certain aspects of software construction, and allows us to understand why, for instance, promises are better than callbacks in most cases.
+
+### Objectively Good Code
+Objectively good code means that we can extract out all personal feelings and attachments, and focus purely on factual evidence. This is where design principles such as SOLID come into play.
+
+
+### Subjectively Good Code
+
+
+//////////////////////////////////////////////
+
+'Good' software is incredibly hard to define, and can be incredibly subjective. However, we can point to some objective traits that make some code better than others. Think of this as defining what makes someone attractive: there are well studied phenomena about what makes an individual objectively more attractive (e.g facial symmetry [https://www.sciencedirect.com/science/article/abs/pii/S1090513801000836]), however it can also be personal preference. In general, however, good software is:
+
+- **Funcional**: It does the job you wanted it to.
+- **Maintainable**: It is easy understand, easy to edit/add new features, and easy to fix things when they go wrong.
+- **Robust**: It is hard to break, hard to exploit, and handles errors when they occur.
+
+### Funcional
+This part of good software deals with requirements, and where methodologies "agile development" make their home. Every decision we make should have some reason as to how it makes steps towards some overarching goal. If you create the greatest JavaScript framework in the world but you were asked to create a twitter clone, then you've provided an excellent answer to the wrong question. This is the realm of usability, and agile frameworks.
+
+Code that is functional provides a correct answer to a given question. Take, for instance, the following two code snippets which both accomplish the same thing.
+
+```jsx
+const callAPI = async () => {
+	const data = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+  	return data;
+};
+
+callAPI()
+```
+
+```jsx
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg){
+    try {
+        var info = gen[key](arg); var value = info.value;
+    } catch (error) {
+        reject(error); return;
+    }
+    if (info.done) {
+        resolve(value);
+    } else {
+        Promise.resolve(value).then(_next, _throw);
+    }
+}
+
+function _asyncToGenerator(fn) {
+    return function () {
+        var self = this, args = arguments;
+        return new Promise(function (resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(undefined);
+        });
+    };
+}
+
+var callAPI = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var data;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return fetch("https://jsonplaceholder.typicode.com/todos/1");
+
+          case 2:
+            data = _context.sent;
+            return _context.abrupt("return", data);
+
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function callAPI() {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+callAPI();
+```
+
+Now, I don't think its particularly controversial to prefer the first snippet. However, what if the purpose of these snippets was to call an API in a way that was compatible with all browsers? Well, suddenly the first snippet is now *awful* code for this task, as IE11 doesn't support the async/await syntax (let's ignore that babel exists to illustrate the point here, as the actual correct response here is to use the first snippet but transpile it down to ES2015). This goes to show that good code is code which provides the functionality expected of it.
+
+### Maintainable
+Code is maintainable if you can come back to it 6 months later and understand how it works in a few minutes. It is also easy for other developers to pick up and work on when you're not around. This is the realm of readability, naming conventions, decoupling, and extensibility.
+
+### Robust
+Code is robust if it accounts for all possibilities, and handles errors gracefully. This is the realm of testing and error handling.
+
+
+## Software Development Philosophies
+There are many, *many* different philosophies when it comes to writting software. There are philosophies focusing on the large-scale development of software (such as test-driven development and agile methodologies), and those focusing on very language-specific features (idiomatic code). Each of these philosophies attempts to make code 'better' according to the three basis outlined above (functionality, maintainability, and robustness). For instance, using a test-driven development philosphy (where tests are written before code is) will ensure your code is more robust as you are thinking about testing and error handling from the very begining. For the most part, we will touch on philisophies and principles which seek to make code more maintainable, as this is what we generally think of when we think of good software in isolation. Functionality must be compared against user requirements, and robustness must be compared against tests. It should be noted, however, that these principles are:
+
+1. Language aganostic: These principles are generalised to all programming languages, and so may be easier to implement in one language over another.
+2. Guidelines: Don't be too dogmatic about these principles; remember, we only follow these so long as they increase the maintainability of our code by one means or another, if they become more of a hinderence then feel free to break them.
+
+
+### SOLID
+SOLID is an acronym for five separate design principles:
+
+> - **S**ingle Responsibility Principle.
+- **O**pen/Closed Principle.
+- **L**iskov Substitution Principle.
+- **I**nterface Segregation Principle.
+- **D**ependency Inversion Principle.
+
+These are all fancy sounding terms which, in my opinion, are too overcomplicated. Here's a simple mapping to give an overview of what each principle means in practice:
+
+> - Every function/class/module should do exactly **one** thing.
+- You should be able to add additional functionality to some module, without modifying its existing source code.
+- If B extends A, anywhere you use A you should be able to use B.
+- If B extends A, then B should use all the methods/properties defined on A. If it doesn't, then you need to break apart A into smaller chunks.
+- High-level code shouldn't depend on implementation details.
+
+We'll dive deeper into each of this in a second and give examples using JavaScript and React, however there is one huge caveat we need to address first. **SOLID was designed with the OOP paradigm in mind**. JavaScript is a multi-paradigm language, doesn't actually have classes, and React is more functional programming than it is object-oriented. As such, these principles will have slightly different implementations when using JavaScript as opposed to a strictly OOP language like Java or C#. We can still use these principles, however we shouldn't pretend that we write JavaScript the same way we write purely OOP languages. JavaScript is great how it is, it doesn't need to pretend to be something it's not just to satisfy some principles.
+
+#### Single Responsibility Principle
+The single responsibility principle means that every function/module should be responsible for one thing alone. To put this in terms of React, we should modularise our components such that each component does exactly one thing instead of making bloated components that contain our entire application. This allows us to separate areas of concern. Take, for instance, the `jsx÷<TodosPage />` component below which will fetch a list of todos from an API, filter for the first 10, and display this to the user.
+
+```jsx
+const TodosPage = () => {
+    const [todos, setTodos] = useState([]);
+
+    useEffect(() => {
+        async function getTodos() {
+            const { data } = await axios.get("https://jsonplaceholder.typicode.com/todos/");
+            const firstTen = data.slice(0, 10);
+            setTodos(firstTen);
+        };
+        getTodos();
+    }, []);
+
+    const renderTodos = () => {
+        return todos.map(todo => {
+            return (
+                <li>
+                    {`ID: ${todo.id}, Title: ${todo.title}`}
+                </li>
+            )
+        });
+    };
+
+    return (
+        <div>
+            <h1>My Todos:</h1>
+            <ul>
+                {renderTodos()}
+            </ul>
+        </div>
+    )
+};
+```
+Let's think about what we are actually doing here:
+
+1. We are fetching some todos from an external API.
+2. We are turning these into some list of elements to be displayed.
+3. We are displaying the list to our users.
+
+Really, our `jsx÷<TodosPage />` component shouldn't really care where the todos come from, or in what format they are displayed. All `jsx÷<TodosPage />` should care about it actually showing the user our list of Todos, so we should probably break this component into two: `jsx÷<TodosPage />` which will show our user the page containing our todos, and `jsx÷<TodosList />` which will handle the actual creation of the list.
+
+```jsx
+const TodosPage = () => {
+  return (
+    <div>
+      <h1>My Todos</h1>
+      <TodosList />
+    </div>
+  )
+};
+
+const TodosList = () => {
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+      async function getTodos() {
+          const { data } = await axios.get("https://jsonplaceholder.typicode.com/todos/");
+          const firstTen = data.slice(0, 10);
+          setTodos(firstTen);
+      };
+      getTodos();
+  }, []);
+
+
+  const renderTodos = () => {
+      return todos.map(todo => {
+          return (
+              <li>
+                  {`ID: ${todo.id}, Title: ${todo.title}`}
+              </li>
+          )
+      });
+  };
+
+  return <ul>{renderTodos()}</ul>;
+}
+```
+This is a start, but really we've just offloaded much of the responsibilty into `jsx÷<TodosList />` instead. So let's break `jsx÷<TodosList />` up a little more. Firstly, we can extract out the details for rendering each Todo, and instead render a separate `jsx÷<TodoItem />` each time.
+
+```jsx
+const TodosList = () => {
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+      async function getTodos() {
+          const { data } = await axios.get("https://jsonplaceholder.typicode.com/todos/");
+          const firstTen = data.slice(0, 10);
+          setTodos(firstTen);
+      };
+      getTodos();
+  }, []);
+
+  const renderTodos = () => {
+      return todos.map(todo => {
+          return <Todoitem id={todo.id} title={todo.title} />
+      });
+  };
+
+  return <ul>{renderTodos()}</ul>;
+}
+
+const TodoItem = ({id, title}) => {
+  return <li>{`ID: ${id}, Title: ${title}`}</li>
+};
+```
+Again this is a little better - we're offloading the actual formatting for each todo into a different component such that our `jsx÷<TodosList />` component is doing less, however there's still that API call that looks a little messy. It might be nice if, instead, we could just pass our `jsx÷<TodosList />` the list of Todos it needs as a prop instead.
+
+```jsx
+const TodosList = ({todos}) => {
+
+  const renderTodos = () => {
+      return todos.map(todo => {
+          return <Todoitem id={todo.id} title={todo.title} />
+      });
+  };
+
+  return <ul>{renderTodos()}</ul>;
+}
+```
+
+To do (*pun intended*) this, we could wrap our `jsx÷<TodosList />` in an `jsx÷<APIWrapper />` component which will wrap our `jsx÷<TodosList />`, passing in the todos once they are retrieved from the API. We can do this using the `jsx÷props.children` element on a component, and pass props in using `jsx÷React.Children.map()`.
+
+```jsx
+const APIWrapper = ({children}) => {
+
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+      async function getTodos() {
+          const { data } = await axios.get("https://jsonplaceholder.typicode.com/todos/");
+          const firstTen = data.slice(0, 10);
+          setTodos(firstTen);
+      };
+      getTodos();
+  }, []);
+
+  const todoListWithTodos = React.Children.map(
+    children,
+    (child) => {
+      return React.cloneElement(child, { todos: todos })
+    }
+  )
+  
+  return (
+    <div>
+      {todos.length > 0 ? todoListWithTodos : null}
+    </div>
+  )
+};
+```
+
+So here we have it, our final code completely abiding to the Single Responsibility principle:
+
+```jsx
+// The main component in our web application which controls the TodosPage
+const TodosPage = () => {
+  return (
+    <div>
+      <h1>My Todos</h1>
+      <APIWrapper>
+        <TodosList />
+      <APIWrapper />
+    </div>
+  )
+}
+```
+
+```jsx
+const APIWrapper = ({children}) => {
+
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+      async function getTodos() {
+          const { data } = await axios.get("https://jsonplaceholder.typicode.com/todos/");
+          const firstTen = data.slice(0, 10);
+          setTodos(firstTen);
+      };
+      getTodos();
+  }, []);
+
+  const todoListWithTodos = React.Children.map(
+    children,
+    (child) => {
+      return React.cloneElement(child, { todos: todos })
+    }
+  )
+  
+  return (
+    <div>
+      {todos.length > 0 ? todoListWithTodos : null}
+    </div>
+  )
+}
+
+const TodosList = ({todos}) => {
+
+  const renderTodos = () => {
+      return todos.map(todo => {
+          return <Todoitem id={todo.id} title={todo.title} />
+      });
+  };
+
+  return <ul>{renderTodos()}</ul>;
+}
+
+const TodoItem = ({id, title}) => {
+  return <li>{`ID: ${id}, Title: ${title}`}</li>
+}
+```
+
+Now, this is perhaps a contrived example, however it illustrates the idea that each component is only concerned with a single thing:
+
+- TodosPage doesn't care about the todos, how they are retrieved, or how they are formatted. It just knows it needs to display a page which will contain them.
+- APIWrapper doesn't care about formatting anything or the todos. It just deals with retrieving them and sending them over the TodosList.
+- TodosList doesn't care about where the todos came from, it just knows it gets a list of todos and should display some area to render them in.
+- TodoItem doesn't care about how many todos there are, where they came from, or on what page they will be displayed. It just knows it will revieve an `jsx÷id` and `jsx÷title`, and should return a `jsx÷<li>` containing that information.
+
+This makes our codebase far mroe modularised and easier to maintain, as each component only deals with one thing, making debugging much easier. However, is this more complex than what we had at the start? Here's the original component again which contained everything.
+
+```jsx
+const TodosPage = () => {
+    const [todos, setTodos] = useState([]);
+
+    useEffect(() => {
+        async function getTodos() {
+            const { data } = await axios.get("https://jsonplaceholder.typicode.com/todos/");
+            const firstTen = data.slice(0, 10);
+            setTodos(firstTen);
+        };
+        getTodos();
+    }, []);
+
+    const renderTodos = () => {
+        return todos.map(todo => {
+            return (
+                <li>
+                    {`ID: ${todo.id}, Title: ${todo.title}`}
+                </li>
+            )
+        });
+    };
+
+    return (
+        <div>
+            <h1>My Todos:</h1>
+            <ul>
+                {renderTodos()}
+            </ul>
+        </div>
+    )
+};
+```
+I would argue **yes** - spreading everything out that much can actually lead to *less* understanding about what is going on. Anyone looking at our original `jsx÷<TodosPage />` can see everything happening relatively easily, however, when every piece of logic is extracted out into its smallest form, we can begin to lose perspective. We are only doing one API call to get a simple array of values, so is there a need to extract out all the API logic into a separate component? Furthermore, we could argue that our original `jsx÷<TodosPage />` *already* obeyed the single responsibility principle:
+
+- All the API interaction was located within the `jsx÷useEffect()` and didn't seep out into the rest of the component - the `jsx÷useEffect()` doesn't care what happens to the data after it is retrieved.
+- Our `jsx÷todos` state doesn't care where the information comes from, or what happens to it: it just knows it will get some array of todos.
+- Our `jsx÷<TodosPage />` doesn't really care for the formatting of the indivudal todo items, as this is contained entirely within the `jsx÷renderTodos()` function.
+
+What I am trying to illustrate here, is that these principles are here to help achieve one of the three main goals we spoke about in the begininng:
+- Introduce desired **functionality** for our use case.
+- Make our code more **maintainable** by making it easier more readable, extensible, etc.
+- Increase the **robustness** of our code by testing or adding better error handling.
+
+You must decide for yourself how far to take each of these principles, and you must know when it is working coutner to your aims.
+
+### DRY
+**D**on't **R**epeat **Y**ourself is the principle that each piece of functionality should only be written the minimum number of times it is needed. Variables are a great example of this:
+
+```jsx
+const multiplyByNum = 2 * 3;
+const addedNum = 2 + 7;
+const subtractedFromNum = 2 - 1;
+```
+
+This may work, however there is a common theme among all the values: each one deals with the number `jsx÷2`. If we want to change the number to `jsx÷3`, we would have to change every instance of `jsx÷2`.
+
+```jsx
+const multiplyByNum = 3 * 3;
+const addedNum = 3 + 7;
+const subtractedFromNum = 3 - 1;
+```
+Not only is this tedious, but it is also prone to errors as it could be very easy to miss an instance of `jsx÷2` is our codebase was larger. Therefore, to save this, we create a `jsx÷num` variable. That way, if we ever want to change the number, we alter `jsx÷num` and can be assured that every instance of `jsx÷2` becomes a `jsx÷3`.
+
+```jsx
+const NUM = 3;
+const multiplyByNum = NUM * 3;
+const addedNum = NUM + 7;
+const subtractedFromNum = NUM - 1;
+```
+For this reason, this principle is also refered to as the **S**ingle **S**ource **O**f **T**ruth (SSOT) principle, as we aim to extract out all commonalities into a single variable which will be used as the source of truth for the entire application.
+
+#### Overdoing it
+While this sounds perfect in theory, the reality is often not so simple. Dan Abramov has a great talk about what happens when you dogmatically stick to the DRY principle too much (appropriately named "The WET codebase", **W**rite **E**verything **T**wice) [https://www.deconstructconf.com/2019/dan-abramov-the-wet-codebase]. When we attempt to abstract out common code, we may accidently create a very poor abstraction. In the end, this ends up being worse than no abstraction at all. At this point, our code has become less maintainable by sticking to a principle too strongly. A principle is only good if it actually makes your code better (addresses functionality, makes things more maintainable, or makes it more robust). Don't be dogmatic about any one principle.
+
+> "We try so hard to avoid the spaghetti code that we create this lasagna code, where there are so many layers that you don't know what's going on anymore at all" - Dan Abramov
+
+
+### YAGNI
+https://xkcd.com/974/
+
+**Y**ou **A**in't **G**onna **N**eed **I**t ties in to answering the right question. Build what is required now, and build the features you may need in the future, in the future. For instance, if you're making a weather app the get the weather based on postcode in the UK, there's no need to add support for zipcodes in USA. Sure, one day you might want to add support for this - if your codebase is maintainable (see below) it shouldn't be an expensive addition. However, trying to do this now when it won't be needed now will waste time, and have incurred cost of building, cost of carry, and cost of delay [https://martinfowler.com/bliki/Yagni.html]. 
+
+YAGNI doesn't mean "don't plan for future extensibility", it means "meet the current needs before meeting needs of the future". Facebook didn't start out with x million servers and data warehouses, because at the time YAGNI. However, once they did once they needed it.
+
+#### Overdoing it
+There are some changes that would be expensive to make down the line. If you know if 6 months time you'll need to be able to support 1 million users but right now you only need to support 100,000, maybe you should chosse a database which has the capability of more than 200,000. Migrating 200,000 users to another database in 6 months time would be way harder than just taking the initial time hit to set up the larger database now in preperatino for the future. [https://martinfowler.com/bliki/Yagni.html]
+
+
+### KISS
+**K**eep **I**t **S**imple, **S**tupid states that systems should be as simple as possible, and that unecessary complexity should be avoided. This, however, is a truism. **Obviously** we should avoid "unecessary complexity" - it is *by definition* "unnecessary". So, how can we decide what "unecessary complexity" is? Well - we must look back at our criteria for good software:
+
+- Does this change create the desired **functionality**?
+- Does this change make the codebase easier to **maintain**?
+- Does this style of coding make the system more **robust**?
+
+Even if its the coolest and greatest feature in the world, it's unecessary complexity if it doesn't answer "yes" to at least one of the above questions. For example, if we need to implement some sorting functionality to our codebase, we *could* create our own sort function...[https://www.digitalocean.com/community/tutorials/js-understanding-merge-sort]
+
+```jsx
+const merge = (arr1, arr2) => {
+  let sorted = [];
+
+  while (arr1.length && arr2.length) {
+    if (arr1[0] < arr2[0]) sorted.push(arr1.shift());
+    else sorted.push(arr2.shift());
+  };
+
+  return sorted.concat(arr1.slice().concat(arr2.slice()));
+};
+
+const mergeSort = arr => {
+  if (arr.length <= 1) return arr;
+  let mid = Math.floor(arr.length / 2),
+      left = mergeSort(arr.slice(0, mid)),
+      right = mergeSort(arr.slice(mid));
+
+  return merge(left, right);
+};
+
+const sortedArr = mergeSort[3,2,5,4,1];
+console.log(sortedArr) // [1, 2, 3, 4, 5]
+```
+
+However, JavaScript has a built in `jsx÷Array.sort()` method which implements a sorting algo for us (quicksort or merge sort depending on your runtime environemnt).
+
+```jsx
+const sortedArr = [3,2,5,4,1].sort((a,b) => a-b);
+console.log(sortedArr) // [1, 2, 3, 4, 5]
+```
+
+99% of the time, someone has already solved part of the problem you're working on and there is a library or existing codepen out there. This is the beauty of open source software - all you have to do is find it. KISS, don't reinvent the wheel.
+
+#### Overdoing it
+Sometimes, the simplest solution *isn't* the best. Sometimes, that codepen/library doesn't quite have the functionality you need from it. At this point, it's appropriate to add in some additional complexity. For instance, take the Two Sum problem. We have an array of values, and we want to find a a pair of numbers in the array which sum to some value.
+
+```jsx
+const sum = 52;
+const array = [1, 22, 33, 15, 42, 23, 72, 51]
+```
+
+The simplest solution here is just to check each value in the array twice:
+
+```jsx
+function twoSumBad(arr, sum){
+    for (let i = 0; i < arr.length; i++){
+        for (let j = 0; i < arr.length; j++){
+            if (arr[i] + arr[j] === sum){
+                return [arr[i], arr[j]];
+            }
+        }
+    }
+    return false;
+}
+```
+
+However, this involves checking every value in the array twice and so the time taken to complete this operation will increase with the square of our array length (see big O notation). A more complex, yet *better* solution is to keep track of the values we have already seen, therefore we only need to go through the array n times instead of n^2 times.
+
+```jsx
+function twoSumBetter(arr, sum){
+
+    let seenNumbers = new Set();
+
+    for (let i = 0; i < arr.length; i++){
+        const neededValue = sum - arr[i];
+
+        if (seenNumbers.has(neededValue)){
+            return [arr[i], neededValue];
+        } else {
+            seenNumbers.add(arr[i]);
+        }
+    }
+
+    return false;
+}
+```
+Glossing over some details here, this implementation of the two sum problem is more complex, yet runs much faster than the simple implementation. It is up to your experience as a developer, and the experience of those around you, to know when complexity is needed or when complexity is necessary.
+
+
