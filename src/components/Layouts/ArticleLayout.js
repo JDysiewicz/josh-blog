@@ -26,8 +26,10 @@ const ArticleLayout = styled.div`
 
     & .article {
         color: #232323;
-        font-size: 20px;
+        font-size: 21px;
         font-stretch: normal;
+        font-style: normal
+        font-weight: 400;
         font-family: "Source Sans Pro", Roboto, sans-serif;
         line-height: 1.5;
         
@@ -66,12 +68,77 @@ const ArticleLayout = styled.div`
         }
 
         & blockquote{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 90%;
+            background-color: #B7E6F6;
+            padding: 0.5rem;
+            border-radius: 15%;
+            border: 1px solid black;
+            color: #000000;
+            text-align: center;
+            font-size: 23px;
+
+        }
+
+        & .quote{
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 90%;
             background-color: #9bdeac;
+            padding-top: 1rem;
             padding-left: 0.5rem;
             padding-right: 0.5rem;
-            border-radius: 10px;
-            margin: 0;
+            padding-bottom: 0rem;
+            border-radius: 15%;
+            border: 1px solid black;
+            color: #000000;
+            text-align: center;
+            font-size: 23px;
+            font-style: italic;
 
+            & .author {
+                font-style: normal;
+                color: #555555;
+                margin-top: 0.3rem;
+                text-align: right;
+            }
+
+        }
+        & .heading-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 70%;
+            background-color: #EBEB77;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-radius: 15%;
+            border: 1px solid black;
+            color: #000000;
+            text-align: center;
+            font-size: 23px;
+        }
+
+        & .info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 80%;
+            background-color: #B7E6F6;
+            padding: 0.5rem;
+            border-radius: 15%;
+            border: 1px solid black;
+            color: #000000;
+            text-align: center;
+            font-size: 23px;
         }
 
         /* centers gifs in mdx */

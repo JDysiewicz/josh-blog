@@ -10,13 +10,15 @@ spoiler: "How we can apply the SOLID design principles to our React components?"
 This is an extension of <a href="what-is-good-software">"What is 'Good' Software?"</a>. I'd highly recommend reading through that first for a greater context as to why we might want to follow some software design philosphies.
 
 ## Disclaimer
-Software design principles are great, because they are relatively **language agnostic**; they can be applied regardless of what language you write in. However, there is no escaping the fact that the SOLID design principles grew from the *Principles of Object Oritented Class Design* in Robert C. Martin's *Design Principles and Patterns* paper in 2000. [http://staff.cs.utu.fi/staff/jouni.smed/doos_06/material/DesignPrinciplesAndPatterns.pdf] JavaScript - while able to support a psuedo-OO style using its prototype system - lacks some of the distinguishing features of an OO language (for instance, proper classes and interfaces). [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes] The React library in particular has its roots more in the functional programming paradigm than it does in the OOP paradigm, especially with the hooks system and its reliance on closures. [https://medium.com/@andrea.chiarelli/the-functional-side-of-react-229bdb26d9a6] As such, we cannot directly translate an example of SOLID principles applied in Java/C# into JavaScript, and we shouldn't pretend that JavaScript/React is something that it is not. **We simply don't write front ends in React the same way we'd write in Java**. Much like translating a linguistic language, we must read into what each principle is attempting to do, and then map this to JavaScript such that its meaning is not lost. **This means that the application of each of the SOLID principles here may differ from their original implementation in a strict OO language**. However, I have tried my best to find a corrosponding way to translate each principle into some meaningful idea that we can use when building our front ends in React, instead of parotting the same *"the open/closed principle means that our code should be open for extension but closed for modification"* lines that you can read elsewhere, which do not literally translate the React that well. 
+Software design principles are great, because they are relatively **language agnostic**; they can be applied regardless of what language you write in. However, there is no escaping the fact that the SOLID design principles grew from the *Principles of Object Oritented Class Design* in Robert C. Martin's *Design Principles and Patterns* paper in 2000. [http://staff.cs.utu.fi/staff/jouni.smed/doos_06/material/DesignPrinciplesAndPatterns.pdf] JavaScript - while able to support a psuedo-OO style using its prototype system - lacks some of the distinguishing features of an OO language (for instance, proper classes and interfaces). [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes] The React library in particular has its roots more in the functional programming paradigm than it does in the OOP paradigm, especially with the hooks system and its reliance on closures. [https://medium.com/@andrea.chiarelli/the-functional-side-of-react-229bdb26d9a6] As such, we cannot directly translate an example of SOLID principles applied in Java/C# into JavaScript, and we shouldn't pretend that JavaScript/React is something that it is not. **We simply don't write front ends in React the same way we'd write in Java**. Much like translating a linguistic language, we must read into what each principle is attempting to do, and then map this to JavaScript such that its meaning is not lost. **This means that the application of each of the SOLID principles here may differ from their original implementation in a strict OO language**. However, I have tried my best to find a corrosponding way to translate each principle into some meaningful idea that we can use when building our front ends in React, instead of just parroting the definition of each principle.
+
+<p className="info">We can use the SOLID principles to write better React frontends, however we must take certain lingustic liberties to extract applicable implementations.</p>
 
 ## What is SOLID? 
 
 SOLID is an acronym for five separate design principles:
 
-> - **S**ingle Responsibility Principle (SRP).
+- **S**ingle Responsibility Principle (SRP).
 - **O**pen/Closed Principle (OCP).
 - **L**iskov Substitution Principle (LSP).
 - **I**nterface Segregation Principle (ISP).
@@ -24,28 +26,33 @@ SOLID is an acronym for five separate design principles:
 
 These sound fancy, however we can map these to specific implementations when writting front ends in React:
 
-> - **SRP**: Every function/class/module should do exactly **one** thing.
+- **SRP**: Every function/class/module should do exactly **one** thing.
 - **OCP**: You should be able to add additional functionality to some module, without modifying its existing source code; **prefer composition to inheritance**.
 - **LSP**: If B extends A, anywhere you use A you should be able to use B.
 - **ISP**: Don't make a component rely on props it doesn't care about.
 - **DIP**: High-level code shouldn't depend on implementation details - **always use an abstraction**.
 
-
+The above showcase ways in which we can implement each principle when writting modern React code (e.g - using hooks over classes). Let's go through each in detail and explain what these statements mean!
 
 ## Single Responsibility Principle (SRP)
+
+<p className="heading-header">Every function/class/module should do exactly one thing</p>
+
 To be frank, **this is the most important principle** to follow when writting frontends in React. The SRP encourages us to fragment our code from monolithic files contains thousands of lines, into dozens of smaller 50-100 line files. This is because it encourages us to extract functionality from our files into separate functions, such that our codebase becomes more modular. This makes it much more **maintainable** as it becomes easy to see the various moving parts to some particular functionality. It also makes our codebase much more **robust** as it becomes far easier to test many smaller separate files than one large file. In short, if you're struggling to implement good testing, or your files are routinely getting above 150 lines of code, its probably a sign you need to fragment your code more.
 
-> **Note:** There is nothing special about 50-150 lines of code. This is not a hard rule. It can simply be used as a possible indication that you need to think about whether you can extract more functionality.
+**Note:** There is nothing special about 50-150 lines of code. This is not a hard rule. It can simply be used as a possible indication that you need to think about whether you can extract more functionality.
+
+<p className="info">Large functions/components often indicate that they are doing more than one thing; try to keep functions/components small to ensure modualrity.</p>
 
 ### What Does "one thing" Mean?
-><p style={{textAlign: "center"}}><strong>SRP: Every function/class/module should do exactly one thing.</strong></p>
+I've mentioned the phrase "one thing" a couple times now, so it's probably useful to try and discern what that means. Robert Martin, author of *Clean Code* and progenitor of the SOLID principles, defines it as such: [https://cleancoders.com/]
 
-What does "one thing" mean? It's an interesting question, however Robert Martin gives a nice answer.
+<p className="quote">"A function does one thing if you cannot meaningfully extract another function from it. If a function contains code, and you can extract another function from it, then that original function did more than one thing."<p className="author"> - Robert C Martin, Clean Code, Lesson 1[https://www.youtube.com/watch?v=7EmboKQH8lM]</p></p>
 
-> *"A function does 'one thing' if you cannot meaningfully extract another function from it. If a function contains code, and you can extract another function from it, then clearly that original function did **more** than 'one thing'" - Robert C Martin, Clean Code, Lesson 1 [https://www.youtube.com/watch?v=7EmboKQH8lM]*
+The level to which you take this is up to you; as I have mentioned many times, zealously following any principle does more harm than good. However, this does give us a starting point and a general rule of thumb to follow if unsure.
 
 ### Using this in React
-To put this in terms of React, we should modularise our components such that each component does exactly one thing instead of making bloated components that contain our entire application. Take, for instance, the `jsx÷<TodosPage />` component below which will fetch a list of todos from an API, filter for the first 10, and display this to the user (error handling notwithstanding).
+To put this in terms of React, we should modularise our components such that each component is responsible for one thing, instead of making bloated components that contain our entire application. However, does this mean "one piece of the UI" or "one piece of logic associated with a piece of UI"? Take, for instance, the `jsx÷<TodosPage />` component below which will fetch a list of todos from an API, slice the first 10, and display this to the user (error handling notwithstanding).
 
 ```jsx
 const TodosPage = () => {
@@ -127,7 +134,7 @@ const TodosList = () => {
   return <ul>{renderTodos()}</ul>;
 }
 ```
-This is a start, but really we've just offloaded much of the responsibilty into `jsx÷<TodosList />` instead. So let's break `jsx÷<TodosList />` up a little more. Firstly, we can extract out the details for rendering each Todo, and instead render a separate `jsx÷<TodoItem />` each time.
+We are begining to separate out the UI, but really we've just offloaded much of the responsibilty into `jsx÷<TodosList />` instead. So let's break `jsx÷<TodosList />` up a little more. Firstly, we can extract out the details for rendering each Todo, and instead render a separate `jsx÷<TodoItem />` each time.
 
 ```jsx
 const TodosList = () => {
@@ -155,7 +162,7 @@ const TodoItem = ({id, title}) => {
   return <li>{`ID: ${id}, Title: ${title}`}</li>
 };
 ```
-Again this is a little better - we're offloading the actual formatting for each todo into a different component such that our `jsx÷<TodosList />` component is doing less, however there's still that API call that looks a little messy. It might be nice if, instead, we could just pass our `jsx÷<TodosList />` the list of Todos it needs as a prop instead.
+Again this is a little better - we're offloading the actual formatting for each todo into a different component such that our `jsx÷<TodosList />` component is doing less. At this point, our UI is relatively broken up compared to what it was. However, if we want to separate out logic, there's still that API call that looks a little messy. It might be nice if, instead, we could just pass our `jsx÷<TodosList />` the list of Todos it needs as a prop instead. This would greatly clean up out component, and make it responsible purely for UI rather than mixing UI and logic.
 
 ```jsx
 const TodosList = ({todos}) => {
@@ -204,7 +211,7 @@ const APIWrapper = ({children}) => {
 So here we have it, our final code completely abiding to the SRP:
 
 ```jsx
-// The main component in our web application which controls the TodosPage
+// The main component in our web application which controls the TodosPage.
 const TodosPage = () => {
   return (
     <div>
@@ -218,6 +225,7 @@ const TodosPage = () => {
 ```
 
 ```jsx
+// The subcomponents we have created to modularise our program.
 const APIWrapper = ({children}) => {
 
   const [todos, setTodos] = useState([]);
@@ -307,7 +315,7 @@ const TodosPage = () => {
     )
 };
 ```
-One could argue, **yes**; spreading everything out that much can actually lead to *less* understanding about what is going on. Anyone looking at our original `jsx÷<TodosPage />` can see everything happening relatively easily, however, when every piece of logic is extracted out into its smallest form, we can begin to lose perspective. This is referred to as **overfragmentation**.
+One could argue, **yes**; spreading everything out that much can actually lead to *less* understanding about what is going on. Anyone looking at our original `jsx÷<TodosPage />` can see everything happening relatively easily, however, when every piece of logic is extracted out into its smallest form, we can begin to lose perspective. If we wanted to see how the `jsx÷<TodosPage />` component works, we actually need to bring up all four components.  We can refer to this as **overfragmentation**.
 
 What I am trying to illustrate here, is that these principles are here to help achieve at least one of the three main goals we spoke about in the begininng:
 - Introduce desired **functionality** for our use case.
@@ -317,7 +325,7 @@ What I am trying to illustrate here, is that these principles are here to help a
 When dogmatically following a principle becomes counterproductive to these aims, it might be time to take a step back.
 
 ### The 'React-Way' of Fragmenting Components
-This pattern of doing things can be thought of as having "container" components that deal with logic and externalities, like `jsx÷<APIWrapper />`, and "presentational" components which deal entirely with the view, like `jsx÷<TodosList />`. This is a pattern that was endorsed by Dan Abramov in order to stick to the single responsibility principle. [https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0] However, since the release of hooks, we have a different method of separating things out: namely, **custom hooks**.
+The pattern showcased above (separating UI copmonents from logic components) can be thought of as having "container" components that deal with logic and externalities (`jsx÷<APIWrapper />`), and "presentational" components which deal entirely with the UI (`jsx÷<TodosList />`). This is a pattern that was endorsed by Dan Abramov in order to organise code neatly, and to separate our areas of concern. [https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0] However, since the release of hooks, we have a different method of separating things out: **custom hooks**. We won't dive into them for now, other than to give an example of how one could use a custom hook to separate out our original `jsx÷<TodosPage />`, while not losing perspective on what it is doing.
 
 ```jsx
 const TodosPage = () => {
@@ -358,20 +366,24 @@ function useTodos(){
 };
 ```
 
-Here, we have extracted out the API logic into the `jsx÷useTodos()` custom hook. We have also extracted out the formatting for each individual todo into the `jsx÷<TodoItem />` component. I believe this strkes the balance between following the SRP, whilst also keeping it clear to the reader what our `jsx÷<TodosPage />` component is doing. Each of these components/functions can also be tested relatively easily, as we can simply mock the one `jsx÷useTodos()` function when testing `jsx÷<TodosPage />`.
+Here, we have extracted out the API logic into the `jsx÷useTodos()` custom hook. We have also extracted out the formatting for each individual todo into the `jsx÷<TodoItem />` component. I believe this strkes the balance between following the SRP, whilst also keeping it clear to the reader what our `jsx÷<TodosPage />` component is doing. Each of these components/functions can also be tested relatively easily, as we can simply mock the one `jsx÷useTodos()` function when testing `jsx÷<TodosPage />`, and give `jsx÷useTodos()` its own tests.
 
-> Use custom hooks to extract out API logic into separate functions where possible.
+<p className="info">Use a combination of separate components and custom hooks to modularise larger components.</p>
 
 
 ## Open/Closed Principle (OCP)
-The OCP explains that we should make our code **extensible**; we should be able to add new features without having to rewrite parts of our codebase. [https://stackify.com/solid-design-open-closed-principle/] In React terms, this can be boiled down to using **composition** rather than **inheritance** to create large-scale components. 
+<p className="heading-header">Make big components from lots of smaller ones</p>
 
-> It is better to have lots of smaller components to make up one big component, rather than extending from some big component.
+Following nicely from the SRP, the OCP explains that we should make our code **extensible**; we should be able to add new features without having to rewrite parts of our codebase. [https://stackify.com/solid-design-open-closed-principle/] In React terms, this can be boiled down to using **composition** rather than **inheritance** to create large-scale components. 
 
-Luckily for us, React encourages this off the bat, such that you are probably already following this principle in your front ends. In fact, the React team go so far as to say *"At Facebook, we use React in thousands of components, and we haven't found any use cases where we would recommend creating component inheritance hierarchies. Props and compostion give you all the flexibility you need to customize a component's look and behaviour in an explict and safe way"*. [https://reactjs.org/docs/composition-vs-inheritance.html] This pretty much means that we should always build big components from smaller ones, using props and special properties like `jsx÷props.children` to build complexity. For instance, I don't know why anyone would do this but it's here for the sake of completeness. Please don't do this:
+Luckily for us, React encourages this off the bat. This means you're probably already following this principle in your front ends without knowing it.
+
+<p className="quote">"At Facebook, we use React in thousands of components, and we haven't found any use cases where we would recommend creating component inheritance hierarchies. Props and compostion give you all the flexibility you need to customize a component's look and behaviour in an explict and safe way."<p className="author"> React Documentation, [https://reactjs.org/docs/composition-vs-inheritance.html]</p></p>
+
+This pretty much means that we should always build big components from smaller ones, using props and special properties like `jsx÷props.children` to build complexity. I haven't seen this in any React code so far, however **please don't do this:**
 
 ```jsx
-// BAD!!!
+// Bad!
 class InputBox extends React.Component {
   constructor(props){
     super(props);
@@ -403,8 +415,11 @@ class FancyInputBox extends InputBox {
   }
 }
 ```
-Here, we are inheriting methods from `jsx÷<InputBox />` for use in `jsx÷<FancyInputBox />`. This is bad as our `jsx÷<FancyInputBox />` is now *tightly-coupled* to our `jsx÷<InputBox />` component. Any change to `jsx÷<InputBox />` could have unforseen consequences for all of the `jsx÷<FancyInputBox />` component (our component becomes *closed* for extension).
+Here, we are inheriting methods from `jsx÷<InputBox />` for use in `jsx÷<FancyInputBox />`. This is bad, as our `jsx÷<FancyInputBox />` is now *tightly-coupled* to our `jsx÷<InputBox />` component. Any change to `jsx÷<InputBox />` could have unforseen consequences for all of the `jsx÷<FancyInputBox />` component (our component becomes *closed* for extension).
 
+<p className="info">"Tight-coupling" means that one component relies heavily on another, such that any change in one could break the other. This goes against the idea of modularity in code, and so we usually want to avoid this where possible.</p>
+
+### A React Example
 If you wanted to do something like this, it would be much better to build up from smaller components:
 
 ```jsx
@@ -431,7 +446,11 @@ const FancyInputBox = () => {
 ```
 Here, we make a generic `jsx÷<InputBox />` that takes in styles and a message from `jsx÷props`. We can then make a `jsx÷<FancyInputBox />` by rendering our generic `jsx÷<InputBox />` and passing in `jsx÷props` needed to style the component how we want. This is an example of how we *compose* a component from smaller ones, as opposed to directly *inheriting* from a component. This allows us to modify and extend `jsx÷<InputBox />` as much as we want, knowing that we won't affect any of the code in `jsx÷<FancyInputBox />`, or any other component which is composed with `jsx÷<InputBox />` (our component is *open* for extension).
 
+<p className="info">Use composition to make large components, rather than extending from other components.</p>
+
 ## Liskov Substitution Principle (LSP)
+<p className="heading-header">Make classes substitutable for subclasses</p>
+
 The LSP states that any subclass should be substitutable for its base class. [https://stackify.com/solid-design-liskov-substitution-principle/] This means that if B `jsx÷extends` A, then we should be able to use B everywhere we use A without altering any functionality. I'll be blunt. **We just don't use this in React**. Nowadays, all code should be written using hooks over classes anyway, and so classes should play an extremely minor role in modern React code. This section exists for posterity, however this is certainly one of the less relevant principles to be applied to frontend design.
 
 To illustrate this principle, let's say we have some base class called `jsx÷Vehicle` which has an `jsx÷engineNoise()` method attached to it which makes the noise of the vehicle engine. We can extend a class called `jsx÷Ford` from this, which is fine as a Ford has an engine noise. However, if create `jsx÷Bicycle` by extending `jsx÷Vehicle`, we must shadow this `jsx÷engineNoise()` method as they have no engine noise, therefore it will throw an error.
@@ -447,13 +466,19 @@ class Vehicle {
   }
 };
 
-class Ford extends Vehicle {
-  breakDown(){
-    console.log("I'm unreliable sorry :(")
+class Car extends Vehicle {
+  numWheels(){
+    console.log(this.wheels);
   }
 };
 
 class Bicycle extends Vehicle {
+  numWheels(){
+    console.log(this.wheels);
+  }
+
+  // Bicycle has no engine, therefore we must throw an error
+  // if someone attempts to access this property on a bicycle.
   engineNoise(){
     throw new Error("I have no engine.")
   }
@@ -463,16 +488,58 @@ function makeVehicleEngineNoise(vehicle){
   vehicle.engineNoise();
 }
 
-const ford = new Ford();
-const bicycle = new Bicycle();
+const car = new Car(4);
+const bicycle = new Bicycle(2);
 
-makeVehicleEngineNoise(ford); // "VROOM VROOM!"
+makeVehicleEngineNoise(car); // "VROOM VROOM!"
 makeVehicleEngineNoise(bicycle); // ERROR: I have no engine.
 ```
-The LSP states that we should be able to replace and class instance with its subclass. Well, when we attempt to call `jsx÷makeVehicleEngineNoise()` with any `jsx÷Vehicle` class this would work, however if we attempt to call it we the the subclass of `jsx÷Vehicle`, `jsx÷Bicycle`, it throws an error. This means that we *cannot* replace every instance of `jsx÷Vehicle` with `jsx÷Bicycle` and keep the same functionality.
+The LSP states that we should be able to replace and class instance with its subclass. Well, when we attempt to call `jsx÷makeVehicleEngineNoise()` with any `jsx÷Vehicle` class this would work, however if we attempt to call it we the the subclass of `jsx÷Vehicle`, `jsx÷Bicycle`, it throws an error. This means that we *cannot* replace every instance of `jsx÷Vehicle` with `jsx÷Bicycle` and keep the same functionality. If we wanted to do this, we would instead need to alter our `jsx÷Vehicle` class to only contain properties/methods which *all* possible subclasses would have. For instance, if we assume that every vehicle has wheels. we could ammed our `jsx÷Vehicle` class and appease the LSP as such:
+
+```jsx
+class Vehicle {
+  constructor(wheels){
+    this.wheels = wheels;
+  }
+
+  numWheels(){
+    console.log(this.wheels);
+  }
+
+};
+
+class Car extends Vehicle {
+  engineNoise(){
+    console.log("VROOM VROOM");
+  }
+};
+
+class Bicycle extends Vehicle {
+
+  sayFrameMaterial{
+    console.log("I am made from carbon fibre!")
+  }
+}
+
+function sayNumWheels(vehicle){
+  vehicle.numWheels();
+}
+
+const car = new Car(4);
+const bicycle = new Bicycle(2);
+
+sayNumWheels(car); // 4
+sayNumWheels(bicycle); // 2
+```
+
+<p className="info">If you're extending from a class, make sure the base class is as generic as needed to be a true representation of every subclass.</p>
 
 ## Interface Segregation Principle (ISP)
-The ISP states that people should not be forced to rely upon interfaces that they don't use. [https://reflectoring.io/interface-segregation-principle/] Since we lack interfaces in JavaScript, this is less relevant to here. However, we can read in to the idea behind this principle and translate this into something we *can* use in our React code: "give components only what they need". This means implementation details should not matter to any specific high-level function.
+<p className="heading-header">Only pass a component props it needs</p>
+
+The ISP states that people should not be forced to rely upon interfaces that they don't use. [https://reflectoring.io/interface-segregation-principle/] Since we lack interfaces in JavaScript, this is less relevant to here. However, we can read in to the idea behind this principle and translate this into something we *can* use in our React code: **give components only what they need**. This means *implementation details* should not matter to any specific high-level function.
+
+<p className="info">An implementation detail is some specific way a task is accomplished. For instance, "getting todos from the API" is a task we can accomplish by using the axios library (an implementation detail). Another task might be "storing users in a database". Our choice of database is an implementation detail.</p>
 
 ### Illustrating this in React
 In React, we can extrapolate this to affect our `jsx÷props`. For instance:
@@ -539,12 +606,14 @@ const App = () => {
   )
 };
 ```
-This way, if we ever change an implementation detail all we need to do is pass in the correct information without every changing code in `jsx÷<DisplayUser />`.
+This way, if we ever change an implementation detail all we need to do is pass in the correct information without ever changing code in `jsx÷<DisplayUser />`.
+
+<p className="info">Destructure out the needed props for a component if possible. This way, the component does not rely on the details in its parent component.</p>
 
 ## Dependency Inversion Principle
-> *Always have high level code interface with an abstraction, rather than an implementation detail.*
+<p className="heading-header">Always have high-level code interface with an abstraction, rather than an implementation detail</p>
 
-The DIP tells us that we should always "hide the wiring behind the wall" by always interacting with low level details via abstractions. This has strong ties to the SRP above. In practice, for React frontends, this means that functions in our high-level code shouldn't care *how* a specific task is done. For instance, say we wanted to call an API to get a list of todos - much like how we did in the SRP section above:
+The DIP tells us that we should always "hide the wiring behind the wall" by always interacting with low-level details via abstractions. This has strong ties to the SRP and the ISP detailed above. In practice, for React frontends, this means that functions in our high-level code shouldn't care *how* a specific task is done. For instance, say we wanted to call an API to get a list of todos - much like how we did in the SRP section above:
 
 ```jsx
 const TodosPage = () => {
@@ -587,22 +656,45 @@ function useTodos(){
 We changed an *implementation detail* (how we did a specific task) by changing our method of getting todos from the axios library to the fetch library, however we didn't have to alter *anything* in `jsx÷<TodosPage />`. In fact, we can take this another step.
 
 ```jsx
+// useTodos.js
 import localTodos from "./todos.json";
-
 function useTodos(){
     const data = localTodos.todos;
     return todos;
 };
+export default useTodos;
+
+// TodosPage.js
+import useTodos from "./useTodos.js";
+
+const TodosPage = () => {
+    const todos = useTodos();
+
+    const renderTodos = () => {
+        return todos.map(todo => {
+            return <Todoitem id={todo.id} title={todo.title} />
+        });
+    };
+
+    return (
+        <div>
+            <h1>My Todos:</h1>
+            <ul>
+                {renderTodos()}
+            </ul>
+        </div>
+    )
+};
 ```
 
-Now, we don't even call an API to get our todos, and instead read them from some local file called `todos.json`. Again, we have wildly changed an implementation detail - yet because we only relied on the abstraction of the `jsx÷useTodos()` function to handle the details of actually getting our todos, we didn't have to change *anything* in `jsx÷<TodosPage />`.
+Now, we don't even call an API to get our todos! Instead, we read them from some local file called `todos.json`; we have wildly changed an implementation detail, yet, because we only relied on the abstraction of the `jsx÷useTodos()` function to handle the details of actually getting our todos, we didn't have to change *anything* in `jsx÷<TodosPage />`.
 
 ### Layers of abstraction
 How do we know when we are far enough removed from "high-level" code to start worrying about implementation details? Well, Robert Martin again gives some insight:
 
-> "There is a fundamental rule for functions: every line of the function should be at the same level of abstraction, and that level should be one below the function name." - Robert C Martin, [https://www.youtube.com/watch?v=7EmboKQH8lM]
+<p className="quote">"There is a fundamental rule for functions: every line of the function should be at the same level of abstraction, and that level should be one below the function name."<p className="author">- Robert C. Martin[https://www.youtube.com/watch?v=7EmboKQH8lM]</p></p>
 
-This is a somewhat vague definition, and relies on the experience of a programmer. An example of not abstracting far enough away might be:
+This means we should slowly abstract away be extracting out functionality, until we reach a low enough level. This is a somewhat vague definition, and relies on the experience of a programmer to know how high-level each concept is. An example of not abstracting far enough away might be:
 
 ```jsx
 const TodosList = () => {
@@ -686,7 +778,7 @@ function useTodos(term){
     return todos;
 };
 ```
-So, this is a little better - we have extracted away details from `jsx÷<TodosPage />` - however now we seem to have an overloaded `jsx÷useTodos()` function. Should this really care about low-level details like filtering or regex matching? We have some relatively high-level, abstract concepts (such as network requests) in the same function as relatively low-level concepts such as pattern matching or array manipulation. As Robert Martin says, *"This is rude! The programmer is taking you from the heights [high-level concepts] to the depths [low-level concepts] in one line"*. Perhaps we could break this up a little more:
+So, this is a little better - we have extracted away details from `jsx÷<TodosPage />` and ended up at a similar solution to what we posited before. However, we seem to have an overloaded `jsx÷useTodos()` function. We have some relatively high-level, abstract concepts (such as network requests) in the same function as relatively low-level concepts such as pattern matching or array manipulation. As Robert Martin says, *"This is rude! The programmer is taking you from the heights [high-level concepts] to the depths [low-level concepts] in one line."*. Perhaps we could break this up a little more:
 
 ```jsx
 function useTodos(term){
@@ -711,7 +803,7 @@ function filterAndMatchTodos(todoList, searchTerm){
   return matchingTodos;
 }
 ```
-Okay, this now looks a little better. Our `jsx÷useTodos()` function has had the low-level filtering/regex matching work extracted out of it. This leaves everything in `jsx÷useTodos()` at a similar level of abstraction; it detals with network requests and some of the React state management, however is not concerned with more low level details such as pattern matching. Also, our `jsx÷filterAndMatchTodos()` function has no interest in the wider scope of network requests or React; it just cares that it will recieve an array of todos, and it should filter for the completed ones, then pattern match the completed todos based on a given search term.
+Okay, this now looks better. Our `jsx÷useTodos()` function has had the low-level filtering/regex matching work extracted out of it. This leaves everything in `jsx÷useTodos()` at a similar level of abstraction; it detals with network requests and some of the React state management, however is not concerned with more low level details such as pattern matching. Also, our `jsx÷filterAndMatchTodos()` function has no interest in the wider scope of network requests or React; it just cares that it will recieve an array of todos, and it should filter for the completed ones, then pattern match the completed todos based on a given search term.
 
 We could begin to abstract this further...
 
@@ -732,4 +824,399 @@ function matchFilteredTodos(compeltedTodos, searchTerm){
     return matchingTodos;
 };
 ```
-...however at some point a judgement call must be made as to when things are going too far. Perhaps the above is appropriate for you, perhaps you feel it goes too far in layers of abstraction (for instance, `jsx÷filterTodoList` is literally just calling the `jsx÷Array.filter()` function, and so making a new fuction for this seems redundant in my opinion).
+...however at some point a judgement call must be made as to when things are going too far. Perhaps the above is appropriate for you, perhaps you feel it goes too far in layers of abstraction (for instance, `jsx÷filterTodoList` is literally just calling the `jsx÷Array.filter()` function, and so making a new fuction for this seems redundant in my opinion). As To echo a message I've repeated many times: **these are guidelines; use them to the extent that they have a positive impact on your code**.
+
+## Final Thoughts
+If not direct translations, we have used the SOLID principles to outline some things we can do to make the architecture of our React apps a little easier to manage. These are all centered on the idea of modularising our code, as this makes it easier to plug in to different projects and makes it easier to test. Futhermore, the more isolated code is, the less likely a bug in it will affect other areas of the codebase. This is the "loose-coupling" which is desired. We went over how we can extract out functionality using modern tools like custom hooks in order to adhear to the single responsibility principle. We touched on the idea of composition from smaller components when explaining how to use the open/closed principle in order to make our code more extensible. We briefly looked as the Liskov substitution principle, and how we may apply it to any classes we write. We then finished by diving in to the interface segregation principle and the dependency inversion principle, which inform us we should only provide a component what it needs to function, and that we should always be acting via some abstraction in our high-level code. The aim of these, is to be able to wildly change implementation details, such as database provider, without having to rewrite large areas of high-level code.
+
+## Bonus! Real-life Example
+I've recently been applying these principles to refactor a project I've been working on, and thought it might be nice to show an example of how these can be applied in real systems, which are usually far messier than what was outlined here.
+ 
+**NOTE**: The following uses TypeScript, however I'll explain what's happening as we walk through it. Below is the entire, non-refactored component - I recommend using this as a reference, as I will take snippets out and focus on these as we go through and refactor each piece. This also uses WebSockets, which is what those reference to `jsx÷socket` are.
+
+```tsx
+const ChatBoard: React.FC<RouteComponentProps<any, StaticContext, ChatBoardLocationState>> = (props: RouteComponentProps<any, StaticContext, ChatBoardLocationState>): JSX.Element => {
+
+    // Return nothing if not redirected here
+    if (props.location.search === "") return <div>Please create or join a room</div>;
+
+    const [messageList, setMessageList] = useState<Message[]>([]);
+    const [message, setMessage] = useState<string>("");
+    const [boardId, setBoardId] = useState<string>("");
+    const [socket, setSocket] = useState<SocketIOClient.Socket>();
+    const [didCreateRoom, setDidCreateRoom] = useState<boolean>(false);
+    const [redirect, setRedirect] = useState<string>("");
+    const [warning, setWarning] = useState<string>();
+    const [hideVotes, setHideVotes] = useState<boolean>(true);
+    const [votedMessages, setVotedMessages] = useState<PersonalVotedMessage[]>([]);
+
+    useEffect(() => {
+        // Don't run if there's no search param for the board - here as a safety net from above
+        if (props.location.search === "") return;
+
+        // If here from the Redirect or not
+        if (props.location.state !== undefined){
+            const didCreate = props.location.state.roomCreator;
+            setDidCreateRoom(didCreate);
+        }
+        const newBoardId = qs.parse(props.location.search).board as string;
+        setBoardId(newBoardId);
+        setSocket(io.connect(ENDPOINT, {query: `board=${newBoardId}`}));
+
+        return () => {
+            if (socket) socket.disconnect();
+        };
+    }, []);
+
+    if (!socket) return <div></div>;
+
+
+    socket.on("message", (messageList: Message[]) => {
+        setMessageList(messageList);
+    });
+
+    socket.on("initial-vote-visibility", (voteVis: boolean) => {
+        console.log("VOTE VIS", voteVis);
+        setHideVotes(voteVis);
+    });
+
+    socket.on("creator-disconnect", (message: {msg: string, timeout: number}) => {
+        setWarning(message.msg);
+        setTimeout(() => {
+            socket.close();
+            setWarning("");
+            setRedirect("/");
+        }, message.timeout);
+        return;
+    });
+
+    socket.on("error", (errorMessage: string) => {
+      alert(`Error: ${errorMessage}`)
+    });
+
+    const voteMessage = (message: Message, value: number) => {
+        const indexOfVoted = votedMessages.findIndex(msg => msg.messageId === message.id);
+        // If not in votedMessages array, add it to it and give it a personal vote of +1/-1
+        // Else, update its votes
+        if (indexOfVoted === -1){
+            setVotedMessages([...votedMessages, {messageId: message.id, personalVotes: value}]);
+        } else {
+            const votedMessage = votedMessages[indexOfVoted];
+            const newVotedMessage = {...votedMessage, personalVotes: votedMessage.personalVotes + value};
+            if (Math.abs(newVotedMessage.personalVotes) > NUM_VOTES) return alert("Can only vote 3 times per item");
+            const newVotedMessageArray = votedMessages.filter(msg => msg.messageId !== message.id);
+            setVotedMessages([...newVotedMessageArray, newVotedMessage]);
+        }
+        socket.emit("upvote", {message, value});
+    };
+
+    const renderList = () : JSX.Element[] => {
+        return messageList.map((message: Message) => {
+            const indexOfVoted = votedMessages.findIndex(msg => msg.messageId === message.id);
+            const personalVote = indexOfVoted === -1 ? 0 : votedMessages[indexOfVoted].personalVotes;
+            return (
+                <FeedbackMessage key={message.id} hideVotes={hideVotes} voteMessage={voteMessage} message={message} personalVote={personalVote} />
+            );
+        });
+    };
+
+    const toggleHideVotes = () => {
+        socket.emit("toggle-votes");
+    };
+
+    socket.on("toggle-votes", () => {
+        setHideVotes(!hideVotes);
+    });
+
+    const handleClick = (): void => {
+        if (message.length === 0) return alert("Message cannot be empty");
+        if (message.includes("\n")) return alert("New line characters are not permitted");
+        const user: string = socket.id;
+        const newMessage = {user, message, upvotes: 0};
+        socket.emit("message", newMessage);
+        setMessage("");
+        return; 
+    };
+
+    if (redirect) return <Redirect to={{pathname: "/", state: {message: "Disconnected due to admin inactivity"}}} />;
+
+    return(
+        <div className="ChatBoard-main-div">
+            <div className="ChatBoard-header-content">
+                <div className="ChatBoard-info">
+                    <div>
+                        <h1>Anonymous Feedback</h1>
+                        <h3>RoomID: {boardId}</h3>
+                    </div>
+                </div>
+                <div className="ChatBoard-temp">
+                    {didCreateRoom && <CreatorOptions socket={socket} boardId={boardId} toggleHideVotes={toggleHideVotes}/>}
+                </div>
+                <button className="ChatBoard-download" onClick={() => downloadFeedback(messageList)}>Download Feedback</button>
+                {warning && <h3 style={{color: "red"}}>{warning}</h3>}
+            </div>
+            <div className="ChatBoard-feedback-list">
+                <div className="ChatBoard-feedback-grid">
+                    {renderList()}
+                </div>
+            </div>
+            
+            <div className="ChatBoard-write-message">
+                <label htmlFor="write-message">Write a Message: </label>
+                <textarea id="write-message" name="write-message" value={message} placeholder="Write a message" onChange={(e) => setMessage(e.target.value)} />
+                
+                <button id="submit-message" name="submit-message" onClick={() => handleClick()}>Submit Message</button>
+            </div>
+        </div>
+    );
+};
+
+export default ChatBoard;
+```
+
+**As you can see, this is horrible to look at**. It's cluttered, it's overloaded, there is UI mixed with logic all over the place... Let's see if we can change a little of that and make the first steps towards making this a bit better.
+
+### The useEffect
+Firstly, let's look at that messy `jsx÷useEffect()`.
+
+```tsx
+useEffect(() => {
+    
+    // 1. Check valid
+    if (props.location.search === "") return;
+
+    // 2. Check who created the chatboard
+    if (props.location.state !== undefined){
+        const didCreate = props.location.state.roomCreator;
+        setDidCreateRoom(didCreate);
+    }
+
+    // 3. Parse the board they are attempting to join, and connect them to the backend via a socket
+    const newBoardId = qs.parse(props.location.search).board as string;
+    setBoardId(newBoardId);
+    setSocket(io.connect(ENDPOINT, {query: `board=${newBoardId}`}));
+
+    return () => {
+        if (socket) socket.disconnect();
+    };
+}, []);
+```
+Well, firstly we can instead extract out that logic about determining if someone created the chat board into a higher up component (using the wrapping strategy mentioned before). This leaves us with:
+
+```tsx
+useEffect(() => {
+    // 1. Check valid
+    if (props.location.search === "") return;
+
+    // 3. Parse the board they are attempting to join, and connect them to the backend via a socket
+    const newBoardId = qs.parse(props.location.search).board as string;
+    setBoardId(newBoardId);
+    setSocket(io.connect(ENDPOINT, {query: `board=${newBoardId}`}));
+
+    return () => {
+        if (socket) socket.disconnect();
+    };
+}, []);
+```
+
+But, if we're dealing with the room creation in the wrapper component, why not move the `jsx÷props.location.search` validation there too?
+
+```tsx
+useEffect(() => {
+
+    // 3. Parse the board they are attempting to join, and connect them to the backend via a socket
+    const newBoardId = qs.parse(props.location.search).board as string;
+    setBoardId(newBoardId);
+    setSocket(io.connect(ENDPOINT, {query: `board=${newBoardId}`}));
+
+    return () => {
+        if (socket) socket.disconnect();
+    };
+}, []);
+```
+Alright - this is better. We have used the SRP to extract out some logic from the `jsx÷useEffect()`. However, we can also make use of the ISP and instead just pass in the `jsx÷boardId` that it attempts to get as a prop to our overall component instead.
+
+```tsx
+useEffect(() => {
+    setSocket(io.connect(ENDPOINT, {query: `board=${props.boardId}`}));
+    return () => {
+        if (socket) socket.disconnect();
+    };
+}, []);
+```
+This looks much neater, and is now only doing one thing.
+
+### Socket Events
+Peppered throughout the top-level of the component, we have various socket event listeners. In short, these are like onClick handlers that, instead of waiting for a click, wait to be told be the server to run.
+
+```tsx
+if (!socket) return <div></div>;
+
+socket.on("message", (messageList: Message[]) => {
+    setMessageList(messageList);
+});
+
+socket.on("initial-vote-visibility", (voteVis: boolean) => {
+    console.log("VOTE VIS", voteVis);
+    setHideVotes(voteVis);
+});
+
+socket.on("creator-disconnect", (message: {msg: string, timeout: number}) => {
+    setWarning(message.msg);
+    setTimeout(() => {
+        socket.close();
+        setWarning("");
+        setRedirect("/");
+    }, message.timeout);
+    return;
+});
+
+socket.on("error", (errorMessage: string) => {
+  alert(`Error: ${errorMessage}`)
+});
+```
+
+Seeing as our `jsx÷useEffect` is concerned with setting up our socket, we could move these inside there in order to separate them from the main body of our component.
+
+```tsx
+useEffect(() => {
+    setSocket(io.connect(ENDPOINT, {query: `board=${props.boardId}`}));
+
+    socket.on("message", (messageList: Message[]) => {
+      setMessageList(messageList);
+    });
+
+    socket.on("initial-vote-visibility", (voteVis: boolean) => {
+      console.log("VOTE VIS", voteVis);
+      setHideVotes(voteVis);
+    });
+
+    socket.on("creator-disconnect", (message: {msg: string, timeout: number}) => {
+      setWarning(message.msg);
+      setTimeout(() => {
+          socket.close();
+          setWarning("");
+          setRedirect("/");
+      }, message.timeout);
+      return;
+    });
+
+    socket.on("error", (errorMessage: string) => {
+      alert(`Error: ${errorMessage}`)
+    });
+
+    return () => {
+        if (socket) socket.disconnect();
+    };
+}, []);
+```
+This makes sense, however now we're back to overloading our `jsx÷useEffect()`! Furthermore, out socket will take a small amount of time to be set, and so these event listeners may try and be created before `jsx÷socket` has a value, meaning our component would error our as `jsx÷socket` would be undefined. To fix this, let's change our `jsx÷useEffect` a little such that it will set a socket if there is one, and then re-run when the socket is set.
+
+```tsx
+useEffect(() => {
+  if (!socket){
+    setSocket(io.connect(ENDPOINT, {query: `board=${props.boardId}`}));
+  } else {
+    socket.on("message", (messageList: Message[]) => {
+      setMessageList(messageList);
+    });
+
+    socket.on("initial-vote-visibility", (voteVis: boolean) => {
+      console.log("VOTE VIS", voteVis);
+      setHideVotes(voteVis);
+    });
+
+    socket.on("creator-disconnect", (message: {msg: string, timeout: number}) => {
+      setWarning(message.msg);
+      setTimeout(() => {
+          socket.close();
+          setWarning("");
+          setRedirect("/");
+      }, message.timeout);
+      return;
+    });
+
+    socket.on("error", (errorMessage: string) => {
+      alert(`Error: ${errorMessage}`)
+      });
+    }
+    
+  return () => {
+      if (socket) socket.disconnect();
+  };
+}, [socket]);
+```
+Okay, avoided that error. Now, moving on to fixing that overloading issue. Well, there is no reason why the event listeners have to be detailed here, how about we abstract away some of that detail and implement the DIP?
+
+```tsx
+// Set up socket connection and listeners
+useEffect(() => {
+    if (!socket){
+        setSocket(io.connect(ENDPOINT, {query: `board=${boardId}`}));
+    } else {
+        socketOnVoteVis(socket, setHideVotes);
+        socketOnMessageList(socket, setMessageList);
+        socketOnCreatorDC(socket, setWarning, setRedirect);
+        socketOnError(socket);
+    }
+    
+    return () => {
+        if (socket) socket.disconnect();
+    };
+}, [socket]);
+```
+Our component doesn't care what those event listeners look like, so why not just extract them to a separate file entirely? Here, we have cleaned up our socket listeners from our component entirely, therefore reducing its complexity. We now have a completely separate file called `socketFunction.ts` which contains:
+
+```tsx
+// Listeners
+export const socketOnMessageList
+= (socket: SocketIOClient.Socket, setMessageList: (messageList: Message[]) => void): void => {
+    socket.on("message", (messageList: Message[]) => {
+        setMessageList(messageList);
+    });
+};
+
+export const socketOnError
+= (socket: SocketIOClient.Socket): void => {
+    socket.on("error", (errorMessage: string) => {
+        alert(`Error: ${errorMessage}`);
+    });
+};
+
+export const socketOnVoteVis
+= (socket: SocketIOClient.Socket, setHideVotes: (hideVotes: boolean) => void): void => {
+    socket.on("toggle-votes", (newVoteVis: boolean) => {
+        console.log("TOGGLEED VOTES");
+        setHideVotes(newVoteVis);
+    });
+};
+
+export const socketOnCreatorDC
+= (socket: SocketIOClient.Socket, setWarning:(str: string) => void, setRedirect: (str: string) => void): void => {
+    socket.on("creator-disconnect", (message: {msg: string, timeout: number}) => {
+        setWarning(message.msg);
+        setTimeout(() => {
+            socket.close();
+            setWarning("");
+            setRedirect("/");
+        }, message.timeout);
+    });
+};
+```
+Note, the complexity of our application must exist *somewhere*, we simply aim to spread it out into areas such that we can follow the file trail starting from highly abstract concepts to implementation details step-by-step. The next step of this, could be to instead create one `jsx÷setupSocketListeners()` function instead...
+
+```tsx
+// Set up socket connection and listeners
+useEffect(() => {
+    if (!socket){
+        setSocket(io.connect(ENDPOINT, {query: `board=${boardId}`}));
+    } else {
+        setupSocketListeners(socket, setHideVotes, setMessageList, setWarning, setRedirect);
+    }
+    
+    return () => {
+        if (socket) socket.disconnect();
+    };
+}, [socket]);
+```
+While this could be an extension, I feel this might be taking things too far. We are passing in 5 separate arguments to this function which is a little cluttered, and we are coupling all our socket listeners together such that any change to one listener may affect all of them. However, it could definitely be argued that this approach could work by instead bundling together the needed arguments into a different abstraction, and then abstracting the details of each socket setup from the overall `jsx÷setupSocketListeners()` function. This is an example of drawing the line at a point you feel is appropriate and works for you.

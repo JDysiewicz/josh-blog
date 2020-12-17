@@ -19,7 +19,7 @@ const GlobalLayout = styled.div`
     font-family: "Source Sans Pro", sans-serif;
     margin-left: auto;
     margin-right: auto;
-    max-width: 55rem;
+    max-width: 65rem;
 
     padding: 2.625rem 1.3125rem;
     font-weight: 500;
