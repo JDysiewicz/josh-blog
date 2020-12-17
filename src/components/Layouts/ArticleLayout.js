@@ -94,7 +94,7 @@ const ArticleLayout = styled.div`
             padding-right: 0.5rem;
             padding-bottom: 0rem;
             border-radius: 15%;
-            border: 1px solid black;
+            border: 2px solid black;
             color: #000000;
             text-align: center;
             font-size: 23px;
@@ -119,7 +119,7 @@ const ArticleLayout = styled.div`
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
             border-radius: 15%;
-            border: 1px solid black;
+            border: 2px solid black;
             color: #000000;
             text-align: center;
             font-size: 23px;
@@ -135,7 +135,7 @@ const ArticleLayout = styled.div`
             background-color: #B7E6F6;
             padding: 0.5rem;
             border-radius: 15%;
-            border: 1px solid black;
+            border: 2px solid black;
             color: #000000;
             text-align: center;
             font-size: 23px;
