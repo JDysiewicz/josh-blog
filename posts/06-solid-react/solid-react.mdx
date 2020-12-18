@@ -20,7 +20,7 @@ This article will mainly be about the SOLID principles of software design, and h
 <p className="info">Software design principles exist to make our code more functional, more maintable, and/or more robust. They are rules of thumb based on wisdom from the past, and will hold for almost any lanugage/paradigm/project you work on. They won't give you any specific knowlege of programming, however they are probably the best "bang-for-your-buck" that you can find in order to develop your ability to write functional, clean, and robust software.</p>
 
 ## Disclaimer
-Software design principles are great, because they are relatively **language agnostic**; they can be applied regardless of what language you write in. However, there is no escaping the fact that the SOLID design principles grew from the *Principles of Object Oritented Class Design* that featured in Robert Martin's *Design Principles and Patterns* paper in 2000. [http://staff.cs.utu.fi/staff/jouni.smed/doos_06/material/DesignPrinciplesAndPatterns.pdf] JavaScript - while able to support a psuedo-OO style using its prototype system - lacks some of the distinguishing features of an OO language (for instance, proper classes and interfaces). [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes] The React library in particular has its roots more in the functional programming paradigm than it does in the OOP paradigm, especially with the hooks system and its reliance on closures. [https://medium.com/@andrea.chiarelli/the-functional-side-of-react-229bdb26d9a6] As such, we cannot directly translate an example of SOLID principles applied in Java/C# into JavaScript, and we shouldn't pretend that JavaScript/React is something that it is not. **We simply don't write frontends in React the same way we'd write in Java**. Much like translating a linguistic language, we must read into what each principle is attempting to do, and then map this to frontend web development such that its meaning is not lost. **This means that the application of each of the SOLID principles here may differ from their original implementation in a strict OO language**. However, I have tried my best to find a corresponding way to translate each principle into some meaningful idea that we can use when building our frontends in React, instead of just parroting the definition of each principle.
+Software design principles are great, because they are relatively **language agnostic**; they can be applied regardless of what language you write in. However, there is no escaping the fact that the SOLID design principles grew from the *Principles of Object Oritented Class Design* that featured in Robert Martin's *Design Principles and Patterns* paper in 2000. [[1]](http://staff.cs.utu.fi/staff/jouni.smed/doos_06/material/DesignPrinciplesAndPatterns.pdf) JavaScript - while able to support a psuedo-OO style using its prototype system - lacks some of the distinguishing features of an OO language (for instance, proper classes and interfaces). [[2]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) The React library in particular has its roots more in the functional programming paradigm than it does in the OOP paradigm, especially with the hooks system and its reliance on closures. [[3]](https://medium.com/@andrea.chiarelli/the-functional-side-of-react-229bdb26d9a6) As such, we cannot directly translate an example of SOLID principles applied in Java/C# into JavaScript, and we shouldn't pretend that JavaScript/React is something that it is not. **We simply don't write frontends in React the same way we'd write in Java**. Much like translating a linguistic language, we must read into what each principle is attempting to do, and then map this to frontend web development such that its meaning is not lost. **This means that the application of each of the SOLID principles here may differ from their original implementation in a strict OO language**. However, I have tried my best to find a corresponding way to translate each principle into some meaningful idea that we can use when building our frontends in React, instead of just parroting the definition of each principle.
 
 <p className="info">We can use the SOLID principles to write better React frontends, however we must take certain lingustic liberties to extract applicable implementations.</p>
 
@@ -55,9 +55,9 @@ To be frank, **this is the most important principle** to follow when writing fro
 <p className="info">Large functions/components often indicate that they are doing more than one thing; try to keep functions/components small to ensure modualrity.</p>
 
 ### What Does "one thing" Mean?
-I've mentioned the phrase "one thing" a couple times now, so it's probably useful to try and discern what that means. Robert Martin, author of *Clean Code* and progenitor of the SOLID principles, defines it as such: [https://cleancoders.com/]
+I've mentioned the phrase "one thing" a couple times now, so it's probably useful to try and discern what that means. Robert Martin, author of *Clean Code* and progenitor of the SOLID principles, defines it as such: [[4]](https://cleancoders.com/)
 
-<p className="quote">"A function does one thing if you cannot meaningfully extract another function from it. If a function contains code, and you can extract another function from it, then that original function did more than one thing."<p className="author"> - Robert C Martin, Clean Code, Lesson 1[https://www.youtube.com/watch?v=7EmboKQH8lM]</p></p>
+<p className="quote">"A function does one thing if you cannot meaningfully extract another function from it. If a function contains code, and you can extract another function from it, then that original function did more than one thing."<p className="author"> - Robert C Martin, Clean Code, Lesson 1 <a href="https://www.youtube.com/watch?v=7EmboKQH8lM">[5]</a></p></p>
 
 The level to which you take this is up to you; as I will mention many times, zealously following any principle does more harm than good. However, this does give us a starting point and a general rule of thumb to follow if unsure.
 
@@ -338,7 +338,7 @@ What I am trying to illustrate here, is that these principles are here to help a
 When dogmatically following a principle becomes counterproductive to these aims, it might be time to take a step back.
 
 ### The 'React-Way' of Fragmenting Components
-The pattern showcased above (separating UI copmonents from logic components) can be thought of as having "container" components that deal with logic and externalities (`jsx÷<APIWrapper />`), and "presentational" components which deal entirely with the UI (`jsx÷<TodosList />`). This is a pattern that was endorsed by Dan Abramov in order to organise code neatly, and to separate our areas of concern. [https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0] However, since the release of hooks, we have a different method of separating things out: **custom hooks**. We won't dive into them for now, other than to give an example of how one could use a custom hook to separate out our `jsx÷<TodosPage />`, while not losing perspective on what it is doing.
+The pattern showcased above (separating UI copmonents from logic components) can be thought of as having "container" components that deal with logic and externalities (`jsx÷<APIWrapper />`), and "presentational" components which deal entirely with the UI (`jsx÷<TodosList />`). This is a pattern that was endorsed by Dan Abramov in order to organise code neatly, and to separate our areas of concern. [[6]](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) However, since the release of hooks, we have a different method of separating things out: **custom hooks**. We won't dive into them for now, other than to give an example of how one could use a custom hook to separate out our `jsx÷<TodosPage />`, while not losing perspective on what it is doing.
 
 ```jsx
 const TodosPage = () => {
@@ -387,11 +387,11 @@ Here, we have extracted out the API logic into the `jsx÷useTodos()` custom hook
 ## Open/Closed Principle (OCP)
 <p className="heading-header">Make big components from lots of smaller ones</p>
 
-Following nicely from the SRP, the OCP explains that we should make our code **extensible**; we should be able to add new features without having to rewrite parts of our codebase. [https://stackify.com/solid-design-open-closed-principle/] In React terms, this can be boiled down to using **composition** rather than **inheritance** to create large-scale components. 
+Following nicely from the SRP, the OCP explains that we should make our code **extensible**; we should be able to add new features without having to rewrite parts of our codebase. [[7]](https://stackify.com/solid-design-open-closed-principle/) In React terms, this can be boiled down to using **composition** rather than **inheritance** to create large-scale components. 
 
 Luckily for us, React encourages this off the bat. This means you're probably already following this principle in your frontends without knowing it.
 
-<p className="quote">"At Facebook, we use React in thousands of components, and we haven't found any use cases where we would recommend creating component inheritance hierarchies. Props and compostion give you all the flexibility you need to customize a component's look and behaviour in an explict and safe way."<p className="author"> React Documentation, [https://reactjs.org/docs/composition-vs-inheritance.html]</p></p>
+<p className="quote">"At Facebook, we use React in thousands of components, and we haven't found any use cases where we would recommend creating component inheritance hierarchies. Props and compostion give you all the flexibility you need to customize a component's look and behaviour in an explict and safe way."<p className="author"> React Documentation, <a href="https://reactjs.org/docs/composition-vs-inheritance.html">[8]</a></p></p>
 
 This pretty much means that we should always build big components from smaller ones, using props and special properties like `jsx÷props.children` to build complexity when required. I haven't seen this in any React code so far, however **please don't do this:**
 
@@ -464,7 +464,7 @@ Here, we make a generic `jsx÷<InputBox />` that takes in styles and a message f
 ## Liskov Substitution Principle (LSP)
 <p className="heading-header">Make classes substitutable for subclasses</p>
 
-The LSP states that any subclass should be substitutable for its base class. [https://stackify.com/solid-design-liskov-substitution-principle/] This means that if B `jsx÷extends` A, then we should be able to use B everywhere we use A without altering any functionality. I'll be blunt: **we just don't really use this in React**. Nowadays, all code should be written using hooks over classes anyway, and so classes should play an extremely minor role in modern React code. This section exists for posterity, however this is certainly one of the less relevant principles to be applied to frontend design. [https://reactjs.org/docs/hooks-faq.html#should-i-use-hooks-classes-or-a-mix-of-both]
+The LSP states that any subclass should be substitutable for its base class. [[9]](https://stackify.com/solid-design-liskov-substitution-principle/) This means that if B `jsx÷extends` A, then we should be able to use B everywhere we use A without altering any functionality. I'll be blunt: **we just don't really use this in React**. Nowadays, all code should be written using hooks over classes anyway, and so classes should play an extremely minor role in modern React code. This section exists for posterity, however this is certainly one of the less relevant principles to be applied to frontend design. [[10]](https://reactjs.org/docs/hooks-faq.html#should-i-use-hooks-classes-or-a-mix-of-both)
 
 To illustrate this principle, let's say we have some base class called `jsx÷Vehicle` which has an `jsx÷engineNoise()` method attached to it which makes the noise of the vehicle engine. We can extend a class called `jsx÷Car` from this, which is fine as a car has an engine noise. However, if create `jsx÷Bicycle` by extending `jsx÷Vehicle`, we must shadow this `jsx÷engineNoise()` method as bicylcles have no engine noise, therefore we will throw an error if someone tries to call `jsx÷engineNoise()` on `jsx÷Bicycle`.
 
@@ -550,9 +550,9 @@ sayNumWheels(bicycle); // 2
 ## Interface Segregation Principle (ISP)
 <p className="heading-header">Only pass a component props it needs</p>
 
-The ISP states that people should not be forced to rely upon interfaces that they don't use. [https://reflectoring.io/interface-segregation-principle/] Since we lack interfaces in JavaScript, this is a less relevant comment. However, we can read in to the idea behind this principle and translate this into something we *can* use in our React code: **give components only what they need**. This means *implementation details* should not matter to any specific high-level function.
+The ISP states that people should not be forced to rely upon interfaces that they don't use. [[11]](https://reflectoring.io/interface-segregation-principle/) Since we lack interfaces in JavaScript, this is a less relevant comment. However, we can read in to the idea behind this principle and translate this into something we *can* use in our React code: **give components only what they need**. This means *implementation details* should not matter to any specific high-level function.
 
-<p className="info">An implementation detail is some specific way a task is accomplished. For instance, "getting todos from the API" is a task we can accomplish by using the axios library (an implementation detail). Another task might be "storing users in a database"; our choice of database is an implementation detail for this task.</p>
+<p className="info">An implementation detail is some specific way a task is accomplished. For instance, "getting todos from the API" is a task we can accomplish by using the axios library (an implementation detail). Another task might be "storing users in a database"; our choice of database is an implementation detail for this task. <a href="https://enterprisecraftsmanship.com/posts/what-is-implementation-detail/">[12]</a></p>
 
 ### Illustrating This in React
 In React, we can extrapolate this to affect our `jsx÷props`. For instance:
@@ -626,7 +626,7 @@ This way, if we ever change an implementation detail, all we need to do is pass 
 ## Dependency Inversion Principle (DIP)
 <p className="heading-header">Always have high-level code interface with an abstraction, rather than an implementation detail</p>
 
-The DIP tells us that we should "hide the wiring behind the wall" by always interacting with low-level details via abstractions. This has strong ties to the SRP and the ISP detailed above. In practice, for React frontends, this means that functions in our high-level code shouldn't care *how* a specific task is done. For instance, say we wanted to call an API to get a list of todos - much like how we did in the SRP section above:
+The DIP tells us that we should "hide the wiring behind the wall" by always interacting with low-level details via abstractions. [[13]](https://deviq.com/dependency-inversion-principle/) This has strong ties to the SRP and the ISP detailed above. In practice, for React frontends, this means that functions in our high-level code shouldn't care *how* a specific task is done. For instance, say we wanted to call an API to get a list of todos - much like how we did in the SRP section above:
 
 ```jsx
 const TodosPage = () => {
@@ -707,7 +707,7 @@ Now, we don't even call an API to get our todos! Instead, we read them from some
 ### Layers of abstraction
 How do we know when we are far enough removed from "high-level" code to start worrying about implementation details? Well, Robert Martin again gives some insight:
 
-<p className="quote">"There is a fundamental rule for functions: every line of the function should be at the same level of abstraction, and that level should be one below the function name."<p className="author">- Robert C. Martin[https://www.youtube.com/watch?v=7EmboKQH8lM]</p></p>
+<p className="quote">"There is a fundamental rule for functions: every line of the function should be at the same level of abstraction, and that level should be one below the function name."<p className="author"> - Robert C Martin, Clean Code, Lesson 1 <a href="https://www.youtube.com/watch?v=7EmboKQH8lM">[5]</a></p></p>
 
 This means we should slowly abstract away be extracting out functionality, until we reach a low enough level. This is a somewhat vague definition, and relies on the experience of a programmer to know how high-level each concept is. An example of **not** abstracting far enough away might be:
 
@@ -793,7 +793,7 @@ function useTodos(term){
     return todos;
 };
 ```
-So, this is a little better - we have extracted away details from `jsx÷<TodosPage />` and ended up at a similar solution to what we posited before. However, we seem to have an overloaded `jsx÷useTodos()` function. We have some relatively high-level, abstract concepts (such as network requests) in the same function as relatively low-level concepts such as pattern matching or array manipulation. As Robert Martin says, *"This is rude! The programmer is taking you from the heights [high-level concepts] to the depths [low-level concepts] in one line."*. Perhaps we could break this up a little more:
+So, this is a little better - we have extracted away details from `jsx÷<TodosPage />` and ended up at a similar solution to what we posited before. However, we seem to have an overloaded `jsx÷useTodos()` function. We have some relatively high-level, abstract concepts (such as network requests) in the same function as relatively low-level concepts such as pattern matching or array manipulation. As Robert Martin says, *"This is rude! The programmer is taking you from the heights [high-level concepts] to the depths [low-level concepts] in one line."*. [[5]](https://www.youtube.com/watch?v=7EmboKQH8lM) Perhaps we could break this up a little more:
 
 ```jsx
 function useTodos(term){
@@ -844,10 +844,12 @@ function matchFilteredTodos(compeltedTodos, searchTerm){
 ## Final Thoughts
 If not direct translations, we have used the SOLID principles to outline some things we can do to make the architecture of our React apps a little easier to manage. These are all centered on the idea of modularising our code, as this makes it easier to plug in to different projects and makes it easier to test. Futhermore, the more isolated code is, the less likely a bug in it will affect other areas of the codebase. This is the "loose-coupling" which is desired. We went over how we can extract out functionality using modern tools like custom hooks in order to adhear to the single responsibility principle. We touched on the idea of composition from smaller components when explaining how to use the open/closed principle in order to make our code more extensible. We briefly looked as the Liskov substitution principle, and how we may apply it to any classes we write. We then finished by diving in to the interface segregation principle and the dependency inversion principle, which inform us we should only provide a component what it needs to function, and that we should always be acting via some abstraction in our high-level code. The aim of these, is to be able to wildly change implementation details, such as database provider, without having to rewrite large areas of high-level code.
 
+<p className="heading-header">I'm writing another article about other software design principles, so look out for a second installment in this series on software architecture!</p>
+
 ## Bonus! Real-life Example
 I've recently been applying these principles to refactor a project I've been working on, and thought it might be nice to show an example of how these can be applied in real systems, which are usually far messier than what was outlined here.
  
-**NOTE**: The following uses TypeScript, however I'll explain what's happening as we walk through it. Below is the main body, non-refactored component (return JSX not included) - I recommend using this as a reference, as I will take snippets out and focus on these as we go through and refactor each piece. This also uses WebSockets, which is what those reference to `jsx÷socket` are - think of these as a continual link between a backend and a frontend, such that they can talk to each other and execute code in real time.
+**NOTE**: The following uses TypeScript, however I'll explain what's happening as we walk through it. Below is the main body, non-refactored component (return JSX not included) - I recommend using this as a reference, as I will take snippets out and focus on these as we go through and refactor each piece. This also uses WebSockets, which is what those reference to `jsx÷socket` are - think of these as a continual link between a backend and a frontend, such that they can talk to each other and execute code in real time. [[14]](https://www.html5rocks.com/en/tutorials/websockets/basics/)
 
 ```tsx
 const ChatBoard: React.FC<RouteComponentProps<any, StaticContext, ChatBoardLocationState>>
@@ -1270,3 +1272,19 @@ Nice! Our `jsx÷handleClick()` now accurately represents the behaviour we wanted
 
 ### Finishing up
 While relatively small, I hope that real-life example was helpful. In no way do I claim this is completely perfect, it's not, however its certainly a lot better than it was simply by applying a very basic level of SOLID to our architecture.
+
+## References
+1. http://staff.cs.utu.fi/staff/jouni.smed/doos_06/material/DesignPrinciplesAndPatterns.pdf
+2. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+3. https://medium.com/@andrea.chiarelli/the-functional-side-of-react-229bdb26d9a6
+4. https://cleancoders.com/
+5. https://www.youtube.com/watch?v=7EmboKQH8lM
+6. https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0
+7. https://stackify.com/solid-design-open-closed-principle/
+8. https://reactjs.org/docs/composition-vs-inheritance.html
+9. https://stackify.com/solid-design-liskov-substitution-principle/
+10. https://reactjs.org/docs/hooks-faq.html#should-i-use-hooks-classes-or-a-mix-of-both
+11. https://reflectoring.io/interface-segregation-principle/
+12. https://enterprisecraftsmanship.com/posts/what-is-implementation-detail/
+13. https://deviq.com/dependency-inversion-principle/
+14. https://www.html5rocks.com/en/tutorials/websockets/basics/

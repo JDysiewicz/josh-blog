@@ -11,9 +11,9 @@ import { Helmet } from "react-helmet";
 const ArticleLayout = styled.div`
 
     & .post-title {
-        font-family: "Merriweather", sans-serif;
+        font-family: "Martel", serif;
         color: #1E90B3;
-        font-size: 2.5rem;
+        font-size: 3rem;
         font-weight: 900;
         margin-bottom: 1rem;
     }
@@ -26,21 +26,25 @@ const ArticleLayout = styled.div`
 
     & .article {
         color: #232323;
-        font-size: 21px;
-        font-stretch: normal;
-        font-style: normal
-        font-weight: 400;
-        font-family: "Source Sans Pro", Roboto, sans-serif;
-        line-height: 1.5;
+        font-size: 100%;
+        font-weight: 300;
+        font-family: "Signika Negative", sans-serif;
+        line-height: 1.6;
         
 
         & h2 {
-            color: #D60044
+            margin-top: 3rem;
+            font-size: 2.75rem;
+            font-family: "Martel", serif;
+            color: #D60044;
             
         }
 
         & h3 {
-            color: #7B568F;
+            margin-top: 3rem;
+            font-size: 2.3rem;
+            font-family: "Martel", serif;
+            color: #000000;
         }
 
         & .gatsby-resp-image-figcaption {
@@ -73,14 +77,14 @@ const ArticleLayout = styled.div`
             align-items: center;
             margin-left: auto;
             margin-right: auto;
-            max-width: 90%;
+            max-width: 80%;
             background-color: #B7E6F6;
             padding: 0.5rem;
-            border-radius: 15%;
-            border: 1px solid black;
+            border-radius: 30px;
+            border: 2px solid black;
             color: #000000;
             text-align: center;
-            font-size: 23px;
+            font-size: 100%;
 
         }
 
@@ -88,16 +92,16 @@ const ArticleLayout = styled.div`
             margin-left: auto;
             margin-right: auto;
             max-width: 90%;
-            background-color: #9bdeac;
+            background-color: #B7E6F6;
             padding-top: 1rem;
             padding-left: 0.5rem;
             padding-right: 0.5rem;
             padding-bottom: 0rem;
-            border-radius: 15%;
+            border-radius: 30px;
             border: 2px solid black;
             color: #000000;
             text-align: center;
-            font-size: 23px;
+            font-size: 100%;
             font-style: italic;
 
             & .author {
@@ -114,15 +118,16 @@ const ArticleLayout = styled.div`
             align-items: center;
             margin-left: auto;
             margin-right: auto;
-            max-width: 70%;
-            background-color: #EBEB77;
+            max-width: 60%;
+            background-color: #FFFFFF;
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
-            border-radius: 15%;
             border: 2px solid black;
             color: #000000;
             text-align: center;
-            font-size: 23px;
+            font-size: 100%;
+            border-radius: 30px;
+            font-weight: 600;
         }
 
         & .info {
@@ -134,11 +139,11 @@ const ArticleLayout = styled.div`
             max-width: 80%;
             background-color: #B7E6F6;
             padding: 0.5rem;
-            border-radius: 15%;
+            border-radius: 30px;
             border: 2px solid black;
             color: #000000;
             text-align: center;
-            font-size: 23px;
+            font-size: 100%;
         }
 
         /* centers gifs in mdx */
@@ -166,10 +171,9 @@ const ArticleLayout = styled.div`
         }
 
         & a {
-        text-decoration: underline;
-        text-decoration-thickness: 0.1em;
-        color: #0F4E61;
-        word-wrap: break-word;
+            text-decoration: none;
+            color: #D60044;
+            word-wrap: break-word;
         }
 
         & ol li:not(:last-child) {

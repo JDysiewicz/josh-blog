@@ -16,7 +16,7 @@ import "../../styles/global.scss";
 const GlobalLayout = styled.div`
     /* PT Sans vs Source Sans Pro.... Hard to decide */
     background-color: #EFEEEF;
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: "Signika Negative", sans-serif;
     margin-left: auto;
     margin-right: auto;
     max-width: 65rem;
