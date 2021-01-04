@@ -16,6 +16,10 @@ const ArticleLayout = styled.div`
         font-size: 3rem;
         font-weight: 900;
         margin-bottom: 1rem;
+
+        @media screen and (max-width: 810px){
+            font-size: 2.5rem;
+        }
     }
 
     & .post-small {
@@ -30,6 +34,11 @@ const ArticleLayout = styled.div`
         font-weight: 300;
         font-family: "Signika Negative", sans-serif;
         line-height: 1.6;
+
+        @media screen and (max-width: 810px){
+            font-size: 85%;
+            line-height: 1.5;
+        }
         
 
         & h2 {
@@ -37,6 +46,10 @@ const ArticleLayout = styled.div`
             font-size: 2.75rem;
             font-family: "Martel", serif;
             color: #D60044;
+
+            @media screen and (max-width: 810px){
+                font-size: 2rem;
+            }
             
         }
 
@@ -45,6 +58,10 @@ const ArticleLayout = styled.div`
             font-size: 2.3rem;
             font-family: "Martel", serif;
             color: #000000;
+
+            @media screen and (max-width: 810px){
+                font-size: 1.8rem;
+            }
         }
 
         & .gatsby-resp-image-figcaption {
