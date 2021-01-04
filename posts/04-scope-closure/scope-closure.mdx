@@ -39,11 +39,11 @@ console.log(a); // ReferenceError: a is not defined
 
 Even though `jsx÷b` is not declared inside `jsx÷funcOne()`, we can successfully log out the value of `jsx÷b` within it. Because we can access variable `jsx÷b` *within* `jsx÷funcOne()`, we say that `jsx÷b` is within the **scope** of `jsx÷funcOne()`. Contrarily, as we cannot access `jsx÷a` *outside* of `jsx÷funcOne()`, we say that `jsx÷a` is **only** within the scope of `jsx÷funcOne()` (or, that `jsx÷a` is "scoped" to `jsx÷funcOne()`).
 
-<p className="info">The scope of a variable describes where the variable can be accessed from. Therefore, the scope of a function describes which variables it has access to. [[2]](https://en.wikipedia.org/wiki/Scope_(computer_science))</p>
+> The scope of a variable describes where the variable can be accessed from. Therefore, the scope of a function describes which variables it has access to. [[2]](https://en.wikipedia.org/wiki/Scope_(computer_science))
 
 But how do we actually define where certain scopes begin and end? Why can we access `jsx÷b` within `jsx÷funcOne()`, yet we cannot access `jsx÷a` from outside `jsx÷funcOne()`? Well this depends entirely on *how* we declare the variable!
 
-## Variable Declarations
+## Block and Function Scoping
 
 As you may know, in JavaScript we have three options to declare a new variable: using the `jsx÷let`, `jsx÷const`, or `jsx÷var` keywords. [[3]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements)
 
@@ -211,7 +211,7 @@ As `jsx÷var` is much more likely to overexpose a variable compared to `jsx÷let
 
 > Use `jsx÷let` or `jsx÷const` to declare variables, unless you have a good reason not to. This is because `jsx÷var` tends to overexpose variables in ways that are harder to notice compared to block scoped variables.
 
-### Hoisting and TDZ
+## Hoisting and TDZ
 
 *Note - this section digs a little into the technicalities of JS under-the-hood: **TL;DR is try to declare all your variables at the top of the scope in which they are used, and don't try to access them before they are defined**.*
 
