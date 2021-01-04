@@ -53,9 +53,6 @@ class App extends React.Component{
 ```
 
 ## Lifecycle Stages and Methods
-
-![Figure 2 - The standard lifecycle stages of a human. [2]](./lifecycle-stages-2.jpeg)
-
 Let's dive into the **three** main stages of component lifecycle in react: *Mounting, Updating, and Unmounting*! [[1]](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 
 ### Mounting
@@ -241,11 +238,11 @@ class App extends React.Component{
 ```
 Here, our component does an initial render (and `jsx÷componentDidUpdate` does **not** run) to display our initial count, and a button to increase it.
 
-![Figure 3 - The result of the initial render of the above component.](./initial-count.JPG)
+![Figure 2 - The result of the initial render of the above component.](./initial-count.JPG)
 
 Upon clicking to increment, we can see that `jsx÷"Hey, I just updated"` is logged to the console.
 
-![Figure 4 - After clicking "Inc", the "Count" increases and "Hey, I just updated" is logged.](./next-count.JPG)
+![Figure 3 - After clicking "Inc", the "Count" increases and "Hey, I just updated" is logged.](./next-count.JPG)
 
 ### Unmounting
 The last lifecycle stage for a React component is when it is being removed from the DOM. This is perhaps the easiest stage to understand: we do *not* render anything or call `jsx÷setState` because the component is being removed from the DOM anyway. All we do here is *unsubscribe* from any *listeners* we may have subscribed to in `jsx÷componentDidMount()` - or things to that nature. This is the stage where we clean up, really. If you setup a `WebSocket` (a kind of continual listening out for network requests), here is where you'd remove that. If you set up any `jsx÷setInterval()`'s or other periodically done events, you'd remove them here too. [[11]](https://reactjs.org/docs/react-component.html#componentwillunmount)

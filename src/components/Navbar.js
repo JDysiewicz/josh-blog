@@ -11,6 +11,11 @@ const NavbarStyled = styled.div`
     & h1{
         font-size: 3rem;
         color: #000000;
+        border-bottom: 2px solid #D60044;
+        border-width: thick;
+        padding-right: 1em;
+        margin-right: 1em;
+        border-radius: 5px;
 
     }
 
@@ -23,11 +28,15 @@ const NavbarStyled = styled.div`
         flex-direction: column;
         & h1 {
             margin-top: 0.2em;
+            padding-right: 0.5em;
+            padding-left: 0.5em;
+            margin-left: -0.5em;
+            margin-right: -0.5em;
         }
 
         & div {
             margin-top: 0.4em;
-            font-weight: 600;
+
         }
     }
 `;

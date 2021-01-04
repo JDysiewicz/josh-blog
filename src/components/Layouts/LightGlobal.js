@@ -16,10 +16,10 @@ import "../../styles/global.scss";
 const GlobalLayout = styled.div`
     /* PT Sans vs Source Sans Pro.... Hard to decide */
     background-color: #EFEEEF;
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: "Signika Negative", sans-serif;
     margin-left: auto;
     margin-right: auto;
-    max-width: 55rem;
+    max-width: 65rem;
 
     padding: 2.625rem 1.3125rem;
     font-weight: 500;
@@ -52,7 +52,7 @@ export default ({children}) => {
             <html lang="en" />
             <title>{title}</title>
             <meta name="description" content={description} />
-            <meta name="google-site-verification" content="gNQFmA8WRp6c4n2UF_H1gIpDcimz2P1FHISJwx2nP0A" />>
+            <meta name="google-site-verification" content="gNQFmA8WRp6c4n2UF_H1gIpDcimz2P1FHISJwx2nP0A" />
         </Helmet>
         {children}
     </GlobalLayout>

@@ -11,11 +11,15 @@ import { Helmet } from "react-helmet";
 const ArticleLayout = styled.div`
 
     & .post-title {
-        font-family: "Merriweather", sans-serif;
+        font-family: "Martel", serif;
         color: #1E90B3;
-        font-size: 2.5rem;
+        font-size: 3rem;
         font-weight: 900;
         margin-bottom: 1rem;
+
+        @media screen and (max-width: 810px){
+            font-size: 2.5rem;
+        }
     }
 
     & .post-small {
@@ -26,19 +30,38 @@ const ArticleLayout = styled.div`
 
     & .article {
         color: #232323;
-        font-size: 20px;
-        font-stretch: normal;
-        font-family: "Source Sans Pro", Roboto, sans-serif;
-        line-height: 1.5;
+        font-size: 100%;
+        font-weight: 300;
+        font-family: "Signika Negative", sans-serif;
+        line-height: 1.6;
+
+        @media screen and (max-width: 810px){
+            font-size: 85%;
+            line-height: 1.5;
+        }
         
 
         & h2 {
-            color: #D60044
+            margin-top: 3rem;
+            font-size: 2.75rem;
+            font-family: "Martel", serif;
+            color: #D60044;
+
+            @media screen and (max-width: 810px){
+                font-size: 2rem;
+            }
             
         }
 
         & h3 {
-            color: #7B568F;
+            margin-top: 3rem;
+            font-size: 2.3rem;
+            font-family: "Martel", serif;
+            color: #000000;
+
+            @media screen and (max-width: 810px){
+                font-size: 1.8rem;
+            }
         }
 
         & .gatsby-resp-image-figcaption {
@@ -66,12 +89,76 @@ const ArticleLayout = styled.div`
         }
 
         & blockquote{
-            background-color: #9bdeac;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 80%;
+            background-color: #B7E6F6;
+            padding: 0.5rem;
+            border-radius: 30px;
+            border: 2px solid black;
+            color: #000000;
+            text-align: center;
+            font-size: 100%;
+
+        }
+
+        & .quote{
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 90%;
+            background-color: #B7E6F6;
+            padding-top: 1rem;
             padding-left: 0.5rem;
             padding-right: 0.5rem;
-            border-radius: 10px;
-            margin: 0;
+            padding-bottom: 0rem;
+            border-radius: 30px;
+            border: 2px solid black;
+            color: #000000;
+            text-align: center;
+            font-size: 100%;
+            font-style: italic;
 
+            & .author {
+                font-style: normal;
+                color: #555555;
+                margin-top: 0.3rem;
+                text-align: right;
+            }
+
+        }
+        & .heading-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 80%;
+            background-color: #B7E6F6;
+            padding: 0.5rem;
+            border: 2px solid black;
+            color: #000000;
+            text-align: center;
+            font-size: 100%;
+            font-weight: 600;
+        }
+
+        & .info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 80%;
+            background-color: #B7E6F6;
+            padding: 0.5rem;
+            border-radius: 30px;
+            border: 2px solid black;
+            color: #000000;
+            text-align: center;
+            font-size: 100%;
         }
 
         /* centers gifs in mdx */
@@ -99,10 +186,9 @@ const ArticleLayout = styled.div`
         }
 
         & a {
-        text-decoration: underline;
-        text-decoration-thickness: 0.1em;
-        color: #0F4E61;
-        word-wrap: break-word;
+            text-decoration: none;
+            color: #D60044;
+            word-wrap: break-word;
         }
 
         & ol li:not(:last-child) {

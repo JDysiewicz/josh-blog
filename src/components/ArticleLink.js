@@ -8,7 +8,7 @@ const ArticleLinkStyled = styled.article`
     margin-bottom: 2rem;
     & h2 {
         font-size: 1.75rem;
-        color: #1E90B3;
+        color: #D60044;
         margin-bottom: 0rem;
     };
 
@@ -18,7 +18,7 @@ const ArticleLinkStyled = styled.article`
 
     & a {
         text-decoration: none;
-        color: #1E90B3;
+        color: #D60044;
     }
 
     & small {
