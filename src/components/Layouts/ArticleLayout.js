@@ -118,15 +118,13 @@ const ArticleLayout = styled.div`
             align-items: center;
             margin-left: auto;
             margin-right: auto;
-            max-width: 60%;
-            background-color: #FFFFFF;
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
+            max-width: 80%;
+            background-color: #B7E6F6;
+            padding: 0.5rem;
             border: 2px solid black;
             color: #000000;
             text-align: center;
             font-size: 100%;
-            border-radius: 30px;
             font-weight: 600;
         }
 

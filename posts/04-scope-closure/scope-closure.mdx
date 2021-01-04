@@ -39,7 +39,7 @@ console.log(a); // ReferenceError: a is not defined
 
 Even though `jsx÷b` is not declared inside `jsx÷funcOne()`, we can successfully log out the value of `jsx÷b` within it. Because we can access variable `jsx÷b` *within* `jsx÷funcOne()`, we say that `jsx÷b` is within the **scope** of `jsx÷funcOne()`. Contrarily, as we cannot access `jsx÷a` *outside* of `jsx÷funcOne()`, we say that `jsx÷a` is **only** within the scope of `jsx÷funcOne()` (or, that `jsx÷a` is "scoped" to `jsx÷funcOne()`).
 
-> The scope of a variable describes where the variable can be accessed from. Therefore, the scope of a function describes which variables it has access to. [[2]](https://en.wikipedia.org/wiki/Scope_(computer_science))
+<p className="info">The scope of a variable describes where the variable can be accessed from. Therefore, the scope of a function describes which variables it has access to. [[2]](https://en.wikipedia.org/wiki/Scope_(computer_science))<p>
 
 But how do we actually define where certain scopes begin and end? Why can we access `jsx÷b` within `jsx÷funcOne()`, yet we cannot access `jsx÷a` from outside `jsx÷funcOne()`? Well this depends entirely on *how* we declare the variable!
 

@@ -2,10 +2,13 @@
 title: "SOLID Principles in React"
 slug: "solid-principles-in-react"
 author: "Joshua Dysiewicz"
-date: "20 November 2020"
+date: "18 December 2020"
 readingTime: "📖 15 min"
 spoiler: "How we can apply the SOLID design principles to React?"
 ---
+
+![Figure 1 - Design principles book cover by Dan Clear on Unsplashed.](dan-clear-unsplash-designprinciples.jpg)
+
 ## Why Follow Design Principles?
 Good code is, in general, characterised by being a mixture of three things:
 
@@ -13,7 +16,9 @@ Good code is, in general, characterised by being a mixture of three things:
 - **Maintainable**: It is easy to make alterations, to add new features, and for other developers to understand how the code functions.
 - **Robust**: The software is hard to break due to a great test suite, and handles errors appropriately when they happen.
 
-However, this begs the question of *how* we can achieve these three things. As the software industry has grown, it has learned from mistakes of the past. In doing so, many "rules of thumb" have been developed to help software achieve one - if not all - of these three aims. These "rules of thumb" are what we call *best practices*, *software development philosophies*, or *design principles*. These are intended to be a one-system-fits-all approach to developing software, such that being familiar with these design principles will help you write code in **any** lanugage or paradigm. However, due to their generality, design principles are very much subject to the developers disgression as to how strictly to follow them. Following any one design principle too strongly will ultimately be counterproductive towards the above three aims. Finding this balance depends on programming language, style, personal taste, requirements, time, and a host of other factors. As such, it is down to each developer/team to find what works for them. That being said, if you are not currently following *any* design principles, implementing them into your code will almost certainly help to fufill one of the three aims above.
+However, this begs the question of *how* we can achieve these three things. As the software industry has grown, it has learned from mistakes of the past. In doing so, many "rules of thumb" have been developed to help software achieve one - if not all - of these three aims. These "rules of thumb" are what we call **best practices**, **software development philosophies**, or **design principles**. These are intended to be a one-system-fits-all approach to developing software, such that being familiar with these design principles will help you write code in **any** lanugage or paradigm. 
+
+However, due to their generality, design principles are very much subject to the developer's disgression as to how strictly to follow them. Following any one design principle too strongly will ultimately be counterproductive towards the above three aims. Finding this balance depends on programming language, style, personal taste, requirements, time, and a host of other factors. As such, it is down to each developer/team to find what works for them. That being said, if you are not currently following *any* design principles, implementing them into your code will almost certainly help to fufill one of the three aims above.
 
 This article will mainly be about the SOLID principles of software design, and how we can use them to write better frontends using React.
 
@@ -25,6 +30,8 @@ Software design principles are great, because they are relatively **language agn
 <p className="info">We can use the SOLID principles to write better React frontends, however we must take certain lingustic liberties to extract applicable implementations.</p>
 
 ## What is SOLID? 
+
+![Figure 2 - Follow these principles and, like this wall, your code will be SOLID (picture by NeONBRAND on Unsplashed)](neonbrand-unsplash-solid.jpg)
 
 SOLID is an acronym for five separate design principles:
 
@@ -391,7 +398,7 @@ Following nicely from the SRP, the OCP explains that we should make our code **e
 
 Luckily for us, React encourages this off the bat. This means you're probably already following this principle in your frontends without knowing it.
 
-<p className="quote">"At Facebook, we use React in thousands of components, and we haven't found any use cases where we would recommend creating component inheritance hierarchies. Props and compostion give you all the flexibility you need to customize a component's look and behaviour in an explict and safe way."<p className="author"> React Documentation, <a href="https://reactjs.org/docs/composition-vs-inheritance.html">[8]</a></p></p>
+<p className="quote">"At Facebook, we use React in thousands of components, and we haven't found any use cases where we would recommend creating component inheritance hierarchies. Props and compostion give you all the flexibility you need to customize a component's look and behaviour in an explict and safe way."<p className="author"> React Documentation, 2020 <a href="https://reactjs.org/docs/composition-vs-inheritance.html">[8]</a></p></p>
 
 This pretty much means that we should always build big components from smaller ones, using props and special properties like `jsx÷props.children` to build complexity when required. I haven't seen this in any React code so far, however **please don't do this:**
 
