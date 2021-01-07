@@ -1,40 +1,44 @@
 ---
 title: "What is 'Good' Software?"
-slug: "what-is-good-software"
+slug: "good-software"
 author: "Joshua Dysiewicz"
-date: "13 November 2020"
+date: "07 January 2021"
 readingTime: "📖 x min"
-spoiler: "Software design principles"
+spoiler: "How to write code you're proud to publish."
 ---
+![Figure 1 - xkcd comic detailing how software engineers often distrust their code. [https://xkcd.com/2030/]](xkcd-1.PNG)
 
-## Why.
-The most important question a person can ask when trying to learn something new is "**why?**".
+It's a common joke that, as software engineers/developers, the code we make is buggy, inefficient, and *barely* works (as per the xkcd above). While it can be humorous in jest, **this should not be the norm**. When you hire a builder to build a house, you don't expect the walls to randomly collapse. When a mechanic fixes your car engine, you don't expect it to come back with a puncture. When you ask a food scientist how safe their new supplement is, you expect to hear about extensive testing and quality control, not *"well, we had Bob try it last week and he's still around!"*. When you hire a *professional*, you expect *professional quality*. I like what Robert Martin has to say on this:
 
-- **Why** should I use a functional component over a class component?
-- **Why** should I use promises over callback functions?
-- **Why** should I have each React component in its own file?
+<p className="quote">"My first expectation is: <strong>'we will not ship shit'</strong>... When you release code, I expect it to be as high a quality code as you can attain in the given time period; it should be clean, well tested, and organised... And you know who else expects that? <strong>Everyone</strong>, except you. If I buy a car from someone, I expect that car to work. I expect it to be well tested and put through the ringer, and I will complain bitterly if it doesn't. That is what <i>all</i> our customers expect from us."<p className="author"> - Robert C Martin, Clean Code, Lesson 3 <a href="https://www.youtube.com/watch?v=Qjywrq2gM8o&t=1070s">[]</a></p></p>
 
-Along that line of thinking, you might rightly ask *"**Why** have you started an article on software design principles with an esoteric discussion about language?"*. Well, it's because the **why** becomes incredibly important when we discuss what makes something **"good"**. In response to the above questions, we could easily say *"Because it makes for better code"*, but this begs the question: **Why do these things make code better?**
+This may come across as hyperbolic, until we take a step back and realise just *how much* society today relies on software. I'm not just talking about nulcear codes or anything like that:
+
+- Imagine if you suddenly lost access to your bank account due to some buggy software that some poor junior developer wrote? Well you don't have to: [it happened with TSB in 2018](https://www.independent.co.uk/news/business/news/tsb-it-failure-cost-compensation-customers-switch-current-account-a8757821.html) and their reputation hasn't recovered. Not only did this hurt TSB (£330 million and 80,000 customers lost), it left thousands without access to pay their bills or, even worse, able to access *other people's bank accounts*.
+
+- By not testing real-life scenarios, [Heathrow airport](http://news.bbc.co.uk/1/hi/uk/7314816.stm) lost 42,000 bags and cancelled the holiday plans of everyone on 500 flights. 
+
+- NASA [lost a space probe analysing the climate of Mars](https://www.simscale.com/blog/2017/12/nasa-mars-climate-orbiter-metric/) due to not having standardised measurements of force in their software, where one party was reporting in imperial measurements and the other in metric. This cost the scientific world years of research.
+
+Note, I'm not saying everything has to be perfect. We all make mistakes. But when mistakes happen, our excuse shouldn't be *"all code has bugs"*. We should be able to reply with a set of standards we adhere to, and have those standards evolve over time. When we ship code to production, it should be to the best of our ability; as professionals, we should take *pride* in our work.
+
+With that in mind, let's talk about how we can begin to create code we are proud to publish!
 
 ## What Makes Code 'Good'
-'Good' code is somewhat subjective, and somewhat objective. To elaborate, let me ask you: what makes someone attractive? We can make some general statements, for example facial symmetry is generally regarded as an attractive trait [https://www.sciencedirect.com/science/article/abs/pii/S1090513801000836] (objective), however it is also depends on the person (subjective). Dividing 'good' into subjective and objective terms allows us to focus on certain aspects of software construction, and allows us to understand why, for instance, promises are better than callbacks in most cases.
+'Good' code is somewhat subjective, and somewhat objective. To elaborate, let me ask you: what makes someone attractive? We can make some general statements, for example facial symmetry is generally regarded as an attractive trait [https://www.sciencedirect.com/science/article/abs/pii/S1090513801000836] (objective), however it is also depends on the person (subjective). Dividing 'good' into subjective and objective terms allows us to focus on certain aspects of software construction, and allows us to understand why certain things are considered univeral 'good practice', and why different languages may also have different interpretations on what is good. Below we shall first establish what *objectively* good code is, and then we shall briefly mention some *subjective* things to keep in mind.
 
-### Objectively Good Code
-Objectively good code means that we can extract out all personal feelings and attachments, and focus purely on factual evidence. This is where design principles such as SOLID come into play.
+## Objectively Good Code
 
-
-### Subjectively Good Code
-
-
-//////////////////////////////////////////////
-
-'Good' software is incredibly hard to define, and can be incredibly subjective. However, we can point to some objective traits that make some code better than others. Think of this as defining what makes someone attractive: there are well studied phenomena about what makes an individual objectively more attractive (e.g facial symmetry [https://www.sciencedirect.com/science/article/abs/pii/S1090513801000836]), however it can also be personal preference. In general, however, good software is:
+'Good' software is incredibly hard to define, and can be incredibly subjective. However, we can point to some objective traits that make some code better than others. In general, however, good software is:
 
 - **Funcional**: It does the job you wanted it to.
 - **Maintainable**: It is easy understand, easy to edit/add new features, and easy to fix things when they go wrong.
 - **Robust**: It is hard to break, hard to exploit, and handles errors when they occur.
 
+
 ### Funcional
+<p className="info">Write code to complete project requirements.</p>
+
 This part of good software deals with requirements, and where methodologies "agile development" make their home. Every decision we make should have some reason as to how it makes steps towards some overarching goal. If you create the greatest JavaScript framework in the world but you were asked to create a twitter clone, then you've provided an excellent answer to the wrong question. This is the realm of usability, and agile frameworks.
 
 Code that is functional provides a correct answer to a given question. Take, for instance, the following two code snippets which both accomplish the same thing.
@@ -108,10 +112,33 @@ var callAPI = /*#__PURE__*/function () {
 callAPI();
 ```
 
-Now, I don't think its particularly controversial to prefer the first snippet. However, what if the purpose of these snippets was to call an API in a way that was compatible with all browsers? Well, suddenly the first snippet is now *awful* code for this task, as IE11 doesn't support the async/await syntax (let's ignore that babel exists to illustrate the point here, as the actual correct response here is to use the first snippet but transpile it down to ES2015). This goes to show that good code is code which provides the functionality expected of it.
+Now, I don't think its particularly controversial to prefer the first snippet. However, what if the purpose of these snippets was to call an API in a way that was compatible with all browsers? Well, suddenly the first snippet is now *awful* code for this task, as IE11 doesn't support the async/await syntax (let's ignore that Babel exists to illustrate the point here, as the actual correct response here is to use the first snippet but transpile it down to ES2015). [https://www.javascriptjanuary.com/blog/an-introduction-to-async-await] This goes to show that good code is code which provides the functionality expected of it. This is why methodologies like Scrum exist, as they try and really break down what 'desired' functionality is into actionable steps.
 
 ### Maintainable
-Code is maintainable if you can come back to it 6 months later and understand how it works in a few minutes. It is also easy for other developers to pick up and work on when you're not around. This is the realm of readability, naming conventions, decoupling, and extensibility.
+Code is maintainable if you can come back to it 6 months later and understand how it works in a few minutes. It is also easy for other developers to pick up and work on when you're not around. This is the realm of readability, decoupling, and extensibility. For instance, let's pretend you wrote some code for a project 6 months ago which has since broken and needs fixing for a client next week. Could you work out what this does?
+
+```jsx
+function gP = async (i) => {
+  const m = await u.find({"i": ${i}});
+  m ? 2 : 5;
+};
+```
+Well its asynchronous, and we seem to be looking for something in a database somewhere where `i = i`... We could probably work it out, but now we have to hunt for greater context or try and decipher what "2" and "5" mean. However, if we were to instead make this code a bit more readable we would see this:
+
+```js
+const MEMBER_PRICE = 2;
+const NONMEMBER_PRICE = 5;
+
+function getPrice = async (membershipId) => {
+  const isMember = await User.find({"membershipId": `${membershipId}`});
+  if (isMember){
+    return MEMBER_PRICE;
+  } else {
+    return NONMEMBER_PRICE;
+  }
+};
+```
+Now it's much easier to see that this is a function which returns the price to charge for some product which differs if the user is a member or not.
 
 ### Robust
 Code is robust if it accounts for all possibilities, and handles errors gracefully. This is the realm of testing and error handling.
@@ -258,3 +285,40 @@ function twoSumBetter(arr, sum){
 Glossing over some details here, this implementation of the two sum problem is more complex, yet runs much faster than the simple implementation. It is up to your experience as a developer, and the experience of those around you, to know when complexity is needed or when complexity is necessary.
 
 
+## Subjectively Good Code
+This article will mainly deal with what is considered objectively good code; coding standards which are almost universally applicable. However, it should be mentioned that every language/team/person is different, and so 'good practice' will vary. Therefore, below is a few things to keep in mind which will vary wherever you go, but are still important to creating good quality code. In general, these subjective measures are about making some sort of standard. It reduces cognitive burden when you don't have to worry about setting up a linter, or how to organise your files, or what to call your git branch. If there are standards in place you can follow, you will be more productive and find the whol process easier.
+
+### Idiomatic Code
+Idiomatic code means it adheres to certain practices laid out by the rest of the community. For instance, idiomatic python code will make use of list comprhensions, and idiomatic JavaScript code will use `js÷let` and `js÷const` instead of `js÷var`. Idiomatic code can be important to write as it sets a standard for all code of a particular language everywhere. It doesn't matter if you work at company A or nonprofit B, whether you look for help from a colleagues code or from stackoverflow: the JS you will see should be relatively similar in style and stucture. Note, these idioms can also contradict each other in different languages. For instance, it is common to have relatively verbose variable names in Java. As such, if we wanted to create some counter variable in Java, we would write something like:
+
+```java
+int count = 0;
+```
+However, the idiomatic Go equivalent would be: [https://github.com/golang/go/wiki/CodeReviewComments#variable-names]
+
+```go
+c := 0
+```
+Obviously, this misses the context of the surrounding code which should also be used, however it illustrates some conflicting idiomatic naming conventions. Another difference is also highlighted here: **semicolons**. In some languages, like C, they are required. In others, like JavaScript, they are optional. In yet others, like Go, the compiler will strip away your semicolons should you dare use them.
+
+### Linters
+Within most lanugages, there will exist some sort of *linter*; for instance, ESLint is one of the linters of choice in the JavaScript/TypeScript world. [https://gomakethings.com/javascript-linters/] These are tools which scan all the code you write and attempt to catch bugs, and enforce some form of standards. You can alter these standards via configuration files, however in general they are things like *"should double quotes or single quotes be used for strings?"*, and "*should intentation be tabs or spaces?*". There are some recommended settings you can use which will get you up and running faster, however they are by no means gospel. The reason these are highly customisable via configuration files is **because** the standards are subjective. What **isn't** subjective, however, is that you (and your team) should be consistent. Linters (and formatters such as Prettier) enforce consistency across a project, which can be incredibly useful to you and your team. I personally created a create-react-app template which comes preconfigured with the linting/prettier settings *I* like - this is available via npm and can be used to set up an inital project with CRA using `npx create-react-app <appname> --template josh-ts`.
+
+### File structure
+Note - *having* a file structure is **objectively** better than random chaos. However, the choice of exactly how you split that up is up to you; again, just keep it consistent across a project. For refernce, [here's](https://react-file-structure.surge.sh/) what Dan Abramov recommends for React file structure. Point being, this is highly subjective, so just find one that works for you.
+
+![](file-structure-1.PNG)
+
+The above showcases a relatively simple file structure, where all components are placed into a `components` directory, all stlyesheets (css, scss etc) files have their own `styles` directory, and various helper functions that have been extracted out (see SOLID principles) are placed into the `utils` folder (utilities).
+
+![](file-structure-2.PNG)
+
+Another example above shows each component now having its separate directory, with corrosponding `styles`, `utils`, and `static` directories for the styling, functions, and images associated with each component, respectively.
+
+This structure will also depend on the exact technologies you're using too. For instance, if you're using TypeScript you may want a separate `types` folder in the root of your project. Furthermore, maybe you have a monorepo containing your React frontend and your NodeJS backend.
+
+### Paradigm
+A paradigm is a way of programming, or a particular style of programming. [https://cs.lmu.edu/~ray/notes/paradigms/] Some languages, like Java and Haskell, usually favour a paradigm (OOP and functional, respectively). Other languages, like JavaScript, are relatively paradigm agnostic. With these languages, the degree to which you favour one paradigm over another is completely up to you. This is not an introduction to functional programming vs OOP - this is merely here to illustrate another subjective measure of 'good' code.
+
+### Others
+The list could go on and on: semi colons or not, how many spaces to indent, React vs Angular (vs Svelete vs Vue vs a million other frameworks)... For this reason, I advise you to find some subjective measures you like and fit within your current projects/teams. Focus more on the *objective* improvements you can make to your code, rather than sweating over if you should intent 2 spaces instead of 4.
