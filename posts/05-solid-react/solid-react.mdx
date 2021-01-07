@@ -53,7 +53,7 @@ The above showcases ways in which we can implement each principle when writing m
 
 ## Single Responsibility Principle (SRP)
 
-> **Every function/class/component should do exactly one thing**
+<div className="heading-header">Every function/class/component should do exactly one thing</div>
 
 To be frank, **this is the most important principle** to follow when writing frontends in React. The SRP encourages us to fragment our code, from monolithic files containing thousands of lines, into dozens of smaller 50-100 line files. This is because it encourages us to extract functionality from our files into separate functions, such that our codebase becomes more modular. This makes it much more **maintainable**, as it becomes easy to see the various moving parts to some particular functionality. It also makes our codebase much more **robust**, as it becomes far easier to test many smaller separate files than one large file. In short, if you're struggling to implement good testing, or your files are routinely getting above 150 lines of code, its probably a sign you need to fragment your code more.
 
@@ -392,7 +392,7 @@ Here, we have extracted out the API logic into the `jsx÷useTodos()` custom hook
 
 
 ## Open/Closed Principle (OCP)
-> **Make big components from lots of smaller ones**
+<div className="heading-header">Make big components from lots of smaller ones</div>
 
 Following nicely from the SRP, the OCP explains that we should make our code **extensible**; we should be able to add new features without having to rewrite parts of our codebase. [[7]](https://stackify.com/solid-design-open-closed-principle/) In React terms, this can be boiled down to using **composition** rather than **inheritance** to create large-scale components. 
 
@@ -469,7 +469,7 @@ Here, we make a generic `jsx÷<InputBox />` that takes in styles and a message f
 > Use composition to make large components, rather than extending from other components.
 
 ## Liskov Substitution Principle (LSP)
-> **Make classes substitutable for subclasses**
+<div className="heading-header">Make classes substitutable for subclasses</div>
 
 The LSP states that any subclass should be substitutable for its base class. [[9]](https://stackify.com/solid-design-liskov-substitution-principle/) This means that if B `jsx÷extends` A, then we should be able to use B everywhere we use A without altering any functionality. I'll be blunt: **we just don't really use this in React**. Nowadays, all code should be written using hooks over classes anyway, and so classes should play an extremely minor role in modern React code. This section exists for posterity, however this is certainly one of the less relevant principles to be applied to frontend design. [[10]](https://reactjs.org/docs/hooks-faq.html#should-i-use-hooks-classes-or-a-mix-of-both)
 
@@ -555,7 +555,7 @@ sayNumWheels(bicycle); // 2
 > If you're extending from a class, make sure the base class is as generic as needed to be a true representation of every subclass.
 
 ## Interface Segregation Principle (ISP)
-> **Only pass a component props it needs**
+<div className="heading-header">Only pass a component props it needs</div>
 
 The ISP states that people should not be forced to rely upon interfaces that they don't use. [[11]](https://reflectoring.io/interface-segregation-principle/) Since we lack interfaces in JavaScript, this is a less relevant comment. However, we can read in to the idea behind this principle and translate this into something we *can* use in our React code: **give components only what they need**. This means *implementation details* should not matter to any specific high-level function.
 
@@ -631,7 +631,7 @@ This way, if we ever change an implementation detail, all we need to do is pass 
 > Destructure out the needed props for a component if possible. This way, the component does not rely on the details in its parent component.
 
 ## Dependency Inversion Principle (DIP)
-> **Always have high-level code interface with an abstraction, rather than an implementation detail**
+<div className="heading-header">Always have high-level code interface with an abstraction, rather than an implementation detail</div>
 
 The DIP tells us that we should "hide the wiring behind the wall" by always interacting with low-level details via abstractions. [[13]](https://deviq.com/dependency-inversion-principle/) This has strong ties to the SRP and the ISP detailed above. In practice, for React frontends, this means that functions in our high-level code shouldn't care *how* a specific task is done. For instance, say we wanted to call an API to get a list of todos - much like how we did in the SRP section above:
 
