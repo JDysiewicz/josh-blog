@@ -53,7 +53,7 @@ The above showcases ways in which we can implement each principle when writing m
 
 ## Single Responsibility Principle (SRP)
 
-> **Every function/class/component should do exactly one thing**
+***Every function/class/component should do exactly one thing***
 
 To be frank, **this is the most important principle** to follow when writing frontends in React. The SRP encourages us to fragment our code, from monolithic files containing thousands of lines, into dozens of smaller 50-100 line files. This is because it encourages us to extract functionality from our files into separate functions, such that our codebase becomes more modular. This makes it much more **maintainable**, as it becomes easy to see the various moving parts to some particular functionality. It also makes our codebase much more **robust**, as it becomes far easier to test many smaller separate files than one large file. In short, if you're struggling to implement good testing, or your files are routinely getting above 150 lines of code, its probably a sign you need to fragment your code more.
 
@@ -64,7 +64,7 @@ To be frank, **this is the most important principle** to follow when writing fro
 ### What Does "one thing" Mean?
 I've mentioned the phrase "one thing" a couple times now, so it's probably useful to try and discern what that means. Robert Martin, author of *Clean Code* and progenitor of the SOLID principles, defines it as such: [[4]](https://cleancoders.com/)
 
-<p className="quote">"A function does one thing if you cannot meaningfully extract another function from it. If a function contains code, and you can extract another function from it, then that original function did more than one thing."<p className="author"> - Robert C Martin, Clean Code, Lesson 1 <a href="https://www.youtube.com/watch?v=7EmboKQH8lM">[5]</a></p></p>
+> *"A function does one thing if you cannot meaningfully extract another function from it. If a function contains code, and you can extract another function from it, then that original function did more than one thing."* **- Robert C Martin, Clean Code, Lesson 1** [[5]](https://www.youtube.com/watch?v=7EmboKQH8lM)
 
 The level to which you take this is up to you; as I will mention many times, zealously following any principle does more harm than good. However, this does give us a starting point and a general rule of thumb to follow if unsure.
 
@@ -392,13 +392,13 @@ Here, we have extracted out the API logic into the `jsx÷useTodos()` custom hook
 
 
 ## Open/Closed Principle (OCP)
-> **Make big components from lots of smaller ones**
+***Make big components from lots of smaller ones***
 
 Following nicely from the SRP, the OCP explains that we should make our code **extensible**; we should be able to add new features without having to rewrite parts of our codebase. [[7]](https://stackify.com/solid-design-open-closed-principle/) In React terms, this can be boiled down to using **composition** rather than **inheritance** to create large-scale components. 
 
 Luckily for us, React encourages this off the bat. This means you're probably already following this principle in your frontends without knowing it.
 
-<p className="quote">"At Facebook, we use React in thousands of components, and we haven't found any use cases where we would recommend creating component inheritance hierarchies. Props and composition give you all the flexibility you need to customize a component's look and behaviour in an explicit and safe way."<p className="author"> React Documentation, 2020 <a href="https://reactjs.org/docs/composition-vs-inheritance.html">[8]</a></p></p>
+> *"At Facebook, we use React in thousands of components, and we haven't found any use cases where we would recommend creating component inheritance hierarchies. Props and composition give you all the flexibility you need to customize a component's look and behaviour in an explicit and safe way."* **- React Documentation, 2020** [[8]](https://reactjs.org/docs/composition-vs-inheritance.html)
 
 This pretty much means that we should always build big components from smaller ones, using props and special properties like `jsx÷props.children` to build complexity when required. I haven't seen this in any React code so far, however **please don't do this:**
 
@@ -469,7 +469,7 @@ Here, we make a generic `jsx÷<InputBox />` that takes in styles and a message f
 > Use composition to make large components, rather than extending from other components.
 
 ## Liskov Substitution Principle (LSP)
-> **Make classes substitutable for subclasses**
+***Make classes substitutable for subclasses***
 
 The LSP states that any subclass should be substitutable for its base class. [[9]](https://stackify.com/solid-design-liskov-substitution-principle/) This means that if B `jsx÷extends` A, then we should be able to use B everywhere we use A without altering any functionality. I'll be blunt: **we just don't really use this in React**. Nowadays, all code should be written using hooks over classes anyway, and so classes should play an extremely minor role in modern React code. This section exists for posterity, however this is certainly one of the less relevant principles to be applied to frontend design. [[10]](https://reactjs.org/docs/hooks-faq.html#should-i-use-hooks-classes-or-a-mix-of-both)
 
@@ -555,7 +555,7 @@ sayNumWheels(bicycle); // 2
 > If you're extending from a class, make sure the base class is as generic as needed to be a true representation of every subclass.
 
 ## Interface Segregation Principle (ISP)
-> **Only pass a component props it needs**
+***Only pass a component props it needs***
 
 The ISP states that people should not be forced to rely upon interfaces that they don't use. [[11]](https://reflectoring.io/interface-segregation-principle/) Since we lack interfaces in JavaScript, this is a less relevant comment. However, we can read in to the idea behind this principle and translate this into something we *can* use in our React code: **give components only what they need**. This means *implementation details* should not matter to any specific high-level function.
 
@@ -631,7 +631,7 @@ This way, if we ever change an implementation detail, all we need to do is pass 
 > Destructure out the needed props for a component if possible. This way, the component does not rely on the details in its parent component.
 
 ## Dependency Inversion Principle (DIP)
-> **Always have high-level code interface with an abstraction, rather than an implementation detail**
+***Always have high-level code interface with an abstraction, rather than an implementation detail***
 
 The DIP tells us that we should "hide the wiring behind the wall" by always interacting with low-level details via abstractions. [[13]](https://deviq.com/dependency-inversion-principle/) This has strong ties to the SRP and the ISP detailed above. In practice, for React frontends, this means that functions in our high-level code shouldn't care *how* a specific task is done. For instance, say we wanted to call an API to get a list of todos - much like how we did in the SRP section above:
 
@@ -714,7 +714,7 @@ Now, we don't even call an API to get our todos! Instead, we read them from some
 ### Layers of abstraction
 How do we know when we are far enough removed from "high-level" code to start worrying about implementation details? Well, Robert Martin again gives some insight:
 
-<p className="quote">"There is a fundamental rule for functions: every line of the function should be at the same level of abstraction, and that level should be one below the function name."<p className="author"> - Robert C Martin, Clean Code, Lesson 1 <a href="https://www.youtube.com/watch?v=7EmboKQH8lM">[5]</a></p></p>
+> *"There is a fundamental rule for functions: every line of the function should be at the same level of abstraction, and that level should be one below the function name."* **- Robert C Martin, Clean Code, Lesson 1** [[5]](https://www.youtube.com/watch?v=7EmboKQH8lM)
 
 This means we should slowly abstract away be extracting out functionality, until we reach a low enough level. This is a somewhat vague definition, and relies on the experience of a programmer to know how high-level each concept is. An example of **not** abstracting far enough away might be:
 

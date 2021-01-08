@@ -13,61 +13,62 @@ const ArticleLayout = styled.div`
     & .post-title {
         font-family: "Martel", serif;
         color: #1E90B3;
-        font-size: 3rem;
+        font-size: 2.5rem;
         font-weight: 900;
         margin-bottom: 1rem;
 
         @media screen and (max-width: 810px){
-            font-size: 2.5rem;
+            font-size: 2rem;
         }
     }
 
     & .post-small {
         color: #000;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         font-weight: 500;
     }
 
     & .article {
         color: #232323;
-        font-size: 100%;
+        font-size: 85%;
         font-weight: 300;
         font-family: "Signika Negative", sans-serif;
         line-height: 1.6;
 
         @media screen and (max-width: 810px){
-            font-size: 85%;
+            font-size: 75%;
             line-height: 1.5;
         }
         
 
         & h2 {
             margin-top: 3rem;
-            font-size: 2.75rem;
+            font-size: 2rem;
             font-family: "Martel", serif;
             color: #D60044;
 
             @media screen and (max-width: 810px){
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
             
         }
 
         & h3 {
             margin-top: 3rem;
-            font-size: 2.3rem;
+            font-size: 1.6rem;
             font-family: "Martel", serif;
             color: #000000;
 
             @media screen and (max-width: 810px){
-                font-size: 1.8rem;
+                font-size: 1.2rem;
             }
         }
 
         & .gatsby-resp-image-figcaption {
             text-align: center;
-            font-size: 1.25rem;
+            font-size: 85%;
             font-style: italic;
+            margin-top: 10px;
         }
 
         & .gatsby-resp-image-background-image {
@@ -105,62 +106,6 @@ const ArticleLayout = styled.div`
 
         }
 
-        & .quote{
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 90%;
-            background-color: #B7E6F6;
-            padding-top: 1rem;
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-            padding-bottom: 0rem;
-            border-radius: 30px;
-            border: 2px solid black;
-            color: #000000;
-            text-align: center;
-            font-size: 100%;
-            font-style: italic;
-
-            & .author {
-                font-style: normal;
-                color: #555555;
-                margin-top: 0.3rem;
-                text-align: right;
-            }
-
-        }
-        & .heading-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 80%;
-            background-color: #B7E6F6;
-            padding: 0.5rem;
-            border: 2px solid black;
-            color: #000000;
-            text-align: center;
-            font-size: 100%;
-            font-weight: 600;
-        }
-
-        & .info {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 80%;
-            background-color: #B7E6F6;
-            padding: 0.5rem;
-            border-radius: 30px;
-            border: 2px solid black;
-            color: #000000;
-            text-align: center;
-            font-size: 100%;
-        }
-
         /* centers gifs in mdx */
         & img:not(.gatsby-resp-image-image){
             display: block;
@@ -195,10 +140,6 @@ const ArticleLayout = styled.div`
             margin-bottom: 20px;
         }
     }
-
-
-
-    
 
     & .gatsby-highlight pre[class*="language-"]{
         border: none;
