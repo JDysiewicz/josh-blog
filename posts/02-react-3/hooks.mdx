@@ -7,6 +7,8 @@ readingTime: "📖 20 min"
 spoiler: "What are hooks, and why are functional components great?"
 ---
 
+---
+
 ## TL;DR
 Class components are ugly and hard to understand, but were needed as it was the only way to access `jsx÷state`. Hooks aleviate this, as they are functions that we can call to *hook* into `jsx÷state` and various lifecycle methods. By using hooks, we can introduce `jsx÷state` into **function** components, eliminating the need for always using class components. Instead of setting state in a `jsx÷constructor()` using `jsx÷this.state = {name: "inital"}`, we can instead call the React function `jsx÷useState` with the syntax `jsx÷const [name, setName] = React.useState("initial")`. The first value we assign is the state we want to track, the second value is a function to alter **only that** piece of state, replacing the need for `jsx÷this.setState` calls.
 

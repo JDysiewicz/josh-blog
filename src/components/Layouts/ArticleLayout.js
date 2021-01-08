@@ -29,11 +29,11 @@ const ArticleLayout = styled.div`
     }
 
     & .article {
-        color: #232323;
-        font-size: 85%;
+        color: #444444;
+        font-size: 19px;
         font-weight: 300;
         font-family: "Signika Negative", sans-serif;
-        line-height: 1.6;
+        line-height: 1.8;
 
         @media screen and (max-width: 810px){
             font-size: 75%;
@@ -96,7 +96,7 @@ const ArticleLayout = styled.div`
             margin-left: auto;
             margin-right: auto;
             max-width: 80%;
-            background-color: #B7E6F6;
+            background-color: #E4F6FC;
             padding: 0.5rem;
             border-radius: 30px;
             border: 2px solid black;
@@ -118,6 +118,15 @@ const ArticleLayout = styled.div`
             }
         }
 
+        figure {
+            max-width: 55%;
+            display: block;
+            margin: 0 auto;
+            @media screen and (max-width: 600px){
+                max-width: 100%;
+            }
+        }
+
         & .gatsby-highlight {
             @media screen and (max-width: 600px){
                 width: 100vw;
@@ -134,6 +143,11 @@ const ArticleLayout = styled.div`
             text-decoration: none;
             color: #D60044;
             word-wrap: break-word;
+            
+
+            &:hover {
+                border-bottom: 1px solid #D60044;
+            }
         }
 
         & ol li:not(:last-child) {
@@ -150,6 +164,26 @@ const ArticleLayout = styled.div`
         border: none;
         overflow-wrap: break-word;
         
+    }
+
+    .anchor svg {
+        visibility: hidden;
+    }
+
+    h2:hover .anchor svg {
+        visibility: visible;
+    }
+
+    ol li a strong {
+        font-size: 24px;
+
+        @media screen and (max-width: 600px){
+            font-size: 18px;
+        }
+    }
+
+    h2#Table-of-Contents {
+        text-decoration: underline;
     }
 
 
