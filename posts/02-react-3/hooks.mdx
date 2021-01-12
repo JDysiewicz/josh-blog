@@ -10,9 +10,9 @@ spoiler: "What are hooks, and why are functional components great?"
 ---
 
 ## TL;DR
-Class components are ugly and hard to understand, but were needed as it was the only way to access `jsx÷state`. Hooks aleviate this, as they are functions that we can call to *hook* into `jsx÷state` and various lifecycle methods. By using hooks, we can introduce `jsx÷state` into **function** components, eliminating the need for always using class components. Instead of setting state in a `jsx÷constructor()` using `jsx÷this.state = {name: "inital"}`, we can instead call the React function `jsx÷useState` with the syntax `jsx÷const [name, setName] = React.useState("initial")`. The first value we assign is the state we want to track, the second value is a function to alter **only that** piece of state, replacing the need for `jsx÷this.setState` calls.
+Class components are ugly and hard to understand, but were needed as it was the only way to access `jsx÷state`. Hooks alleviate this, as they are functions that we can call to *hook* into `jsx÷state` and various lifecycle methods. By using hooks, we can introduce `jsx÷state` into **function** components, eliminating the need for always using class components. Instead of setting state in a `jsx÷constructor()` using `jsx÷this.state = {name: "inital"}`, we can instead call the React function `jsx÷useState` with the syntax `jsx÷const [name, setName] = React.useState("initial")`. The first value we assign is the state we want to track, the second value is a function to alter **only that** piece of state, replacing the need for `jsx÷this.setState` calls.
 
-Since we no longer `jsx÷extend` a `jsx÷React.Component`, we use another hook to replicate the functionality of `jsx÷componentDidMount()`, `jsx÷componentDidUpdate()`, and `jsx÷componentWillUnmount()`. We do this using `jsx÷useEffect()`. The **first argument** to this is a function we want to run after the component **renders**, and the **second argument** is an **optional array**. This array is called the dependancy array, and causes the `jsx÷useEffect()` function input to only run when the component renders **and** one of the values in the dependancy array **changed** between the current render, and the previous render. Returning a function from `jsx÷useEffect()` acts as `jsx÷componentWillUnmount()`, as this function will be run when the component unmounts.
+Since we no longer `jsx÷extend` a `jsx÷React.Component`, we use another hook to replicate the functionality of `jsx÷componentDidMount()`, `jsx÷componentDidUpdate()`, and `jsx÷componentWillUnmount()`. We do this using `jsx÷useEffect()`. The **first argument** to this is a function we want to run after the component **renders**, and the **second argument** is an **optional array**. This array is called the dependency array, and causes the `jsx÷useEffect()` function input to only run when the component renders **and** one of the values in the dependency array **changed** between the current render, and the previous render. Returning a function from `jsx÷useEffect()` acts as `jsx÷componentWillUnmount()`, as this function will be run when the component unmounts.
 
 Hooks can only be called in React function components, and **never** in normal JavaScript functions or React class components. They can also only be called in the **top-level** of the function component, never inside conditions, loops, or other functions.
 
@@ -24,7 +24,7 @@ In a talk at [React Conf in 2018](https://www.youtube.com/watch?v=dpw9EHDh2bM&t=
 
 ![Figure 1 - An example of "wrapper hell" from twitter user GrexQL in response to Dan Abramov. [1]](./wrapper-hell.jpg)
 
-2. **Giant components/Reusing logic**: It's not uncommon to see a lot of duplication in `jsx÷class` components. For instance, in `jsx÷componentDidMount` we may subscribe to some network requets and set some recurring events, then in `jsx÷componentWillUnmount` we simply do the opposite; a *negative mirror* of sorts. Often these two functions repeat the same code, just to the opposite effect.
+2. **Giant components/Reusing logic**: It's not uncommon to see a lot of duplication in `jsx÷class` components. For instance, in `jsx÷componentDidMount` we may subscribe to some network requests and set some recurring events, then in `jsx÷componentWillUnmount` we simply do the opposite; a *negative mirror* of sorts. Often these two functions repeat the same code, just to the opposite effect.
 
 ```jsx
 componentDidMount(){
@@ -42,7 +42,7 @@ componentWillUnmount(){
 
 Dan Abramov, an engineer on the React team, believed that these three things were all symptoms of one issue in React: That we must use a `jsx÷class` component whenever we want to introduce `jsx÷state` - regardless of how small or simple the component is. [[2]](https://www.youtube.com/watch?v=dpw9EHDh2bM&t=1547s&ab_channel=ReactConf)
 
-> *"React doesn't provide a stateful primative simpler than a class component."* **- Dan Abramov, React Conf 2018**
+> *"React doesn't provide a stateful primitive simpler than a class component."* **- Dan Abramov, React Conf 2018**
 
 **This is what Hooks aimed to fix**: they allow `jsx÷state` to exist on a *functional* component. 
 
@@ -119,7 +119,7 @@ The *real* magic of the whole process happens with the call to `jsx÷useState()`
 `jsx÷useState()` returns **two** things: the value we assign to our `jsx÷data` variable, and a *function* we assign to our `jsx÷setData` variable. The **initial** value for our `jsx÷data` variable is given as an *argument* to `jsx÷useState()`. [[4]](https://reactjs.org/docs/hooks-state.html) Below is a mental model for how to think about `jsx÷useState()`.
 
 ```jsx
-// Primative useState
+// primitive useState
 function useState(initialValue){
     let value = initialValue;
 
@@ -184,7 +184,7 @@ Calling `jsx÷setThing()` ( `jsx÷setCount`, `jsx÷setName` etc) also has the sa
 Much like there are many lifecycle methods in `jsx÷class` components, there are also many different hooks. Luckily, much like lifecycle methods, **some are used far more often than others**.
 
 ### useState()
-This is perhaps the *most* used hook in modern-day React apps. We have already explored this hook thoroughly above, and so we can say that this hook is used to create `jsx÷state` on our function components (therefore, React now has a stateful primative simpler than a `jsx÷class` component!). [[4]](https://reactjs.org/docs/hooks-state.html)
+This is perhaps the *most* used hook in modern-day React apps. We have already explored this hook thoroughly above, and so we can say that this hook is used to create `jsx÷state` on our function components (therefore, React now has a stateful primitive simpler than a `jsx÷class` component!). [[4]](https://reactjs.org/docs/hooks-state.html)
 
 > `jsx÷useState` replaces `jsx÷this.state`, `jsx÷this.setState()`, and `jsx÷constructor()` .
 
@@ -209,7 +209,7 @@ const App = (props) => {
 
 ```
 
-The main part of the `jsx÷useEffect()` hook is the arrow function we pass as the first argument to it. This is a function we want to run every time the component renders itself (much like `jsx÷componentDidUpdate()`, except this will also run on the **initial** render too). We can also pass an optional *second* argument to `jsx÷useEffect()` - this is called the **dependancy array**, which we will cover further down. This is why `jsx÷useEffect()` is kind of like a mix of `jsx÷componentDidMount()` (which runs on the first render) and `jsx÷componentDidUpdate()` (which runs on each subsequent render). Using a `jsx÷Counter` example:
+The main part of the `jsx÷useEffect()` hook is the arrow function we pass as the first argument to it. This is a function we want to run every time the component renders itself (much like `jsx÷componentDidUpdate()`, except this will also run on the **initial** render too). We can also pass an optional *second* argument to `jsx÷useEffect()` - this is called the **dependency array**, which we will cover further down. This is why `jsx÷useEffect()` is kind of like a mix of `jsx÷componentDidMount()` (which runs on the first render) and `jsx÷componentDidUpdate()` (which runs on each subsequent render). Using a `jsx÷Counter` example:
 
 ```jsx
 import React, { useState, useEffect } from 'react';
@@ -284,7 +284,7 @@ const Counter = () => {
 
     useEffect(() => {
         document.title = `Count = ${count}`;
-    }, [count]); // Dependancy array here
+    }, [count]); // dependency array here
 
     return (
         <div>
@@ -301,7 +301,7 @@ const Counter = () => {
   );
 }
 ```
-After every render, React will look at the dependency array of each `jsx÷useEffect()`. It will compare the *previous* values (before the re-render) of the variables inside the array to their *current* values (after the re-render). Then, if **any** of the values have changed, React will run that `jsx÷useEffect()`. If the most recent render didn't change the value of anything in the dependancy array, React will choose **not** to run that `jsx÷useEffect()`. Therefore, we could have multiple pieces of `jsx÷state` in our dependency array e.g `jsx÷[a, b, c]`, and the function passed into that `jsx÷useEffect()` would only run if `jsx÷a` **and/or** `jsx÷b` **and/or** `jsx÷c` change. Pieces of `jsx÷state` isn't all we can put into our dependency array, we can also pass in `jsx÷props` too (remember, our component re-renders upon new `jsx÷state` and/or new `jsx÷props`). One final note on the dependency array, is that we can also pass as *empty* array to it.
+After every render, React will look at the dependency array of each `jsx÷useEffect()`. It will compare the *previous* values (before the re-render) of the variables inside the array to their *current* values (after the re-render). Then, if **any** of the values have changed, React will run that `jsx÷useEffect()`. If the most recent render didn't change the value of anything in the dependency array, React will choose **not** to run that `jsx÷useEffect()`. Therefore, we could have multiple pieces of `jsx÷state` in our dependency array e.g `jsx÷[a, b, c]`, and the function passed into that `jsx÷useEffect()` would only run if `jsx÷a` **and/or** `jsx÷b` **and/or** `jsx÷c` change. Pieces of `jsx÷state` isn't all we can put into our dependency array, we can also pass in `jsx÷props` too (remember, our component re-renders upon new `jsx÷state` and/or new `jsx÷props`). One final note on the dependency array, is that we can also pass as *empty* array to it.
 
 ```jsx
 import React, { useState, useEffect } from 'react';
@@ -322,7 +322,7 @@ const Counter = () => {
   );
 }
 ```
-Passing an empty array tells React to only run this `jsx÷useEffect()` on the **first** render only, exactly the same way you'd use `jsx÷componentDidMount()`. Literally we are saying "only run this if any of the values in the dependancy array change, however the dependancy array is empty therefore no values in it can change, therefore it will only ever run on startup".
+Passing an empty array tells React to only run this `jsx÷useEffect()` on the **first** render only, exactly the same way you'd use `jsx÷componentDidMount()`. Literally we are saying "only run this if any of the values in the dependency array change, however the dependency array is empty therefore no values in it can change, therefore it will only ever run on startup".
 
 Note, we can have **multiple** calls to `jsx÷useEffect()` in one component. Perhaps - taking the counter from above - we want the `jsx÷document.title` to reflect whatever the recently changed piece of state was. We could add a **second** `jsx÷useEffect()` that would only run upon a change of `jsx÷onlineStatus`.
 
@@ -356,9 +356,9 @@ const Counter = () => {
 }
 ```
 
-Here, we use two `jsx÷useEffect()` calls with different dependancy arrays. This allows us to update the `jsx÷document.title` to reflect the most recent state change.
+Here, we use two `jsx÷useEffect()` calls with different dependency arrays. This allows us to update the `jsx÷document.title` to reflect the most recent state change.
 
-So, now we have `jsx÷componentDidMount()` and `jsx÷componentDidUpdate()` sorted, how do we use `jsx÷useEffect()` to mimic `jsx÷componentWillUnmount()`? Well, notice how we haven't **returned** anything from our `jsx÷useEffect()` functions yet! They are all just functions that run when the component re-renders (according to their dependancy array) and have no return statement. This is because the `jsx÷return` statement acts **as** `jsx÷componentWillUnmount()`. That is to say, when we `jsx÷return` a function from a `jsx÷useEffect()`, the function will run when the component *unmounts*. As an example, with a class-based component if we set an interval in `jsx÷componentDidMount()` we would have to clean it up again with `jsx÷componentWillUnmount()`.
+So, now we have `jsx÷componentDidMount()` and `jsx÷componentDidUpdate()` sorted, how do we use `jsx÷useEffect()` to mimic `jsx÷componentWillUnmount()`? Well, notice how we haven't **returned** anything from our `jsx÷useEffect()` functions yet! They are all just functions that run when the component re-renders (according to their dependency array) and have no return statement. This is because the `jsx÷return` statement acts **as** `jsx÷componentWillUnmount()`. That is to say, when we `jsx÷return` a function from a `jsx÷useEffect()`, the function will run when the component *unmounts*. As an example, with a class-based component if we set an interval in `jsx÷componentDidMount()` we would have to clean it up again with `jsx÷componentWillUnmount()`.
 
 ```jsx
 import React from "react";
@@ -406,7 +406,7 @@ const App = () => {
 };
 ```
 
-Again, we set an interval in `jsx÷useEffect()` (with an empty dependancy array so it only runs on the first render), and then we clean it up by `jsx÷return`ing a function from `jsx÷useEffect()` and calling `jsx÷clearInterval()` within it. This is the same as calling `jsx÷componentWillUnmount()` to clear the interval.
+Again, we set an interval in `jsx÷useEffect()` (with an empty dependency array so it only runs on the first render), and then we clean it up by `jsx÷return`ing a function from `jsx÷useEffect()` and calling `jsx÷clearInterval()` within it. This is the same as calling `jsx÷componentWillUnmount()` to clear the interval.
 
 > `jsx÷useEffect(function, [])` replaces `jsx÷componentDidMount()`, `jsx÷componentDidUpdate()`, and `jsx÷componentWillUnmount()`. 
 
@@ -518,7 +518,7 @@ if(/* condition */){
 const [third, setThird] = useState("Third"); // Sometimes second hook, sometimes third hook
 ```
 
-> **Note**: Even if the function we pass to `jsx÷useEffect` is not invoked due to its dependancy array, `jsx÷useEffect()` is still technically *called* and so wis fine for this purpose; dependancy arrays will not cause an issue in regards to calling hooks in a different order.
+> **Note**: Even if the function we pass to `jsx÷useEffect` is not invoked due to its dependency array, `jsx÷useEffect()` is still technically *called* and so wis fine for this purpose; dependency arrays will not cause an issue in regards to calling hooks in a different order.
 
 Therefore, if we want to include conditions or loops, we put them *inside* our hook. For example:
 
