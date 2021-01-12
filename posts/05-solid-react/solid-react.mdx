@@ -7,9 +7,10 @@ readingTime: "📖 20 min"
 spoiler: "How we can apply the SOLID design principles to React?"
 ---
 
+---
+
 ![Figure 1 - Design principles book cover by Dan Clear on Unsplashed.](dan-clear-unsplash-designprinciples.jpg)
 
-## Why Follow Design Principles?
 Good code is, in general, characterised by being a mixture of three things:
 
 - **Functional**: The code comes together to create the desired functionality.
@@ -514,7 +515,7 @@ const bicycle = new Bicycle(2);
 makeVehicleEngineNoise(car); // "VROOM VROOM!"
 makeVehicleEngineNoise(bicycle); // ERROR: I have no engine.
 ```
-If we attempt to call `jsx÷makeVehicleEngineNoise()` with the subclass of `jsx÷Vehicle`, `jsx÷Bicycle`, we get an error (an error we needed to add, as we don't want people to be able to call `jsx÷engineNoise` on a bicycle). This means that we *cannot* replace every instance of `jsx÷Vehicle` with `jsx÷Bicycle` and keep the same functionality. If we wanted to do this, we would instead need to alter our `jsx÷Vehicle` class to only contain properties/methods which *all* possible subclasses would have. For instance, if we assume that every vehicle has wheels, we could amed our `jsx÷Vehicle` class and appease the LSP as such:
+If we attempt to call `jsx÷makeVehicleEngineNoise()` with the subclass of `jsx÷Vehicle`, `jsx÷Bicycle`, we get an error (an error we needed to add, as we don't want people to be able to call `jsx÷engineNoise` on a bicycle). This means that we *cannot* replace every instance of `jsx÷Vehicle` with `jsx÷Bicycle` and keep the same functionality. If we wanted to do this, we would instead need to alter our `jsx÷Vehicle` class to only contain properties/methods which *all* possible subclasses would have. For instance, if we assume that every vehicle has wheels, we could amend our `jsx÷Vehicle` class and appease the LSP as such:
 
 ```jsx
 class Vehicle {
@@ -655,7 +656,7 @@ const TodosPage = () => {
     )
 };
 ```
-Does `jsx÷<TodosPage />` care *how* or *where* those `jsx÷todos` come from? No! It interacts soley with the `jsx÷useTodos()` function which hides a lot of this internal wiring away. This makes our code much easier to read as we are able to see at a glance the purpose of the `jsx÷useTodos()` function, and how it is used in the overall `jsx÷<TodosPage />` component. This ties in very closely with the SRP, because as we extract functionality away from functions/components, we are necessarily making our high-level code interface with abstractions. If we wanted to change *how* we obtained those todos (such as by using the `jsx÷fetch` API instead of `axios`), we can do that without ever going into the `jsx÷<TodosPage />` component.
+Does `jsx÷<TodosPage />` care *how* or *where* those `jsx÷todos` come from? No! It interacts solely with the `jsx÷useTodos()` function which hides a lot of this internal wiring away. This makes our code much easier to read as we are able to see at a glance the purpose of the `jsx÷useTodos()` function, and how it is used in the overall `jsx÷<TodosPage />` component. This ties in very closely with the SRP, because as we extract functionality away from functions/components, we are necessarily making our high-level code interface with abstractions. If we wanted to change *how* we obtained those todos (such as by using the `jsx÷fetch` API instead of `axios`), we can do that without ever going into the `jsx÷<TodosPage />` component.
 
 ```jsx
 function useTodos(){
@@ -846,7 +847,7 @@ function matchFilteredTodos(compeltedTodos, searchTerm){
     return matchingTodos;
 };
 ```
-...however at some point a judgement call must be made as to when things are going too far. Perhaps the above is appropriate for you, or perhaps you feel it goes too far in layers of abstraction (for instance, `jsx÷filterTodoList` is literally just calling the `jsx÷Array.filter()` function, and so making a new fuction for this seems redundant in my opinion). As To echo a message I've repeated many times: **these are guidelines; use them to the extent that they have a positive impact on your code**.
+...however at some point a judgement call must be made as to when things are going too far. Perhaps the above is appropriate for you, or perhaps you feel it goes too far in layers of abstraction (for instance, `jsx÷filterTodoList` is literally just calling the `jsx÷Array.filter()` function, and so making a new function for this seems redundant in my opinion). As To echo a message I've repeated many times: **these are guidelines; use them to the extent that they have a positive impact on your code**.
 
 ## Final Thoughts
 If not direct translations, we have used the SOLID principles to outline some things we can do to make the architecture of our React apps a little easier to manage. These are all centered on the idea of modularising our code, as this makes it easier to plug in to different projects and makes it easier to test. Furthermore, the more isolated code is, the less likely a bug in it will affect other areas of the codebase. This is the "loose-coupling" which is desired. We went over how we can extract out functionality using modern tools like custom hooks in order to adhere to the single responsibility principle. We touched on the idea of composition from smaller components when explaining how to use the open/closed principle in order to make our code more extensible. We briefly looked as the Liskov substitution principle, and how we may apply it to any classes we write. We then finished by diving in to the interface segregation principle and the dependency inversion principle, which inform us we should only provide a component what it needs to function, and that we should always be acting via some abstraction in our high-level code. The aim of these, is to be able to wildly change implementation details, such as database provider, without having to rewrite large areas of high-level code.

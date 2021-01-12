@@ -6,6 +6,9 @@ date: "2 November 2020"
 readingTime: "📖 20 min"
 spoiler: "What is scope, and how can we use closures?"
 ---
+
+---
+
 ## What is Scope?
 
 The scope of a variable is a way of describing **where** it can be accessed within code. [[1]](https://users.cs.cf.ac.uk/Dave.Marshall/PERL/node52.html) You're probably already aware of this, even if you've never heard of scope before.
@@ -478,10 +481,10 @@ Here, we access `jsx÷x` in `jsx÷printAndIncrementX` and assign our `jsx÷print
 
 > **This process of a returned function closing over some variable in its lexical scope is called a closure**.
 
-*Note: again, somewhat confusingly, the lexical environment we have access to through this returned function can also be refered to as a "closure". However, we will cover this when we delve deeper into the mechanics behind closures another day.*
+*Note: again, somewhat confusingly, the lexical environment we have access to through this returned function can also be referred to as a "closure". However, we will cover this when we delve deeper into the mechanics behind closures another day.*
 
 ### How are Closures Used?
-We could throw out very esoteric examples of closures, and that's all well and good. But how are they *actually* used in every day code? One good example are **React Hooks**. [[20]](https://www.netlify.com/blog/2019/03/11/deep-dive-how-do-react-hooks-really-work/) The `jsx÷useState()` hook makes use of closures in order to function correctly. Given our new understanding of closures, we could actually recreate a primative version of the `jsx÷useState()` hook!
+We could throw out very esoteric examples of closures, and that's all well and good. But how are they *actually* used in every day code? One good example are **React Hooks**. [[20]](https://www.netlify.com/blog/2019/03/11/deep-dive-how-do-react-hooks-really-work/) The `jsx÷useState()` hook makes use of closures in order to function correctly. Given our new understanding of closures, we could actually recreate a primitive version of the `jsx÷useState()` hook!
 
 We know that `jsx÷useState` returns a stateful variable with some initial value, and a function to update this value (we shall ignore the re-rendering aspect entirely here!).
 
@@ -509,7 +512,7 @@ function primitiveUseState(initialValue){
 const [someState, setSomeState] = primitiveUseState("");
 ```
 
-Let's walk through this. First we make a call to `jsx÷primitiveUseState()` passing in our `jsx÷initialValue` of an empty string. Next, we assign a variable called `jsx÷useStateVariable` to our `jsx÷initialValue` - this variable is used to keep track of the current value of our stateful variable internally (internally, here, refering to within `jsx÷primitiveUseState()`). Next we see our `jsx÷pieceOfState()` function, which returns this internal `jsx÷useStateVariable` which we are using to keep track of the current value of our state. Notice, `jsx÷pieceOfState()` is **closing over** this `jsx÷useStateVariable`, therefore we are able to manipulate it long after `jsx÷primativeUseState()` has finished executing. We also define another function, which merely takes in some `jsx÷newValue` and assigns this to the internal `jsx÷useStateVariable`. Finally, we return an array containing our two functions. **Note** - the `// stuff` refers to other things React is doing in their actual `jsx÷useState` such as error checking and re-rendering our component.
+Let's walk through this. First we make a call to `jsx÷primitiveUseState()` passing in our `jsx÷initialValue` of an empty string. Next, we assign a variable called `jsx÷useStateVariable` to our `jsx÷initialValue` - this variable is used to keep track of the current value of our stateful variable internally (internally, here, referring to within `jsx÷primitiveUseState()`). Next we see our `jsx÷pieceOfState()` function, which returns this internal `jsx÷useStateVariable` which we are using to keep track of the current value of our state. Notice, `jsx÷pieceOfState()` is **closing over** this `jsx÷useStateVariable`, therefore we are able to manipulate it long after `jsx÷primitiveUseState()` has finished executing. We also define another function, which merely takes in some `jsx÷newValue` and assigns this to the internal `jsx÷useStateVariable`. Finally, we return an array containing our two functions. **Note** - the `// stuff` refers to other things React is doing in their actual `jsx÷useState` such as error checking and re-rendering our component.
 
 Now we have `jsx÷someState` assigned to our `jsx÷pieceOfState` function, and `jsx÷setSomeState` assigned to our `jsx÷setPieceOfState` function.
 
@@ -517,11 +520,11 @@ Now we have `jsx÷someState` assigned to our `jsx÷pieceOfState` function, and `
 const [someState, setSomeState] = primitiveUseState("initial");
 ```
 
-Remember, both `jsx÷someState` and `jsx÷setSomeState` are *function definitions* in this primative example of `jsx÷useState`, and so we access the current value of `jsx÷someState` by **calling** `jsx÷someState()`. This is different to React, where `jsx÷someState` would literally be a variable we can use rather than a function we call to get our state, however the underlying mechanics are the same in both instances.
+Remember, both `jsx÷someState` and `jsx÷setSomeState` are *function definitions* in this primitive example of `jsx÷useState`, and so we access the current value of `jsx÷someState` by **calling** `jsx÷someState()`. This is different to React, where `jsx÷someState` would literally be a variable we can use rather than a function we call to get our state, however the underlying mechanics are the same in both instances.
 
 ```jsx
-// Our primative useState example
-const [count, setCount] = primativeUseState(0);
+// Our primitive useState example
+const [count, setCount] = primitiveUseState(0);
 console.log(count()); // 0
 setCount(2);
 console.log(count()); // 2

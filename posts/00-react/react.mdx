@@ -7,6 +7,8 @@ readingTime: "📖 25 min"
 spoiler: "An overview of how react works internally, and how to use it to build a counter app."
 ---
 
+---
+
 import { Link } from "gatsby";
 
 ## What is React?
@@ -31,7 +33,7 @@ npm install react react-dom
 
 ### The Virtual DOM Part
 
-The `react-dom` import deals with the creation of a **virtual** DOM. This can be through of as a second layer that sits on top of the **real** DOM on our webpage, almost mirroring it. **Pretty much all the code we write in React will only interact with this virtual DOM**. When we want to actually show the code we have written to a user on our webpage, we have to copy all the changes we made to the virtual DOM into the real DOM. However, we don't have to do this ourselvesas React runs an algorithm to figure out the most efficient way to do this. Updating the virtual DOM is lightning fast, however updating the real DOM is comparitvely like moving through a tarpit; this is why it is more efficient and overall faster to let React handle this updating for us (again for the curious, this process is called <a href="https://reactjs.org/docs/faq-internals.html">*Reconciliation*</a>). [[5]](https://twitter.com/Mappletons/status/1103717355392286721/photo/1) [[6]](https://reactjs.org/docs/faq-internals.html)
+The `react-dom` import deals with the creation of a **virtual** DOM. This can be through of as a second layer that sits on top of the **real** DOM on our webpage, almost mirroring it. **Pretty much all the code we write in React will only interact with this virtual DOM**. When we want to actually show the code we have written to a user on our webpage, we have to copy all the changes we made to the virtual DOM into the real DOM. However, we don't have to do this ourselves as React runs an algorithm to figure out the most efficient way to do this. Updating the virtual DOM is lightning fast, however updating the real DOM is comparatively like moving through a tarpit; this is why it is more efficient and overall faster to let React handle this updating for us (again for the curious, this process is called <a href="https://reactjs.org/docs/faq-internals.html">*Reconciliation*</a>). [[5]](https://twitter.com/Mappletons/status/1103717355392286721/photo/1) [[6]](https://reactjs.org/docs/faq-internals.html)
 
 ![Figure 2 - A visualisation of React's virtual DOM by Maggie Appleton [5].](./reactdom-maggie-appleton.png)
 
@@ -264,7 +266,7 @@ const App = () => {
 };
 ```
 
-We don't worry about converting JSX into a language that browsers understand (remeber those `js÷_react.default.createElement()` calls?), as we use a library called <a href="https://babeljs.io/repl">*Babel*</a> to do this for us (once again for the curious, this process of converting code is called *transpiling*). This is what I used to create those ugly functions above - give it a shot! Take some of the JSX examples shown here or online, and convert them into non-JSX form to see how much easier Babel and React are making it for us! [[11]](https://babeljs.io/repl)
+We don't worry about converting JSX into a language that browsers understand (remember those `js÷_react.default.createElement()` calls?), as we use a library called <a href="https://babeljs.io/repl">*Babel*</a> to do this for us (once again for the curious, this process of converting code is called *transpiling*). This is what I used to create those ugly functions above - give it a shot! Take some of the JSX examples shown here or online, and convert them into non-JSX form to see how much easier Babel and React are making it for us! [[11]](https://babeljs.io/repl)
 
 ![Figure 4 - Babel's online code editor with JSX (left) and transpiled code (right).](./babel.png)
 
@@ -279,7 +281,7 @@ To get started with this, we have to install and run `create-react-app` - to do 
 npx create-react-app name-of-project
 ```
 
-where `npx` means "install with **np**m and then e**x**ecute". Now, this will take 3/4 minutes to finish running because there is just so many dependancies and things to set up. Luckily, we don't have to do any of this! A simple `Hello, world!` -type application is about **185Mb** in size. The majority of that is taken up by the `node_modules` folder, which is where all the dependencies such as `babel` and `react-dom` are stored.
+where `npx` means "install with **np**m and then e**x**ecute". Now, this will take 3/4 minutes to finish running because there is just so many dependencies and things to set up. Luckily, we don't have to do any of this! A simple `Hello, world!` -type application is about **185Mb** in size. The majority of that is taken up by the `node_modules` folder, which is where all the dependencies such as `babel` and `react-dom` are stored.
 
 ![Figure 5 - Folder formed after running create-react-app.](./cra.png)
 
@@ -609,7 +611,7 @@ export default App;
 ```
 
 ## State For Class Components
-State is why class components were needed for so long, and why functional components were second choice for most of React's lifetime. Now we have **Hooks** which eliminates this somewhat, however here we shall only cover adding **state** to **jsx÷class** components.
+State is why class components were needed for so long, and why functional components were second choice for most of React's lifetime. Now we have **Hooks** which eliminates this somewhat, however here we shall only cover adding **state** to **`jsx÷class`** components.
 
 We can pass some information down into a component via `jsx÷props`. Wouldn't it be great if we had some way of continually feeding information to a component, *from* the component itself? What if we could keep track of some changing variable **on** the component itself? An example might be a simple counter.
 
@@ -837,7 +839,7 @@ func(); // Called from `global`
 
 obj.inside() // ???
 ```
-What happens when we call `jsx÷obj.inside()`? Well, when we enter a function we enter a new execution context (because `jsx÷funcions` are also `jsx÷Objects` in JavaScript), therefore we get a new `this`. A good rule of thumb :
+What happens when we call `jsx÷obj.inside()`? Well, when we enter a function we enter a new execution context (because `jsx÷functions` are also `jsx÷Objects` in JavaScript), therefore we get a new `this`. A good rule of thumb :
 
 > **Look to the left of the `.` and you'll be right most of the time**.
 
@@ -890,7 +892,7 @@ justTheFunction() // left of the dot is nothing,
 // therefore 'this' = 'undefined'
 ```
 
-If we attemt to execute a a function which is a **reference** to a class method, our `jsx÷this` is `jsx÷undefined`! [[20]](https://www.reddit.com/r/reactjs/comments/5g507t/methods_not_bound_to_es6_classes_why/)
+If we attempt to execute a a function which is a **reference** to a class method, our `jsx÷this` is `jsx÷undefined`! [[20]](https://www.reddit.com/r/reactjs/comments/5g507t/methods_not_bound_to_es6_classes_why/)
 
 Looping back to our current issue, we are trying to assign a `jsx÷class` method called `jsx÷this.increment/this.decrement` to `jsx÷onClick`. This is the **same thing** we are doing above which gave us an `jsx÷undefined` `jsx÷this`!
 
@@ -951,7 +953,7 @@ Now that's a lot of `jsx÷this` flying about, but remember `jsx÷this` refers to
 this.increment = this.increment.bind(this);
 ```
 
-will tell our Counter to always use the execution context of the `jsx÷Counter` whenever we call `jsx÷increment`, *regardless of where we call `jsx÷this.increment()`*. But binding `jsx÷this` is a strange behavior and difficult to grasp, and I'm sure I've said `jsx÷this` enough times for it to lose its meaning by now. The amount of **bolding** and *italics* in those last couple paragraphs should make clear just how easy it is to get confused when talking about the `jsx÷this` object in JS, and how hard it can be to explain. So, we can do option 2 instead:
+will tell our Counter to always use the execution context of the `jsx÷Counter` whenever we call `jsx÷increment`, *regardless of where we call `jsx÷this.increment()`*. But binding `jsx÷this` is a strange behaviour and difficult to grasp, and I'm sure I've said `jsx÷this` enough times for it to lose its meaning by now. The amount of **bolding** and *italics* in those last couple paragraphs should make clear just how easy it is to get confused when talking about the `jsx÷this` object in JS, and how hard it can be to explain. So, we can do option 2 instead:
 
 **2) Use arrow functions**
 
